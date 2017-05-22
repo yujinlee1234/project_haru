@@ -1,6 +1,8 @@
-package kr.or.dgit.haru.util;
+package kr.or.dgit.haru.domain;
 
 import java.util.Date;
+
+import kr.or.dgit.haru.util.ProjectHaru;
 /**
  * 다이어리 게시글인 Board Object
  * */
@@ -12,7 +14,7 @@ public class BoardVO {
 	private  Date bdate;	//게시글 작성 날짜
 	private boolean bopen;	//게시글의 공개 여부를 boolean 형태로 결정 true-공개, false-비공개
 	private boolean bcal;	//캘린더에 다이어리를 노출시킬지 여부를 boolean 형태로 결정 true-노출, false-숨기기
-	private Diary diary;
+	private DiaryVO diary;
 	/* METHODS */
 	public int getBno() {
 		return bno;
@@ -50,10 +52,10 @@ public class BoardVO {
 	public void setBcal(boolean bcal) {
 		this.bcal = bcal;
 	}
-	public Diary getDiary() {
+	public DiaryVO getDiary() {
 		return diary;
 	}
-	public void setDiary(Diary diary) {
+	public void setDiary(DiaryVO diary) {
 		this.diary = diary;
 	}
 	/* METHODS */

@@ -1,4 +1,4 @@
-package kr.or.dgit.haru.util;
+package kr.or.dgit.haru.domain;
 
 import java.util.List;
 /**
@@ -7,7 +7,7 @@ import java.util.List;
 public class DiaryAuthVO {
 	/* FIELDS */
 	private String uid;
-	private List<Diary> diary;
+	private List<DiaryVO> diary;
 	/* GET/SET */
 	public String getUid() {
 		return uid;
@@ -15,10 +15,10 @@ public class DiaryAuthVO {
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
-	public List<Diary> getDiary() {
+	public List<DiaryVO> getDiary() {
 		return diary;
 	}
-	public void setDiary(List<Diary> diary) {
+	public void setDiary(List<DiaryVO> diary) {
 		this.diary = diary;
 	}	
 	/* METHODS */

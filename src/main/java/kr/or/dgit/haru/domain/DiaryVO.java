@@ -1,10 +1,12 @@
-package kr.or.dgit.haru.util;
+package kr.or.dgit.haru.domain;
 
 import java.util.Date;
+
+import kr.or.dgit.haru.util.ProjectHaru;
 /**
  * 다이어리 글 작성을 위한 상위 Category의 Diary Object
  * */
-public class Diary {
+public class DiaryVO {
 	/* FIELDS */
 	private int dno;
 	private String dtitle;
@@ -63,7 +65,7 @@ public class Diary {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Diary other = (Diary) obj;
+		DiaryVO other = (DiaryVO) obj;
 		if (dno != other.dno)
 			return false;
 		return true;
