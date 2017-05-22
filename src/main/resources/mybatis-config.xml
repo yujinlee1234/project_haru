@@ -4,6 +4,6 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<package name="com.dgit.haru.domain"/>
+		<package name="kr.or.dgit.haru.domain"/>
 	</typeAliases>
 </configuration>

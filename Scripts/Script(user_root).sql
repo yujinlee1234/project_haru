@@ -143,6 +143,7 @@ FLUSH PRIVILEGES ;
 		
 		select * from project_haru.diary;
 		
+		
 -- -------------------------------------------------------------------------------------diary
 		
 		select * from project_haru.board;

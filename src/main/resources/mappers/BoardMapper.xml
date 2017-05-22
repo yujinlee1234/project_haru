@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dgit.haru.mapper.BoardMapper">
+	<resultMap type="BoardVO" id="resultBoard">
+		<id property="bno" column="bno"/>
+		<result property="bpic" column="bpic"/>
+		<result property="dcontent" column="dcontent"/>
+		<result property="bdate" column="bdate"/>
+		<result property="bopen" column="bopen"/>
+		<result property="bcal" column="bcal"/>
+		<association property="diary" resultMap="resultDiary"></association>
+	</resultMap>	
+	<select id="selectAllBoard" resultMap="resultBoard">
+		select * from project_haru.board
+	</select>
+	<select id="selectBoardByBno" resultMap="resultBoard">
+		select * from project_haru.board where bno = #{bno}
+	</select>
+</mapper>
