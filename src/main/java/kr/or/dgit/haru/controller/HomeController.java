@@ -1,4 +1,4 @@
-package kr.or.dgit.controller;
+package kr.or.dgit.haru.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
