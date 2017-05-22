@@ -18,6 +18,7 @@ public class UserVO {
 	private boolean uadmin;
 	private Date ujoindate;
 	private Date uexitdate;
+	
 	/* GET/SET */
 	public String getUid() {
 		return uid;
