@@ -44,9 +44,12 @@
 		delete from project_haru.board_today where bno = #{bno}
 	</delete>
 	<delete id="deleteAllBoard">
-		delete from project_haru.board
+		delete from project_haru.board where dno=#{dno}
 	</delete>
 	<delete id="deleteAllBoardToday">
-		delete from project_haru.board_today
+		delete from project_haru.board_today where dno=#{dno}
 	</delete>
+	<select id="lastInsertedID">
+		select last_insert_id() from project_haru.board
+	</select>
 </mapper>

@@ -1,6 +1,8 @@
 package kr.or.dgit.haru.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +33,16 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public List<BoardVO> selectBoardByBDate(int year, int month) {
 		// TODO Auto-generated method stub
-		return null;
+		Map<String, Integer> dMap = new HashMap<>();
+		dMap.put("year", year);
+		dMap.put("month", month);
+		return session.selectList(namespace+".selectBoardByBDate", dMap);
 	}
 	
 	@Override
-	public void insertBoard(BoardVO bVO) {
+	public int insertBoard(BoardVO bVO) {
 		// TODO Auto-generated method stub
-		session.insert(namespace+".insertBoard", bVO);
+		return session.insert(namespace+".insertBoard", bVO);
 	}
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,44 +61,50 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public void insertBoardToday(BoardVO bVO) {
+	public int insertBoardToday(BoardVO bVO) {
 		// TODO Auto-generated method stub
-		session.insert(namespace+".insertBoardToday", bVO);
+		return session.insert(namespace+".insertBoardToday", bVO);
 	}
 
 	@Override
-	public void updateBoard(BoardVO bVO) {
+	public int updateBoard(BoardVO bVO) {
 		// TODO Auto-generated method stub
-		session.update(namespace+".updateBoard", bVO);
+		return session.update(namespace+".updateBoard", bVO);
 	}
 
 	@Override
-	public void updateBoardToday(BoardVO bVO) {
+	public int updateBoardToday(BoardVO bVO) {
 		// TODO Auto-generated method stub
-		session.update(namespace+".updateBoardToday", bVO);
+		return session.update(namespace+".updateBoardToday", bVO);
 	}
 
 	@Override
-	public void deleteBoard(int bno) {
+	public int deleteBoard(int bno) {
 		// TODO Auto-generated method stub
-		session.delete(namespace+".deleteBoard", bno);
+		return session.delete(namespace+".deleteBoard", bno);
 	}
 
 	@Override
-	public void deleteBoardToday(int bno) {
+	public int deleteBoardToday(int bno) {
 		// TODO Auto-generated method stub
-		session.delete(namespace+".deleteBoardToday", bno);
+		return session.delete(namespace+".deleteBoardToday", bno);
 	}
 
 	@Override
-	public void deleteAllBoard() {
+	public int deleteAllBoard(int dno) {
 		// TODO Auto-generated method stub
-		session.delete(namespace+".deleteAllBoard");
+		return session.delete(namespace+".deleteAllBoard", dno);
 	}
 
 	@Override
-	public void deleteAllBoardToday() {
+	public int deleteAllBoardToday(int dno) {
 		// TODO Auto-generated method stub
-		session.delete(namespace+".deleteAllBoardToday");
+		return session.delete(namespace+".deleteAllBoardToday", dno);
+	}
+
+	@Override
+	public int lastInsertedID() {
+		// TODO Auto-generated method stub
+		return session.selectOne(namespace+".lastInsertedID");
 	}
 }

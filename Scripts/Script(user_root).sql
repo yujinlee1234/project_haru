@@ -180,5 +180,7 @@ FLUSH PRIVILEGES ;
 		select d.* from project_haru.diary as d 
 		where dno = (select a.dno from project_haru.diary_auth as a where a.uid='admin');
 		
-		
+		use project_haru;
+		insert into diary(dtitle, dpic, ddate, dopen) values('마이 다이어리', null, now(), true);
+		select last_insert_id() from project_haru.diary
 		

@@ -6,11 +6,12 @@ CREATE SCHEMA `project_haru`;
 
 -- 일기
 CREATE TABLE `project_haru`.`diary` (
-	`dno`    BIGINT       NOT NULL COMMENT '다이어리 번호', -- 다이어리 번호
+	`dno`    BIGINT       NOT null auto_increment COMMENT '다이어리 번호', -- 다이어리 번호
 	`dtitle` VARCHAR(150) NOT NULL COMMENT '다이어리 타이틀', -- 다이어리 타이틀
 	`dpic`   VARCHAR(255) NULL     COMMENT '다이어리 대표사진', -- 다이어리 대표사진
 	`ddate`  TIMESTAMP    NULL     DEFAULT now() COMMENT '다이어리 시작날짜', -- 다이어리 시작날짜
-	`dopen`  BOOLEAN      NOT NULL COMMENT '다이어리 공개여부' -- 다이어리 공개여부
+	`dopen`  BOOLEAN      NOT NULL COMMENT '다이어리 공개여부', -- 다이어리 공개여부
+	primary key(dno)
 )
 COMMENT '일기';
 
@@ -44,13 +45,14 @@ ALTER TABLE `project_haru`.`user`
 
 -- 다이어리 게시글
 CREATE TABLE `project_haru`.`board` (
-	`bno`      BIGINT       NOT NULL COMMENT '게시글 번호', -- 게시글 번호
+	`bno`      BIGINT       NOT null auto_increment COMMENT '게시글 번호', -- 게시글 번호
 	`bpic`     VARCHAR(255) NULL     COMMENT '게시글 사진', -- 게시글 사진
 	`bcontent` TEXT         NOT NULL COMMENT '게시글 내용', -- 게시글 내용
 	`bdate`    TIMESTAMP    NOT NULL DEFAULT now() COMMENT '게시글 등록날짜', -- 게시글 등록날짜
 	`bopen`    BOOLEAN      NOT NULL COMMENT '게시글 공개여부', -- 게시글 공개여부
 	`bcal`     BOOLEAN      NOT NULL DEFAULT false COMMENT '캘린더 노출여부', -- 캘린더 노출여부
-	`dno`      BIGINT       NULL     COMMENT '다이어리 번호' -- 다이어리 번호
+	`dno`      BIGINT       NULL     COMMENT '다이어리 번호', -- 다이어리 번호
+	primary key(bno)
 )
 COMMENT '다이어리 게시글';
 

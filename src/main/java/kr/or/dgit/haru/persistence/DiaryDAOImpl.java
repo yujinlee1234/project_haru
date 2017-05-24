@@ -1,5 +1,6 @@
 package kr.or.dgit.haru.persistence;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,21 +36,22 @@ public class DiaryDAOImpl implements DiaryDAO {
 	}
 
 	@Override
-	public void insertDiary(DiaryVO dVO) {
+	public int insertDiary(DiaryVO dVO) {
 		// TODO Auto-generated method stub
-		session.insert(namespace+".insertDiary", dVO);
+		return session.insert(namespace+".insertDiary", dVO);
+		
 	}
 
 	@Override
-	public void updateDiary(DiaryVO dVO) {
+	public int updateDiary(DiaryVO dVO) {
 		// TODO Auto-generated method stub
-		session.update(namespace+".updateDiary", dVO);
+		return session.update(namespace+".updateDiary", dVO);
 	}
 
 	@Override
-	public void deleteDiary(int dno) {
+	public int deleteDiary(int dno) {
 		// TODO Auto-generated method stub
-		session.delete(namespace+".deleteDiary", dno);
+		return session.delete(namespace+".deleteDiary", dno);
 	}
 
 	@Override
@@ -59,15 +61,28 @@ public class DiaryDAOImpl implements DiaryDAO {
 	}
 
 	@Override
-	public void insertDiaryAuth(Map<String, Object> aMap) {
+	public int insertDiaryAuth(String uid, int dno) {
 		// TODO Auto-generated method stub
-		session.insert(namespace+".insertDiaryAuth", aMap);
+		Map<String, Object> aMap = new HashMap<>();
+		aMap.put("uid", uid);
+		aMap.put("dno", dno);
+		
+		return session.insert(namespace+".insertDiaryAuth", aMap);
 	}
 
 	@Override
-	public void deleteDiaryAuth(Map<String, Object> aMap) {
+	public int deleteDiaryAuth(String uid, int dno) {
 		// TODO Auto-generated method stub
-		session.delete(namespace+".deleteDiaryAuth", aMap);
+		Map<String, Object> aMap = new HashMap<>();
+		aMap.put("uid", uid);
+		aMap.put("dno", dno);
+		return session.delete(namespace+".deleteDiaryAuth", aMap);
+	}
+
+	@Override
+	public int lastInsertedID() {
+		// TODO Auto-generated method stub
+		return session.selectOne(namespace+".lastInsertedID");
 	}
 
 }

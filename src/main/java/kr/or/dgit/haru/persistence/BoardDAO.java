@@ -20,31 +20,31 @@ public interface BoardDAO {
 	public List<BoardVO> selectBoardByBDate(int year, int month);//다이어리를 년, 월 기준으로 검색
 	/** 게시물 insert
 	 * */
-	public void insertBoard(BoardVO bVO);
+	public int insertBoard(BoardVO bVO);
 	/**태그 insert
 	 * */
-	public void insertBoardToday(BoardVO bVO);
+	public int insertBoardToday(BoardVO bVO);
 	/** 게시물 update
 	 * */
-	public void updateBoard(BoardVO bVO);
+	public int updateBoard(BoardVO bVO);
 	/**태그 update
 	 * */
-	public void updateBoardToday(BoardVO bVO);
+	public int updateBoardToday(BoardVO bVO);
 	/** 게시물 delete
 	 * */
-	public void deleteBoard(int bno);
+	public int deleteBoard(int bno);
 	/**태그 delete
 	 * */
-	public void deleteBoardToday(int bno);
+	public int deleteBoardToday(int bno);
 	
 	/* 다이어리 삭제 시 사용할 모든 게시물 삭제 Method */
 	 
 	/** 모든 게시물 delete
 	 * */
-	public void deleteAllBoard();
+	public int deleteAllBoard(int dno);
 	/** 모든 태그 delete
 	 * */
-	public void deleteAllBoardToday();
+	public int deleteAllBoardToday(int dno);
 	
 	/* board_like_table 사용 */
 	/** 좋아요 수 return
@@ -57,7 +57,7 @@ public interface BoardDAO {
 	 * */
 	public List<BoardVO> selectBoardScrap(String uid);//스크랩한 게시글을 가져오기 위해 사용
 	
-	
+	public int lastInsertedID();
 	
 	
 }

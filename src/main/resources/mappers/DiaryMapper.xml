@@ -47,4 +47,7 @@
 	<delete id="deleteDiaryAuth">
 		delete from project_haru.diary_auth where uid = #{uid} and dno = #{dno}	
 	</delete>
+	<select id="lastInsertedID">
+		select last_insert_id() from project_haru.diary
+	</select>
 </mapper>

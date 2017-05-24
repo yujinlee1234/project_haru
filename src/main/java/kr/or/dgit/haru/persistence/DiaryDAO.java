@@ -21,24 +21,25 @@ public interface DiaryDAO {
 	
 	/** Diary insert
 	 * */
-	public void insertDiary(DiaryVO dVO);
+	public int insertDiary(DiaryVO dVO);
 	
 	/** Diary update
 	 * */
-	public void updateDiary(DiaryVO dVO);
+	public int updateDiary(DiaryVO dVO);
 	
 	/** Diary delete
 	 * */
-	public void deleteDiary(int dno);
+	public int deleteDiary(int dno);
 	/** 회원별 마이 다이어리 화면 구성
 	 * */
 	public List<DiaryVO> selectDiaryByUid(String uid);
 	
 	/** 다이 어리 권한 부여 - ver.1 각 회원당 하나의 일기만 작성 가능 (향후 회원당 여러개의 일기, 여러명이 함께쓰는 일기 등을 위해 auth table 유지 필요)
 	 * */
-	public void insertDiaryAuth(Map<String, Object> aMap);
+	public int insertDiaryAuth(String uid, int dno);
 	/** 다이 어리 권한 삭제 - ver.1 각 회원당 하나의 일기만 작성 가능 - 삭제시 권한도 함께 삭제 (향후 회원당 여러개의 일기, 여러명이 함께쓰는 일기 등을 위해 auth table 유지 필요)
 	 * */
-	public void deleteDiaryAuth(Map<String, Object> aMap);
+	public int deleteDiaryAuth(String uid, int dno);
 	
+	public int lastInsertedID();
 }
