@@ -27,29 +27,73 @@ public class BoardDAOImpl implements BoardDAO {
 		// TODO Auto-generated method stub
 		return session.selectOne(namespace+".selectBoardByBno", bno);
 	}
+	
+	@Override
+	public List<BoardVO> selectBoardByBDate(int year, int month) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public void insertBoard(BoardVO bVO) {
+		// TODO Auto-generated method stub
+		session.insert(namespace+".insertBoard", bVO);
+	}
+
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	@Override
 	public int selectBoardLike(int bno) {
 		// TODO Auto-generated method stub
-		return 0;
+		
+		return session.selectOne(namespace+".selectBoardLike", bno);
 	}
 
 	@Override
-	public List<AuthDTO> selectBoardLikeUser(int bno) {
+	public List<BoardVO> selectBoardScrap(String uid) {
 		// TODO Auto-generated method stub
-		return null;
+		return session.selectList(namespace+".selectBoardScrap", uid);
 	}
 
 	@Override
-	public List<BoardVO> selectBoardScrap(int bno) {
+	public void insertBoardToday(BoardVO bVO) {
 		// TODO Auto-generated method stub
-		return null;
+		session.insert(namespace+".insertBoardToday", bVO);
 	}
 
 	@Override
-	public List<AuthDTO> selectBoardScrapUser(int bno) {
+	public void updateBoard(BoardVO bVO) {
 		// TODO Auto-generated method stub
-		return null;
+		session.update(namespace+".updateBoard", bVO);
 	}
 
+	@Override
+	public void updateBoardToday(BoardVO bVO) {
+		// TODO Auto-generated method stub
+		session.update(namespace+".updateBoardToday", bVO);
+	}
+
+	@Override
+	public void deleteBoard(int bno) {
+		// TODO Auto-generated method stub
+		session.delete(namespace+".deleteBoard", bno);
+	}
+
+	@Override
+	public void deleteBoardToday(int bno) {
+		// TODO Auto-generated method stub
+		session.delete(namespace+".deleteBoardToday", bno);
+	}
+
+	@Override
+	public void deleteAllBoard() {
+		// TODO Auto-generated method stub
+		session.delete(namespace+".deleteAllBoard");
+	}
+
+	@Override
+	public void deleteAllBoardToday() {
+		// TODO Auto-generated method stub
+		session.delete(namespace+".deleteAllBoardToday");
+	}
 }

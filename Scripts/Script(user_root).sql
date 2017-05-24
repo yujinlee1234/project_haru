@@ -147,5 +147,38 @@ FLUSH PRIVILEGES ;
 -- -------------------------------------------------------------------------------------diary
 		
 		select * from project_haru.board;
-		
+		select * from project_haru.board_like;
+		select * from project_haru.board_scrap;
+		select b.bno, b.bpic, b.bcontent, b.bdate, b.bopen, b.bcal, b.dno, t.btoday from project_haru.board as b left join project_haru.board_today as t on b.bno = t.bno;
 -- -------------------------------------------------------------------------------------board
+		
+		
+		select count(uid) from project_haru.board_like where bno=0;
+		
+		select u.uid, u.uadmin, u.upic from project_haru.`user` as u left join project_haru.board_like as l on u.uid = l.uid where bno=0;
+		
+		select uid, uadmin, upic from project_haru.view_board_like_user where bno = 0;
+		
+		select b.bno, b.bpic, b.bcontent, b.bdate, b.bopen, b.bcal, b.dno 
+		from project_haru.board as b 
+		left join project_haru.board_scrap as s on b.bno = s.bno
+		where s.uid = 'admin' order by s.stime desc;
+		
+		select u.uid, u.uadmin, u.upic 
+		from project_haru.`user` as u
+		left join project_haru.board_scrap as s on u.uid = s.uid 
+		where s.bno = 0 order by s.stime desc;
+		
+		
+		
+		select d.dno, d.dtitle, d.dpic, d.ddate, d.dopen 
+		from project_haru.diary as d 
+		left join project_haru.board as b on d.dno = b.dno 
+		group by b.bno
+		order by b.bdate desc;
+		
+		select d.* from project_haru.diary as d 
+		where dno = (select a.dno from project_haru.diary_auth as a where a.uid='admin');
+		
+		
+		

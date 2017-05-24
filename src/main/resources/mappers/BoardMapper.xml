@@ -2,20 +2,51 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.or.dgit.haru.mapper.BoardMapper">
-	<resultMap type="BoardVO" id="resultBoard">
-		<id property="bno" column="bno"/>
-		<result property="bpic" column="bpic"/>
-		<result property="dcontent" column="dcontent"/>
-		<result property="bdate" column="bdate"/>
-		<result property="bopen" column="bopen"/>
-		<result property="bcal" column="bcal"/>
-		<association property="diary" resultMap="resultDiary"></association>
-	</resultMap>	
-	<select id="selectAllBoard" resultMap="resultBoard">
-		select * from project_haru.board
+<mapper namespace="kr.or.dgit.haru.mapper.BoardMapper">	
+	<select id="selectAllBoard" resultType="BoardVO">
+		select * from project_haru.view_board_today
 	</select>
-	<select id="selectBoardByBno" resultMap="resultBoard">
-		select * from project_haru.board where bno = #{bno}
+	<select id="selectBoardByBno" resultType="BoardVO">
+		select * from project_haru.view_board_today where bno = #{bno}
 	</select>
+	<select id="selectBoardByBDate" parameterType="int" resultType="BoardVO">
+		select * from project_haru.view_board_today where year(bdate) = #{param1} and month(bdate) = #{param2}
+	</select>
+	<select id="selectBoardLike" resultType="int">
+		select count(uid) from project_haru.board_like where bno = #{bno}
+	</select>
+	<select id="selectBoardScrap" resultType="BoardVO">
+		select b.bno, b.bpic, b.bcontent, b.bdate, b.bopen, b.bcal, b.dno, b.btoday 
+		from project_haru.view_board_today as b 
+		left join project_haru.board_scrap as s on b.bno = s.bno
+		where s.uid = #{uid} order by s.stime desc 
+	</select>
+	<insert id="insertBoard">
+		insert into project_haru.board(bpic, bcontent, bopen, dno) values(#{bpic}, #{bcontent}, #{bopen}, #{dno})
+	</insert>
+	<insert id="insertBoardToday">
+		insert into project_haru.board_today values(#{bno}, #{btoday})
+	</insert>
+	<update id="updateBoard">
+		update project_haru.board 
+		set bpic = #{bpic}, bcontent = #{bcontent}, bopen = #{bopen}, dno = #{dno}, bcal = #{bcal} 
+		where bno = #{bno}
+	</update>
+	<update id="updateBoardToday">
+		update project_haru.board_today  
+		set btoday = #{btoday}  
+		where bno = #{bno}
+	</update>
+	<delete id="deleteBoard">
+		delete from project_haru.board where bno = #{bno}
+	</delete>
+	<delete id="deleteBoardToday">
+		delete from project_haru.board_today where bno = #{bno}
+	</delete>
+	<delete id="deleteAllBoard">
+		delete from project_haru.board
+	</delete>
+	<delete id="deleteAllBoardToday">
+		delete from project_haru.board_today
+	</delete>
 </mapper>

@@ -10,10 +10,41 @@
 		<result property="ddate" column="ddate"/>
 		<result property="dopen" column="dopen"/>
 	</resultMap>
-	<select id="selectAllDiary" resultMap="resultDiary">
-		select * from project_haru.diary
+	<select id="selectAllDiary" resultType="DiaryVO">
+		select d.dno, d.dtitle, d.dpic, d.ddate, d.dopen 
+		from project_haru.diary as d 
+		left join project_haru.board as b on d.dno = b.dno 
+		group by b.bno
+		order by b.bdate desc;
 	</select>
 	<select id="selectDiaryByDno" resultMap="resultDiary">
 		select * from project_haru.diary where dno = #{dno}
 	</select>
+	<select id="selectScrapedDiary" resultType="DiaryVO" >
+		select d.* 
+		from project_haru.diary as d 
+		left join project_haru.diary_scrap as s on d.dno = s.dno 
+		where uid = #{uid} 
+		order by dstime desc
+	</select>
+	<select id="selectDiaryByUid">
+		select d.* from project_haru.diary as d 
+		where dno = (select a.dno from project_haru.diary_auth as a where a.uid=#{uid})
+	</select>
+	<insert id="insertDiary" parameterType="DiaryVO">
+		insert into project_haru.diary(dtitle, dpic, dopen, ddate) 
+		values (#{dtitle}, #{dpic}, #{dopen}, now())
+	</insert>
+	<update id="updateDiary" parameterType="DiaryVO">
+		update project_haru.diary set dtitle = #{dtitle}, dpic = #{dpic}, dopen = #{dopen} where dno = #{dno} 
+	</update>
+	<delete id="deleteDiary">
+		delete from project_haru.diary where dno = #{dno}
+	</delete>
+	<insert id="insertDiaryAuth">
+		insert into project_haru.diary_auth values(#{uid}, #{dno})	
+	</insert>
+	<delete id="deleteDiaryAuth">
+		delete from project_haru.diary_auth where uid = #{uid} and dno = #{dno}	
+	</delete>
 </mapper>
