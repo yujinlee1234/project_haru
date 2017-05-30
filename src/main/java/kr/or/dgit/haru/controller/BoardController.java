@@ -1,9 +1,12 @@
 package kr.or.dgit.haru.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,8 +40,8 @@ public class BoardController {
 	 * */
 	@ResponseBody
 	@RequestMapping(value="", method=RequestMethod.GET)
-	public ResponseEntity<List<BoardVO>> getAllBoardByDno(HttpServletRequest req){
-		AuthDTO auth = (AuthDTO) req.getSession().getAttribute("auth");
+	public ResponseEntity<List<BoardVO>> getAllBoardByDno(HttpSession session){
+		AuthDTO auth = (AuthDTO) session.getAttribute("auth");
 		ResponseEntity<List<BoardVO>> result = null;
 		List<DiaryVO> dList = dService.selectDiaryByUid(auth.getUid());
 		List<BoardVO> bList = null;
@@ -49,4 +52,37 @@ public class BoardController {
 		System.out.println("result : "+result.getBody());
 		return result;
 	}
+	
+	@RequestMapping(value="/create", method=RequestMethod.GET)
+	public String createBoardService(){
+		return "boardtest";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/create", method=RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> createBoardService(HttpSession session, BoardVO bVO){
+		ResponseEntity<Map<String, Object>> result = null;
+		Map<String, Object> rMap = new HashMap<>();
+		try{
+			AuthDTO auth = (AuthDTO) session.getAttribute("auth");
+			List<DiaryVO> dList = dService.selectDiaryByUid(auth.getUid());
+			if(dList.size()>0){
+				DiaryVO diary = dList.get(0);
+				bVO.setDno(diary.getDno());
+				bService.insertBoard(bVO);
+				rMap.put("Result", "success");
+				result = new ResponseEntity<>(rMap, HttpStatus.OK);
+			}else{
+				rMap.put("Result", "fail");
+				result = new ResponseEntity<>(rMap, HttpStatus.BAD_REQUEST);
+			}
+			
+		}catch(Exception e){
+			rMap.put("Result", "fail");
+			result = new ResponseEntity<>(rMap, HttpStatus.BAD_REQUEST);
+		}		
+		System.out.println("result : "+result.getBody());
+		return result;
+	}
+	
 }

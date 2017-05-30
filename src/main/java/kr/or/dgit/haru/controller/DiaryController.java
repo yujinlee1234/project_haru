@@ -1,13 +1,12 @@
 package kr.or.dgit.haru.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.or.dgit.haru.domain.AuthDTO;
 import kr.or.dgit.haru.domain.DiaryVO;
 import kr.or.dgit.haru.service.DiaryService;
+import kr.or.dgit.haru.util.HaruTokenService;
 
 @Controller
 @RequestMapping(value="/diary")
@@ -27,11 +27,33 @@ public class DiaryController {
 	private DiaryService dService;
 	
 	@ResponseBody
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ResponseEntity<List<DiaryVO>> selectDiary(String token){
+		ResponseEntity<List<DiaryVO>> result = null;
+		try{
+			AuthDTO auth = HaruTokenService.decodeToAuth(token);
+			logger.info("[AUTH ID]"+auth.getUid());
+			System.out.println(auth.getUid());
+			
+			List<DiaryVO> dList = dService.selectDiaryByUid(auth.getUid());
+			if(!dList.isEmpty()){
+				result = new ResponseEntity<>(dList, HttpStatus.OK);
+			}else{
+				result = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+			
+		}catch (Exception e){
+			result = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}		
+		return result;
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public String createDiary(DiaryVO dVO, HttpServletRequest req){
+	public String createDiary(DiaryVO dVO, String token){
 		String result = "";
 		try{
-			AuthDTO auth = (AuthDTO)req.getSession().getAttribute("auth");
+			AuthDTO auth = HaruTokenService.decodeToAuth(token);
 			logger.info("[AUTH ID]"+auth.getUid());
 			System.out.println(auth.getUid());
 			

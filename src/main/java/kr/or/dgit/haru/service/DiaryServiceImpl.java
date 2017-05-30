@@ -72,7 +72,5 @@ public class DiaryServiceImpl implements DiaryService {
 		// TODO Auto-generated method stub
 		return dDao.selectDiaryByUid(uid);
 	}
-
-
-
+	
 }
