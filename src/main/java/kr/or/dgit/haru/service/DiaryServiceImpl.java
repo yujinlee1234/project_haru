@@ -5,7 +5,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,11 +40,8 @@ public class DiaryServiceImpl implements DiaryService {
 	public void insertDiary(String uid, DiaryVO dVO) {
 		// TODO Auto-generated method stub
 		try{
+			dVO.setUid(uid);
 			int result = dDao.insertDiary(dVO);
-			if(result > 0){
-				int dno = dDao.lastInsertedID();
-				dDao.insertDiaryAuth(uid, dno);
-			}
 		}catch(Exception e){
 			logger.warn("insertDiary - "+e.getMessage());
 		}
@@ -65,7 +61,6 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public void deleteDiary(String uid, int dno) {
 		try{
-			dDao.deleteDiaryAuth(uid, dno);	
 			dDao.deleteDiary(dno);
 		}catch(Exception e){
 			logger.warn("deleteDiary - "+e.getMessage());

@@ -18,9 +18,9 @@ public class BoardServiceImpl implements BoardService {
 	private BoardDAO bDao;
 
 	@Override
-	public List<BoardVO> selectAllBoard() {
+	public List<BoardVO> selectAllBoard(int dno) {
 		// TODO Auto-generated method stub
-		return bDao.selectAllBoard();
+		return bDao.selectAllBoard(dno);
 	}
 
 	@Override
@@ -42,9 +42,8 @@ public class BoardServiceImpl implements BoardService {
 		try{
 			int result = bDao.insertBoard(bVO);
 			if(result>0){
-				int bno = bDao.lastInsertedID();
+				int bno = bVO.getBno();
 				if(bno>0){
-					bVO.setBno(bno);
 					bDao.insertBoardToday(bVO);
 				}
 			}
@@ -85,12 +84,6 @@ public class BoardServiceImpl implements BoardService {
 		}catch(Exception e){
 			logger.warn("deleteAllBoard - " + e.getMessage());
 		}
-	}
-
-	@Override
-	public int selectBoardLike(int bno) {
-		// TODO Auto-generated method stub
-		return bDao.selectBoardLike(bno);
 	}
 
 	@Override

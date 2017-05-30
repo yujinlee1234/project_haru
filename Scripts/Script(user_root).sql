@@ -142,8 +142,9 @@ FLUSH PRIVILEGES ;
 -- -------------------------------------------------------------------------------------diary_auth
 		
 		select * from project_haru.diary;
+		insert into project_haru.diary values(null, '관리자 다이어리', null, now(), true, 'admin')
 		
-		
+		select last_insert_id(dno) from project_haru.diary;
 -- -------------------------------------------------------------------------------------diary
 		
 		select * from project_haru.board;

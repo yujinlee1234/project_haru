@@ -12,7 +12,7 @@ public interface BoardService {
 	/* board_table 사용 */
 	/** 다이어리의 모든 게시물 return
 	 * */
-	public List<BoardVO> selectAllBoard();
+	public List<BoardVO> selectAllBoard(int dno);
 	/** 게시물 번호로 게시물 return
 	 * */
 	public BoardVO selectBoardByBno(int bno);
@@ -28,11 +28,6 @@ public interface BoardService {
 	
 	/* 다이어리 삭제 시 사용할 모든 게시물 삭제 Method */
 	public void deleteAllBoard(int dno);
-	
-	
-	/* board_like_table 사용 */
-	public int selectBoardLike(int bno);//좋아요 수를 가져오기 위해 사용
-	
 	
 	/* board_scrap_table 사용 */
 	public List<BoardVO> selectBoardScrap(String uid);//스크랩한 게시글을 가져오기 위해 사용

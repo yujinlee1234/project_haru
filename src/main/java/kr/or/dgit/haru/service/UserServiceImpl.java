@@ -1,8 +1,6 @@
 package kr.or.dgit.haru.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,10 +39,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public AuthDTO login(String uid, String upass) {
 		// TODO Auto-generated method stub
-		Map<String, Object> lMap = new HashMap<>();
-		lMap.put("uid", uid);
-		lMap.put("upass", upass);
-		return uDao.login(lMap);
+		return uDao.login(uid, upass);
 	}
 
 	@Override

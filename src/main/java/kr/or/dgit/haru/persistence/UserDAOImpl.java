@@ -1,5 +1,6 @@
 package kr.or.dgit.haru.persistence;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,8 +37,11 @@ public class UserDAOImpl implements UserDAO{
 	}
 
 	@Override
-	public AuthDTO login(Map<String, Object> lMap) {
+	public AuthDTO login(String uid, String upass) {
 		// TODO Auto-generated method stub
+		Map<String, String> lMap = new HashMap<>();
+		lMap.put("uid", uid);
+		lMap.put("upass", upass);
 		return session.selectOne(namespace+".login", lMap);
 	}
 

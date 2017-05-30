@@ -19,9 +19,9 @@ public class BoardDAOImpl implements BoardDAO {
 	private SqlSession session;
 	
 	@Override
-	public List<BoardVO> selectAllBoard() {
+	public List<BoardVO> selectAllBoard(int dno) {
 		// TODO Auto-generated method stub
-		return session.selectList(namespace+".selectAllBoard");
+		return session.selectList(namespace+".selectAllBoard", dno);
 	}
 
 	@Override
@@ -46,13 +46,6 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public int selectBoardLike(int bno) {
-		// TODO Auto-generated method stub
-		
-		return session.selectOne(namespace+".selectBoardLike", bno);
-	}
 
 	@Override
 	public List<BoardVO> selectBoardScrap(String uid) {
@@ -102,9 +95,4 @@ public class BoardDAOImpl implements BoardDAO {
 		return session.delete(namespace+".deleteAllBoardToday", dno);
 	}
 
-	@Override
-	public int lastInsertedID() {
-		// TODO Auto-generated method stub
-		return session.selectOne(namespace+".lastInsertedID");
-	}
 }

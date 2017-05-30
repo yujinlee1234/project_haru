@@ -1,8 +1,6 @@
 package kr.or.dgit.haru.persistence;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,30 +57,4 @@ public class DiaryDAOImpl implements DiaryDAO {
 		// TODO Auto-generated method stub
 		return session.selectList(namespace+".selectDiaryByUid", uid);
 	}
-
-	@Override
-	public int insertDiaryAuth(String uid, int dno) {
-		// TODO Auto-generated method stub
-		Map<String, Object> aMap = new HashMap<>();
-		aMap.put("uid", uid);
-		aMap.put("dno", dno);
-		
-		return session.insert(namespace+".insertDiaryAuth", aMap);
-	}
-
-	@Override
-	public int deleteDiaryAuth(String uid, int dno) {
-		// TODO Auto-generated method stub
-		Map<String, Object> aMap = new HashMap<>();
-		aMap.put("uid", uid);
-		aMap.put("dno", dno);
-		return session.delete(namespace+".deleteDiaryAuth", aMap);
-	}
-
-	@Override
-	public int lastInsertedID() {
-		// TODO Auto-generated method stub
-		return session.selectOne(namespace+".lastInsertedID");
-	}
-
 }

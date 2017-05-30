@@ -11,7 +11,7 @@ public interface BoardDAO {
 	/* board_table 사용 */
 	/** 다이어리의 모든 게시물 return
 	 * */
-	public List<BoardVO> selectAllBoard();
+	public List<BoardVO> selectAllBoard(int dno);
 	/** 게시물 번호로 게시물 return
 	 * */
 	public BoardVO selectBoardByBno(int bno);
@@ -44,20 +44,11 @@ public interface BoardDAO {
 	public int deleteAllBoard(int dno);
 	/** 모든 태그 delete
 	 * */
-	public int deleteAllBoardToday(int dno);
-	
-	/* board_like_table 사용 */
-	/** 좋아요 수 return
-	 * */
-	public int selectBoardLike(int bno);//좋아요 수를 가져오기 위해 사용
-	
+	public int deleteAllBoardToday(int dno);	
 	
 	/* board_scrap_table 사용 */
 	/** 본인이 스크랩한 게시글 목록 return
 	 * */
-	public List<BoardVO> selectBoardScrap(String uid);//스크랩한 게시글을 가져오기 위해 사용
-	
-	public int lastInsertedID();
-	
+	public List<BoardVO> selectBoardScrap(String uid);//스크랩한 게시글을 가져오기 위해 사용	
 	
 }

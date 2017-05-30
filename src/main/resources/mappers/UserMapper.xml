@@ -7,7 +7,7 @@
 	<select id="selectBoardLikeUser" resultType="AuthDTO">
 		select uid, uadmin, upic, exitdate from project_haru.view_board_like_user where bno = #{bno};
 	</select>
-	<select id="selectBoardLikeUser" resultType="AuthDTO">
+	<select id="selectBoardScrapUser" resultType="AuthDTO">
 		select u.uid, u.uadmin, u.upic, u.exitdate
 		from project_haru.`user` as u
 		left join project_haru.board_scrap as s on u.uid = s.uid 
@@ -16,13 +16,13 @@
 	<select id="selectAllUser" resultType="UserVO">
 		select * from project_haru.`user`
 	</select>
-	<select id="login">
+	<select id="login" resultType="AuthDTO">
 		select uid, uadmin, upic from project_haru.`user` where uid = #{uid} and upass = #{upass} and uexitdate is null 
 	</select>
-	<insert id="insertUser">
+	<insert id="insertUser" parameterType="UserVO">
 		insert into project_haru.`user` values(#{uid}, #{umail},#{upass}, #{upic}, #{uname}, #{ujoin}, false, now(), null)
 	</insert>
-	<update id="updateUser">
+	<update id="updateUser" parameterType="UserVO">
 		update project_haru.`user` set umail = #{umail}, upass = #{upass}, upic = #{upic}, uname = #{uname} where uid = #{uid}
 	</update>
 	<update id="exitUser">

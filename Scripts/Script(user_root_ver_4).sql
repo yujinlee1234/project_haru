@@ -6,12 +6,12 @@ CREATE SCHEMA `project_haru`;
 
 -- 일기
 CREATE TABLE `project_haru`.`diary` (
-	`dno`    BIGINT       NOT null auto_increment COMMENT '다이어리 번호', -- 다이어리 번호
+	`dno`    BIGINT       NOT NULL COMMENT '다이어리 번호', -- 다이어리 번호
 	`dtitle` VARCHAR(150) NOT NULL COMMENT '다이어리 타이틀', -- 다이어리 타이틀
 	`dpic`   VARCHAR(255) NULL     COMMENT '다이어리 대표사진', -- 다이어리 대표사진
 	`ddate`  TIMESTAMP    NULL     DEFAULT now() COMMENT '다이어리 시작날짜', -- 다이어리 시작날짜
 	`dopen`  BOOLEAN      NOT NULL COMMENT '다이어리 공개여부', -- 다이어리 공개여부
-	primary key(dno)
+	`uid`    VARCHAR(50)  NULL     COMMENT '아이디' -- 아이디
 )
 COMMENT '일기';
 
@@ -21,6 +21,9 @@ ALTER TABLE `project_haru`.`diary`
 		PRIMARY KEY (
 			`dno` -- 다이어리 번호
 		);
+
+ALTER TABLE `project_haru`.`diary`
+	MODIFY COLUMN `dno` BIGINT NOT NULL AUTO_INCREMENT COMMENT '다이어리 번호';
 
 -- 회원
 CREATE TABLE `project_haru`.`user` (
@@ -45,14 +48,13 @@ ALTER TABLE `project_haru`.`user`
 
 -- 다이어리 게시글
 CREATE TABLE `project_haru`.`board` (
-	`bno`      BIGINT       NOT null auto_increment COMMENT '게시글 번호', -- 게시글 번호
+	`bno`      BIGINT       NOT NULL COMMENT '게시글 번호', -- 게시글 번호
 	`bpic`     VARCHAR(255) NULL     COMMENT '게시글 사진', -- 게시글 사진
 	`bcontent` TEXT         NOT NULL COMMENT '게시글 내용', -- 게시글 내용
 	`bdate`    TIMESTAMP    NOT NULL DEFAULT now() COMMENT '게시글 등록날짜', -- 게시글 등록날짜
 	`bopen`    BOOLEAN      NOT NULL COMMENT '게시글 공개여부', -- 게시글 공개여부
 	`bcal`     BOOLEAN      NOT NULL DEFAULT false COMMENT '캘린더 노출여부', -- 캘린더 노출여부
-	`dno`      BIGINT       NULL     COMMENT '다이어리 번호', -- 다이어리 번호
-	primary key(bno)
+	`dno`      BIGINT       NULL     COMMENT '다이어리 번호' -- 다이어리 번호
 )
 COMMENT '다이어리 게시글';
 
@@ -63,12 +65,8 @@ ALTER TABLE `project_haru`.`board`
 			`bno` -- 게시글 번호
 		);
 
--- 다이어리 권한
-CREATE TABLE `project_haru`.`diary_auth` (
-	`uid` VARCHAR(50) NOT NULL COMMENT '아이디', -- 아이디
-	`dno` BIGINT      NOT NULL COMMENT '다이어리 번호' -- 다이어리 번호
-)
-COMMENT '다이어리 권한';
+ALTER TABLE `project_haru`.`board`
+	MODIFY COLUMN `bno` BIGINT NOT NULL AUTO_INCREMENT COMMENT '게시글 번호';
 
 -- 다이어리 스크랩
 CREATE TABLE `project_haru`.`diary_scrap` (
@@ -86,14 +84,6 @@ CREATE TABLE `project_haru`.`board_scrap` (
 )
 COMMENT '게시글 스크랩';
 
--- 게시글 좋아요
-CREATE TABLE `project_haru`.`board_like` (
-	`uid`   VARCHAR(50) NOT NULL COMMENT '아이디', -- 아이디
-	`bno`   BIGINT      NOT NULL COMMENT '게시글 번호', -- 게시글 번호
-	`ltime` TIMESTAMP   NULL     COMMENT '좋아요 시간' -- 좋아요 시간
-)
-COMMENT '게시글 좋아요';
-
 -- 다이어리 게시글 태그
 CREATE TABLE `project_haru`.`board_today` (
 	`bno`    BIGINT       NOT NULL COMMENT '게시글 번호', -- 게시글 번호
@@ -108,6 +98,16 @@ ALTER TABLE `project_haru`.`board_today`
 			`bno` -- 게시글 번호
 		);
 
+-- 일기
+ALTER TABLE `project_haru`.`diary`
+	ADD CONSTRAINT `FK_user_TO_diary` -- 회원 -> 일기
+		FOREIGN KEY (
+			`uid` -- 아이디
+		)
+		REFERENCES `project_haru`.`user` ( -- 회원
+			`uid` -- 아이디
+		) on delete cascade;
+
 -- 다이어리 게시글
 ALTER TABLE `project_haru`.`board`
 	ADD CONSTRAINT `FK_diary_TO_board` -- 일기 -> 다이어리 게시글
@@ -116,27 +116,7 @@ ALTER TABLE `project_haru`.`board`
 		)
 		REFERENCES `project_haru`.`diary` ( -- 일기
 			`dno` -- 다이어리 번호
-		)on delete cascade;
-
--- 다이어리 권한
-ALTER TABLE `project_haru`.`diary_auth`
-	ADD CONSTRAINT `FK_user_TO_diary_auth` -- 회원 -> 다이어리 권한
-		FOREIGN KEY (
-			`uid` -- 아이디
-		)
-		REFERENCES `project_haru`.`user` ( -- 회원
-			`uid` -- 아이디
-		)on delete cascade;
-
--- 다이어리 권한
-ALTER TABLE `project_haru`.`diary_auth`
-	ADD CONSTRAINT `FK_diary_TO_diary_auth` -- 일기 -> 다이어리 권한
-		FOREIGN KEY (
-			`dno` -- 다이어리 번호
-		)
-		REFERENCES `project_haru`.`diary` ( -- 일기
-			`dno` -- 다이어리 번호
-		)on delete cascade;
+		) on delete cascade;
 
 -- 다이어리 스크랩
 ALTER TABLE `project_haru`.`diary_scrap`
@@ -146,7 +126,7 @@ ALTER TABLE `project_haru`.`diary_scrap`
 		)
 		REFERENCES `project_haru`.`user` ( -- 회원
 			`uid` -- 아이디
-		)on delete cascade;
+		) on delete cascade;
 
 -- 다이어리 스크랩
 ALTER TABLE `project_haru`.`diary_scrap`
@@ -156,7 +136,7 @@ ALTER TABLE `project_haru`.`diary_scrap`
 		)
 		REFERENCES `project_haru`.`diary` ( -- 일기
 			`dno` -- 다이어리 번호
-		)on delete cascade;
+		) on delete cascade;
 
 -- 게시글 스크랩
 ALTER TABLE `project_haru`.`board_scrap`
@@ -166,7 +146,7 @@ ALTER TABLE `project_haru`.`board_scrap`
 		)
 		REFERENCES `project_haru`.`user` ( -- 회원
 			`uid` -- 아이디
-		)on delete cascade;
+		) on delete cascade;
 
 -- 게시글 스크랩
 ALTER TABLE `project_haru`.`board_scrap`
@@ -176,27 +156,7 @@ ALTER TABLE `project_haru`.`board_scrap`
 		)
 		REFERENCES `project_haru`.`board` ( -- 다이어리 게시글
 			`bno` -- 게시글 번호
-		)on delete cascade;
-
--- 게시글 좋아요
-ALTER TABLE `project_haru`.`board_like`
-	ADD CONSTRAINT `FK_user_TO_board_like` -- 회원 -> 게시글 좋아요
-		FOREIGN KEY (
-			`uid` -- 아이디
-		)
-		REFERENCES `project_haru`.`user` ( -- 회원
-			`uid` -- 아이디
-		)on delete cascade;
-
--- 게시글 좋아요
-ALTER TABLE `project_haru`.`board_like`
-	ADD CONSTRAINT `FK_board_TO_board_like` -- 다이어리 게시글 -> 게시글 좋아요
-		FOREIGN KEY (
-			`bno` -- 게시글 번호
-		)
-		REFERENCES `project_haru`.`board` ( -- 다이어리 게시글
-			`bno` -- 게시글 번호
-		)on delete cascade;
+		) on delete cascade;
 
 -- 다이어리 게시글 태그
 ALTER TABLE `project_haru`.`board_today`
@@ -206,11 +166,12 @@ ALTER TABLE `project_haru`.`board_today`
 		)
 		REFERENCES `project_haru`.`board` ( -- 다이어리 게시글
 			`bno` -- 게시글 번호
-		)on delete cascade;
+		) on delete cascade;
 		
-		
-		
-		
-		
-		
+-- 다이어리 게시글 + 게시글 태그 VIEW
+CREATE OR REPLACE VIEW project_haru.view_board
+AS select b.*, t.btoday 
+from project_haru.board as b 
+left join project_haru.board_today as t
+on b.bno = t.bno ;
 		

@@ -11,8 +11,10 @@ public class DiaryVO {
 	private int dno;
 	private String dtitle;
 	private String dpic;	//대표사진 경로
-	private Date dDate;		//다이어리 생성 날짜
-	private boolean dOpen;	//다이어리 전체 공개 여부 true=공개, false=비공개
+	private Date ddate;		//다이어리 생성 날짜
+	private boolean dopen;	//다이어리 전체 공개 여부 true=공개, false=비공개
+	private String uid;
+	
 	/* GET/SET */
 	public int getDno() {
 		return dno;
@@ -32,22 +34,28 @@ public class DiaryVO {
 	public void setDpic(String dpic) {
 		this.dpic = dpic;
 	}
-	public Date getdDate() {
-		return dDate;
+	public Date getDdate() {
+		return ddate;
 	}
-	public void setdDate(Date dDate) {
-		this.dDate = dDate;
+	public void setDdate(Date ddate) {
+		this.ddate = ddate;
 	}
-	public boolean isdOpen() {
-		return dOpen;
+	public boolean isDopen() {
+		return dopen;
 	}
-	public void setdOpen(boolean dOpen) {
-		this.dOpen = dOpen;
+	public void setDopen(boolean dopen) {
+		this.dopen = dopen;
+	}
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 	/* MEHTODS */
 	@Override
 	public String toString() {
-		return "Diary [dno=" + dno + ", dtitle=" + dtitle + ", dpic=" + dpic + ", dDate=" + dDate + ", dOpen=" + dOpen
+		return "Diary [dno=" + dno + ", dtitle=" + dtitle + ", dpic=" + dpic + ", dDate=" + ddate + ", dOpen=" + dopen
 				+ "]";
 	}
 	@Override
@@ -74,12 +82,12 @@ public class DiaryVO {
 	 * 다이어리 생성 날짜 String으로 Format(yyyy-MM-dd)
 	 * */
 	public String getdDateForm() {
-		return ProjectHaru.dateFormat.format(dDate);
+		return ProjectHaru.dateFormat.format(ddate);
 	}
 	/**
 	 * 다이어리 생성 날짜 String으로 Format(yyyy-MM-dd a HH:mm)
 	 * */
 	public String getdDateTimeForm() {
-		return ProjectHaru.dateTimeFormat.format(dDate);
+		return ProjectHaru.dateTimeFormat.format(ddate);
 	}
 }
