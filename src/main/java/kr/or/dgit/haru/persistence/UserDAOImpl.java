@@ -69,4 +69,10 @@ public class UserDAOImpl implements UserDAO{
 		session.delete(namespace+".deleteUser", uid);
 	}
 
+	@Override
+	public AuthDTO checkUser(String uid) {
+		// TODO Auto-generated method stub
+		return session.selectOne(namespace+".checkUser", uid);
+	}
+
 }

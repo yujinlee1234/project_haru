@@ -52,7 +52,7 @@ public class HomeController {
 			}
 		}
 		
-		return "main";
+		return "home";
 	}
 	
 	

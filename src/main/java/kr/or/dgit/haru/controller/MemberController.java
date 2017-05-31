@@ -11,9 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -38,54 +40,32 @@ public class MemberController {
 	 * 실패 시 Result 값으로 fail값이 넘어온다.
 	 * 진행과정에서 Exception 발생 시 BAD_REQUEST 반환
 	 * */
-	@ResponseBody
 	@RequestMapping(value="/login", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> loginService(String uid, String upass, HttpSession session){		
-		ResponseEntity<Map<String, Object>> result = null;
-		try{
-			Map<String, Object> rMap = new HashMap<>();
+	public String loginService(String uid, String upass, HttpSession session, RedirectAttributes rttr){		
+		try{			
 			AuthDTO auth = uService.login(uid, upass);
 			
 			if(auth != null){	
 				session.setAttribute("auth", auth);
-				Algorithm algorithm = Algorithm.HMAC256("secret");
-				Map<String, Object> headerClaims = new HashMap();
-				headerClaims.put("uid", auth.getUid());
-				headerClaims.put("uadmin", auth.isUadmin());
-				headerClaims.put("upic", auth.getUid());
-				
-				String token = JWT.create()
-				        .withHeader(headerClaims)
-				        .sign(algorithm);
-				
-				System.out.println("TOKEN : "+token);
-				
-				DecodedJWT jwt = JWT.decode(token);
-				Claim clain = jwt.getHeaderClaim("uid");
-				
-				System.out.println("DECODE TOKEN : "+jwt.getHeader());
-				System.out.println("DECODE TOKEN uid : "+clain.asString());
-				
-				rMap.put("auth", token);
-				rMap.put("Result", "success");
-				result = new ResponseEntity<Map<String,Object>>(rMap, HttpStatus.OK);
-				
+				rttr.addFlashAttribute("result", auth.getUid()+"님 반갑습니다.");
+				rttr.addFlashAttribute("returnTo", "/board/list");
 				
 			}else{
-				rMap.put("Result", "fail");
-				result = new ResponseEntity<Map<String,Object>>(rMap, HttpStatus.OK);
+				rttr.addFlashAttribute("result", "[ERROR] 로그인에 실패하였습니다.");
+				rttr.addFlashAttribute("returnTo", "/member/login");
 			}	
 		}catch(Exception e){
-			result = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			rttr.addFlashAttribute("result", "[ERROR] 로그인에 실패하였습니다.");
+			rttr.addFlashAttribute("returnTo", "/member/login");
 		}
-		return result;
+		return "redirect:/";
 	}
 	/** login test를 위함 임시 페이지와 임시 method(login page 제공)
 	 * */
 	
 	@RequestMapping(value="/login", method = RequestMethod.GET)
 	public String loginService(){		
-		return "logintest";
+		return "/user/login";
 	}
 	
 	/** login test를 위함 임시 페이지와 임시 method(login page 제공)
@@ -93,7 +73,7 @@ public class MemberController {
 	
 	@RequestMapping(value="/join", method = RequestMethod.GET)
 	public String joinService(){		
-		return "jointest";
+		return "/user/join";
 	}
 	
 
@@ -103,22 +83,19 @@ public class MemberController {
 	 * 실패 시 Result 값으로 fail값이 넘어온다.
 	 * 진행과정에서 Exception 발생 시 BAD_REQUEST 반환
 	 * */
-	@ResponseBody
+	
 	@RequestMapping(value="/join", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> joinService(UserVO uVO){
-		
-		ResponseEntity<Map<String, Object>> result = null;
+	public String joinService(UserVO uVO, RedirectAttributes rttr){
 		try{
-			Map<String, Object> rMap = new HashMap<>();
-			uService.insertUser(uVO);
-			
-			rMap.put("Result", "success");
-			result = new ResponseEntity<Map<String,Object>>(rMap, HttpStatus.OK);
+			uService.insertUser(uVO);			
+			rttr.addFlashAttribute("result", "회원가입에 성공하였습니다.");
+			rttr.addFlashAttribute("returnTo", "/member/login");
 		
 		}catch(Exception e){
-			result = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			rttr.addFlashAttribute("result", "[ERROR]회원가입에 실패하였습니다.");
+			rttr.addFlashAttribute("returnTo", "/member/join");
 		}
-		return result;
+		return "redirect:/";
 	}
 	
 	/**
@@ -129,15 +106,32 @@ public class MemberController {
 	 * */
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> logoutService(HttpSession session){
+	public String logoutService(HttpSession session, RedirectAttributes rttr){
 		
 		ResponseEntity<Map<String, Object>> result = null;
-		try{
-			session.removeAttribute("auth");
-			
-		}catch(Exception e){
-			result = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		
+		session.removeAttribute("auth");
+		rttr.addFlashAttribute("result", "로그아웃되었습니다.");
+		rttr.addFlashAttribute("returnTo", "/member/login");
+	
+		return "redirect:/";
+	}
+	
+	/**
+	 * 중복 아이디 체크
+	 * */
+	@ResponseBody
+	@RequestMapping(value="/check/{uid}", method = RequestMethod.GET)
+	public String checkIDService(@PathVariable String uid, HttpSession session){
+		String result = "";
+		
+		AuthDTO auth = uService.checkUser(uid);
+		if(auth != null){
+			result = "FAIL";
+		}else{
+			result = "SUCCESS";
 		}
+			
 		return result;
 	}
 	

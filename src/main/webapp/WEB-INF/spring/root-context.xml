@@ -38,6 +38,7 @@
 	<bean id="uploadPath" class="java.lang.String">
 		<constructor-arg value="C:/project_haru/upload"/>
 	</bean>
+	
 	<context:component-scan base-package="kr.or.dgit.haru.persistence"/>
 	<context:component-scan base-package="kr.or.dgit.haru.service"/>
 </beans>

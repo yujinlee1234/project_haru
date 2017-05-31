@@ -31,4 +31,8 @@
 	<delete id="deleteUser">
 		delete from project_haru.`user` where uid=#{uid}
 	</delete>
+	<select id="checkUser" resultType="AuthDTO">
+		select uid, uadmin, upic from project_haru.`user` where uid = #{uid} 
+	</select>
+	
 </mapper>

@@ -66,4 +66,10 @@ public class UserServiceImpl implements UserService {
 		uDao.deleteUser(uid);
 	}
 
+	@Override
+	public AuthDTO checkUser(String uid) {
+		// TODO Auto-generated method stub
+		return uDao.checkUser(uid);
+	}
+
 }

@@ -39,4 +39,7 @@ public interface UserService {
 	 * */
 	public void deleteUser(String uid);
 
+	/**아이디 중복 체크를 위한 함수
+	 * */
+	public AuthDTO checkUser(String uid);
 }

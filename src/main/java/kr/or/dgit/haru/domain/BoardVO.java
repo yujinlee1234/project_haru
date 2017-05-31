@@ -104,4 +104,15 @@ public class BoardVO {
 	public String getBdateTimeForm() {
 		return ProjectHaru.dateTimeFormat.format(bdate);
 	}
+	
+	public String getOriginalname() {
+		String path = bpic.substring(0, bpic.lastIndexOf("/")+1);
+		String originalFileName = bpic.substring(bpic.lastIndexOf("/")+3);
+		return path+originalFileName;
+	}	
+	public String getOriginalFilename() {
+		//start index = 38
+		String originalPath = getOriginalname();		
+		return originalPath.substring(originalPath.lastIndexOf("/")+38);
+	}
 }
