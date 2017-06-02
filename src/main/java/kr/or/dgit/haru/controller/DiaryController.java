@@ -8,20 +8,16 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.or.dgit.haru.domain.AuthDTO;
 import kr.or.dgit.haru.domain.DiaryVO;
 import kr.or.dgit.haru.service.DiaryService;
-import kr.or.dgit.haru.util.HaruTokenService;
 import kr.or.dgit.haru.util.UploadFileUtils;
 
 @Controller
@@ -45,6 +41,7 @@ public class DiaryController {
 			
 			List<DiaryVO> dList = dService.selectDiaryByUid(auth.getUid());
 			if(!dList.isEmpty()){
+				System.out.println(dList.get(0).getDpic());
 				model.addAttribute("diary", dList.get(0));
 			}
 		}catch (Exception e){

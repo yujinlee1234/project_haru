@@ -6,3 +6,7 @@ on b.bno = t.bno;
 select * from project_haru.`user`;
 
 insert into project_haru.`user` values('admin', 'lyj9513@naver.com', 'admin', null, '관리자', null, true, now(), null);
+
+select * from project_haru.diary;
+
+update project_haru.diary set dopen = true where dno = 5;

@@ -114,33 +114,4 @@ public class BoardController {
 		return filenames;
 	}	
 	
-	@ResponseBody
-	@RequestMapping(value="display")
-	public ResponseEntity<byte[]> displayFile(String filename) throws IOException {
-		InputStream in = null;
-		ResponseEntity<byte[]> entity = null;
-		
-		logger.info("[displayFile] filename : "+filename);
-		try{
-			String format = filename.substring(filename.lastIndexOf(".")+1);//파일 확장자만 뽑기
-			MediaType mType = MediaUtils.getMediaType(format);
-			
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(mType);
-			
-			in = new FileInputStream(uploadPath+"/"+filename);
-			
-			//IOUtils.toByteArray(in);
-			
-			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
-		}catch(IOException e){
-			e.printStackTrace();
-			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}finally {
-			in.close();
-		}
-		
-		return entity;	
-	}
-	
 }

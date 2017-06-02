@@ -34,7 +34,7 @@
 							<figure>
 								<a href="${pageContext.request.contextPath }/board/list" class="showImage">
 									<c:if test="${!empty diary.dpic }">
-										<img alt="${diary.originalname }" src="display?filename=${diary.dpic }">
+										<img alt="${diary.originalname }" src="${pageContext.request.contextPath }/display?filename=${diary.dpic }" class="img-circle">
 									</c:if>
 									<c:if test="${empty diary.dpic }">
 										<img alt="" src="${pageContext.request.contextPath }/resources/dist/img/empty-folder.png">

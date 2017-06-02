@@ -15,7 +15,7 @@
 		select d.dno, d.dtitle, d.dpic, d.ddate, d.dopen, max(b.bdate)
 		from project_haru.diary as d 
 		left join project_haru.board as b on d.dno = b.dno 
-		where d.dopen = true 
+		where d.dopen = true and b.bopen = true 
 		group by d.dno 
 		order by max(b.bdate) desc;
 	</select>

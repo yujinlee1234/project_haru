@@ -34,13 +34,13 @@
 								<figure>
 									<a href="#" class="showImage">
 										<c:if test="${!empty pic.bpic }">
-											<img alt="${pic.originalname }" src="display?filename=${pic.bpic }">
+											<img alt="${pic.originalname }" src="${pageContext.request.contextPath }/display?filename=${pic.bpic }">
 										</c:if>
 										<c:if test="${empty pic.bpic }">
 											<img alt="" src="${pageContext.request.contextPath }/resources/dist/img/empty-folder.png">
 										</c:if>
 									</a>
-									<figcaption>${pic.bcontent }</figcaption>
+									<figcaption>${pic.bcontent }(${pic.bopen==true?'공개':'비공개' })</figcaption>
 								</figure>
 							</div>
 						</c:forEach>
