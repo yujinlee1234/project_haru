@@ -24,7 +24,7 @@ public class UploadFileUtils {
 		
 		
 		//썸네일 이미지 데이터 만들기
-		BufferedImage destImg = Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 100);
+		BufferedImage destImg = Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC, 100, 100);// width, height 100으로 고정하려 했으나 안됨
 		
 		thumbnailName = uploadPath+"/"+"s_"+filename;
 		

@@ -90,4 +90,15 @@ public class DiaryVO {
 	public String getdDateTimeForm() {
 		return ProjectHaru.dateTimeFormat.format(ddate);
 	}
+	
+	public String getOriginalname() {
+		String path = dpic.substring(0, dpic.lastIndexOf("/")+1);
+		String originalFileName = dpic.substring(dpic.lastIndexOf("/")+3);
+		return path+originalFileName;
+	}	
+	public String getOriginalFilename() {
+		//start index = 38
+		String originalPath = getOriginalname();		
+		return originalPath.substring(originalPath.lastIndexOf("/")+38);
+	}
 }

@@ -12,11 +12,12 @@
 	</resultMap>
 	
 	<select id="selectAllDiary" resultType="DiaryVO">
-		select d.dno, d.dtitle, d.dpic, d.ddate, d.dopen 
+		select d.dno, d.dtitle, d.dpic, d.ddate, d.dopen, max(b.bdate)
 		from project_haru.diary as d 
 		left join project_haru.board as b on d.dno = b.dno 
-		group by b.bno
-		order by b.bdate desc;
+		where d.dopen = true 
+		group by d.dno 
+		order by max(b.bdate) desc;
 	</select>
 	
 	<select id="selectDiaryByDno" resultMap="resultDiary">

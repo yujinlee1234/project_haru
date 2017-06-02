@@ -4,7 +4,7 @@
         <div class="pull-right hidden-xs">
           <b>Version</b> 2.0
         </div>
-        <strong>Copyright &copy; 2017 <a href="http://almsaeedstudio.com">Yujin Studio</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2017 <a href="#">Yujin Lee</a>.</strong> All rights reserved.
       </footer>
       
       <!-- Control Sidebar -->      

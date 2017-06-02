@@ -2,20 +2,27 @@ package kr.or.dgit.haru.controller;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.or.dgit.haru.domain.AuthDTO;
 import kr.or.dgit.haru.domain.DiaryVO;
 import kr.or.dgit.haru.service.DiaryService;
 import kr.or.dgit.haru.util.HaruTokenService;
+import kr.or.dgit.haru.util.UploadFileUtils;
 
 @Controller
 @RequestMapping(value="/diary")
@@ -26,49 +33,55 @@ public class DiaryController {
 	@Autowired
 	private DiaryService dService;
 	
-	@ResponseBody
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ResponseEntity<List<DiaryVO>> selectDiary(String token){
-		ResponseEntity<List<DiaryVO>> result = null;
+	@Resource(name="uploadPath")
+	private String uploadPath;
+	
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String selectDiary(Model model, HttpSession session){
 		try{
-			AuthDTO auth = HaruTokenService.decodeToAuth(token);
+			AuthDTO auth = (AuthDTO) session.getAttribute("auth");
 			logger.info("[AUTH ID]"+auth.getUid());
 			System.out.println(auth.getUid());
 			
 			List<DiaryVO> dList = dService.selectDiaryByUid(auth.getUid());
 			if(!dList.isEmpty()){
-				result = new ResponseEntity<>(dList, HttpStatus.OK);
-			}else{
-				result = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				model.addAttribute("diary", dList.get(0));
 			}
-			
 		}catch (Exception e){
-			result = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
 		}		
-		return result;
+		return "/diary/list";
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public String createDiary(DiaryVO dVO, String token){
-		String result = "";
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public String createDiary(DiaryVO dVO, MultipartFile imagefiles, HttpSession session, RedirectAttributes rttr){
+		
 		try{
-			AuthDTO auth = HaruTokenService.decodeToAuth(token);
+			
+			if(imagefiles != null){
+				String thumb = UploadFileUtils.uploadFile(uploadPath, imagefiles.getOriginalFilename(), imagefiles.getBytes());
+				dVO.setDpic(thumb);
+			}
+			
+			AuthDTO auth = (AuthDTO) session.getAttribute("auth");
 			logger.info("[AUTH ID]"+auth.getUid());
 			System.out.println(auth.getUid());
 			
 			dService.insertDiary(auth.getUid(), dVO);
-			result ="success";
+			rttr.addFlashAttribute("result", "다이어리를 성공적으로 등록하였습니다.");
+			rttr.addFlashAttribute("returnTo", "diary/list");
 		}catch (Exception e){
-			result = "fail";
+			rttr.addFlashAttribute("result", "[ERROR]다이어리 등록에 실패하였습니다.");
+			rttr.addFlashAttribute("returnTo", "diary/list");
+			e.printStackTrace();
 		}		
-		return result;
+		return "redirect:/";
 	}
 	
 	
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String createDiary(){		
-		return "diaryExample";
+		return "/diary/register";
 	}
 	
 	

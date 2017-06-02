@@ -45,12 +45,12 @@ public class HomeController {
 		model.addAttribute("serverTime", formattedDate );
 		
 		AuthDTO auth = (AuthDTO) session.getAttribute("auth");
-		if(auth != null){
-			List<DiaryVO> dList = dService.selectDiaryByUid(auth.getUid());
-			if(dList.size()>0){
-				session.setAttribute("diary", dList.get(0));
-			}
+		
+		List<DiaryVO> dList = dService.selectAllDiary();
+		if(dList.size()>0){
+			session.setAttribute("dList", dList);
 		}
+		
 		
 		return "home";
 	}

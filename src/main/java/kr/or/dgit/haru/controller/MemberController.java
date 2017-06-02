@@ -1,6 +1,6 @@
 package kr.or.dgit.haru.controller;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,13 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
-
 import kr.or.dgit.haru.domain.AuthDTO;
+import kr.or.dgit.haru.domain.DiaryVO;
 import kr.or.dgit.haru.domain.UserVO;
+import kr.or.dgit.haru.service.DiaryService;
 import kr.or.dgit.haru.service.UserService;
 
 @Controller
@@ -33,6 +29,9 @@ public class MemberController {
 	
 	@Inject
 	private UserService uService;
+	
+	@Inject
+	private DiaryService dService;
 	
 	/**
 	 * 로그인 시 사용할 함수
@@ -44,19 +43,23 @@ public class MemberController {
 	public String loginService(String uid, String upass, HttpSession session, RedirectAttributes rttr){		
 		try{			
 			AuthDTO auth = uService.login(uid, upass);
-			
+			List<DiaryVO> diary = dService.selectDiaryByUid(auth.getUid());
+			if(!diary.isEmpty()){
+				session.setAttribute("diary", diary.get(0));
+			}
 			if(auth != null){	
 				session.setAttribute("auth", auth);
+				
 				rttr.addFlashAttribute("result", auth.getUid()+"님 반갑습니다.");
-				rttr.addFlashAttribute("returnTo", "/board/list");
+				rttr.addFlashAttribute("returnTo", "diary/list");
 				
 			}else{
 				rttr.addFlashAttribute("result", "[ERROR] 로그인에 실패하였습니다.");
-				rttr.addFlashAttribute("returnTo", "/member/login");
+				rttr.addFlashAttribute("returnTo", "member/login");
 			}	
 		}catch(Exception e){
 			rttr.addFlashAttribute("result", "[ERROR] 로그인에 실패하였습니다.");
-			rttr.addFlashAttribute("returnTo", "/member/login");
+			rttr.addFlashAttribute("returnTo", "member/login");
 		}
 		return "redirect:/";
 	}
@@ -111,6 +114,7 @@ public class MemberController {
 		ResponseEntity<Map<String, Object>> result = null;
 		
 		session.removeAttribute("auth");
+		session.removeAttribute("diary");
 		rttr.addFlashAttribute("result", "로그아웃되었습니다.");
 		rttr.addFlashAttribute("returnTo", "/member/login");
 	

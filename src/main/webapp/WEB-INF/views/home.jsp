@@ -1,25 +1,36 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
-<html>
-<head>
-	<title>Home</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script type="text/javascript">
-		var result = "${result}";
-		var returnTo = "${returnTo}";
-		if(result != ""){
-			alert(result);
-			location.href="${pageContext.request.contextPath }"+"/"+returnTo;
-		}
-	</script>
-</head>
-
-<body>
-<h1>
-	Hello world!  
-</h1>
-
-<P>  The time on the server is ${serverTime}. </P>
-</body>
-</html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="include/header.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<script>
+	<c:if test="${!empty result }">
+		alert("${result }");
+		<c:if test="${!empty returnTo }">
+			location.href = '${pageContext.request.contextPath }/${returnTo }';
+		</c:if>
+	</c:if>
+</script>
+<section class="content">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3" >
+			<div class="box">
+				<div class="box-body">
+					<c:if test="${!empty dList }">
+						<c:forEach items="${dList }" var="diary">
+							<div>
+								<p>${diary.dtitle }</p>
+							</div>
+						</c:forEach>
+					</c:if>
+					<c:if test="${empty dList }">
+						<c:forEach items="${dList }" var="diary">
+							<p>다이어리가 없습니다.</p>
+						</c:forEach>
+					</c:if>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<%@ include file="include/footer.jsp" %>

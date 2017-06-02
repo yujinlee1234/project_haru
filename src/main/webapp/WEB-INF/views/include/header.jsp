@@ -131,12 +131,16 @@
             	<c:if test="${!empty auth }">
               		<p>${auth.uid }</p>
               		<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+              		 <c:if test="${!empty diary }">
+		            	<a href="${pageContext.request.contextPath }/board/list">${diary.dtitle }</a>  		
+		       		</c:if>
               	</c:if>
               	<c:if test="${empty auth }">
               		<br>
               		<a href="${pageContext.request.contextPath }/member/login"><i class="fa fa-circle text-fail"></i> Offline</a>
               	</c:if>              
             </div>
+           
           </div>
         </section>
         <!-- /.sidebar -->
