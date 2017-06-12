@@ -17,6 +17,7 @@
 
     <!-- Theme CSS -->
     <link href="${pageContext.request.contextPath }/resources/css/freelancer.min.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath }/resources/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
 
 	<!-- Switch(Toggle radio/checkbox) CSS -->
 	<link href="${pageContext.request.contextPath }/resources/css/bootstrap-switch.min.css" rel="stylesheet">
@@ -51,7 +52,7 @@
     <!-- Theme JavaScript -->
     <script src="${pageContext.request.contextPath }/resources/js/freelancer.min.js"></script>
     <style type="text/css">
-    	section.haru_section{width:85%; height:700px;margin: 0 auto; margin-top:100px; overflow: scroll;}
+    	section.haru_section{height:740px; margin-top:100px; overflow: auto;}   	
     </style>
 </head>
 
@@ -81,9 +82,55 @@
                     <li class="page-scroll">
                         <a href="${pageContext.request.contextPath }/board/list.do">당신의 하루</a>
                     </li>
-                    <li class="page-scroll">
-                        <a href="#contact">Contact</a>
-                    </li>
+                    <li class="dropdown user user-menu">
+		                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		                	<c:if test="${!empty auth }">
+		                		<c:if test="${!empty auth.upic }">
+		                			<img src="${pageContext.request.contextPath }/display?filename=${auth.upic } class="user-image" alt="User Image"/>
+		                		</c:if>
+		                		<c:if test="${!empty auth.upic }">
+		                			<img src="${pageContext.request.contextPath }/resources/img/user.png" class="user-image" alt="User Image"/>
+		                		</c:if>
+		                  		<span class="hidden-xs">${auth.uid }님</span>
+		                	</c:if>
+		                  	<c:if test="${empty auth }">
+		                  		<img src="${pageContext.request.contextPath }/resources/img/user.png" class="user-image" alt="User Image"/>
+		                  		<span class="hidden-xs">로그인</span>
+		                  	</c:if>
+		                </a>
+		                <ul class="dropdown-menu">
+		                  <!-- User image -->
+		                  <li class="user-header">
+		                    <img src="${pageContext.request.contextPath }/resources/img/user2.png" class="img-circle" alt="User Image" />
+		                    <c:if test="${!empty auth }">
+		                    	<p>
+			                      ${auth.uid }
+			                    </p>
+		                    </c:if>
+		                    <c:if test="${empty auth }">
+		                    	<p>
+			                      	로그인이 필요합니다
+			                    </p>
+		                    </c:if>                    
+		                  </li>
+		                  <!-- Menu Footer-->
+		                  <li class="user-footer">
+		                    <c:if test="${empty auth }">
+			                    <div class="pull-left">
+			                      <a href="${pageContext.request.contextPath }/member/join" class="btn btn-default btn-flat">회원가입</a>
+			                    </div>
+			                    <div class="pull-right">
+			                      <a href="${pageContext.request.contextPath }/member/login.do" class="btn btn-default btn-flat">로그인</a>
+			                    </div>
+		                    </c:if>
+		                    <c:if test="${!empty auth }">
+			                    <div class="pull-right">
+			                      <a href="${pageContext.request.contextPath }/member/logout" class="btn btn-default btn-flat">로그아웃</a>
+			                    </div>
+		                    </c:if>
+		                  </li>
+		                </ul>
+		              </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

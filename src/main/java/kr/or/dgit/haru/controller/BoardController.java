@@ -4,7 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -65,6 +67,32 @@ public class BoardController {
 		return "/board/list2";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/list.do/{dno}", method=RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getAllBoardByDno3(HttpSession session, @PathVariable int dno){
+		ResponseEntity<Map<String, Object>> result = null;
+		Map<String, Object> rMap = new HashMap<>();
+		
+		List<BoardVO> bList = null;
+		DiaryVO diary = dService.selectDiaryByDno(dno);
+		bList = bService.selectAllBoard(dno);
+		if(session.getAttribute("auth") == null){
+			List<BoardVO> boardList = new ArrayList<>();
+			for(BoardVO vo:bList){
+				if(vo.isBopen() == true){
+					boardList.add(vo);
+				}
+			}
+			rMap.put("bList", boardList);
+		}else{
+			rMap.put("bList", bList);
+		}
+		rMap.put("diary", diary);
+		result = new ResponseEntity<Map<String, Object>>(rMap, HttpStatus.OK);
+				
+		return result;
+	}
+	
 	/**각 다이어리별 게시글 가져오는 메소드 현재는 회원 당 하나의 다이어리만 가능 하므로 
 	 * 회원의 아이디를 통해 다이어리 dno 가져옴
 	 * */
@@ -97,7 +125,7 @@ public class BoardController {
 		model.addAttribute("diary", diary);
 		model.addAttribute("bList", boardList);
 				
-		return "/board/list";
+		return "/board/list2";
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.GET)

@@ -11,7 +11,7 @@
 		</c:if>
 	</c:if>
 </script>
-<section class="content">
+<section class="content haru_section">
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3" >
 			<div class="box">

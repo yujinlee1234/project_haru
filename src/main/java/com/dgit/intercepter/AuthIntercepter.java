@@ -29,7 +29,7 @@ public class AuthIntercepter extends HandlerInterceptorAdapter{
 		Object auth = request.getSession().getAttribute(LOGIN);
 		if(auth==null){
 			logger.info("go login");
-			response.sendRedirect(request.getContextPath()+"/member/login");
+			response.sendRedirect(request.getContextPath()+"/member/login.do");
 			return false;
 		}
 		

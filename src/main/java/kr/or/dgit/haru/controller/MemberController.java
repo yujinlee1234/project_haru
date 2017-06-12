@@ -51,15 +51,15 @@ public class MemberController {
 				session.setAttribute("auth", auth);
 				
 				rttr.addFlashAttribute("result", auth.getUid()+"님 반갑습니다.");
-				rttr.addFlashAttribute("returnTo", "diary/list");
+				rttr.addFlashAttribute("returnTo", "board/list.do");
 				
 			}else{
 				rttr.addFlashAttribute("result", "[ERROR] 로그인에 실패하였습니다.");
-				rttr.addFlashAttribute("returnTo", "member/login");
+				rttr.addFlashAttribute("returnTo", "member/login.do");
 			}	
 		}catch(Exception e){
 			rttr.addFlashAttribute("result", "[ERROR] 로그인에 실패하였습니다.");
-			rttr.addFlashAttribute("returnTo", "member/login");
+			rttr.addFlashAttribute("returnTo", "member/login.do");
 		}
 		return "redirect:/";
 	}
@@ -69,6 +69,14 @@ public class MemberController {
 	@RequestMapping(value="/login", method = RequestMethod.GET)
 	public String loginService(){		
 		return "/user/login";
+	}
+	
+	/** login test를 위함 임시 페이지와 임시 method(login page 제공)
+	 * */
+	
+	@RequestMapping(value="/login.do", method = RequestMethod.GET)
+	public String loginService2(){		
+		return "/user/login2";
 	}
 	
 	/** login test를 위함 임시 페이지와 임시 method(login page 제공)
@@ -92,7 +100,7 @@ public class MemberController {
 		try{
 			uService.insertUser(uVO);			
 			rttr.addFlashAttribute("result", "회원가입에 성공하였습니다.");
-			rttr.addFlashAttribute("returnTo", "member/login");
+			rttr.addFlashAttribute("returnTo", "member/login.do");
 		
 		}catch(Exception e){
 			rttr.addFlashAttribute("result", "[ERROR]회원가입에 실패하였습니다.");
@@ -115,9 +123,7 @@ public class MemberController {
 		
 		session.removeAttribute("auth");
 		session.removeAttribute("diary");
-		rttr.addFlashAttribute("result", "로그아웃되었습니다.");
-		rttr.addFlashAttribute("returnTo", "member/login");
-	
+		rttr.addFlashAttribute("result", "로그아웃되었습니다.");	
 		return "redirect:/";
 	}
 	

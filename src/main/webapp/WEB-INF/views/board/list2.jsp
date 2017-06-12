@@ -46,17 +46,19 @@
 									</a>
 									<figcaption>${board.bcontent }(${board.bopen})</figcaption>
 								</figure>
-								<p class="switch">									
-									<a class="openSwitchA">
-									<input type="hidden" value="${board.bno }">
-									<c:if test="${board.bopen }">
-										<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="mini" class="openSwitch" checked=true data-state=true >
-									</c:if>
-									<c:if test="${!board.bopen }">
-										<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="mini" class="openSwitch" checked=false data-state=false >
-									</c:if>
-									</a>
-								</p>
+								
+									<p class="switch">									
+										<a class="openSwitchA">
+										<input type="hidden" value="${board.bno }">
+										<c:if test="${board.bopen }">
+											<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="mini" class="openSwitch" checked=true data-state=true >
+										</c:if>
+										<c:if test="${!board.bopen }">
+											<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="mini" class="openSwitch" checked=false data-state=false >
+										</c:if>
+										</a>
+									</p>
+								
 							</div>
 						</c:forEach>
 					</c:if>
@@ -143,6 +145,11 @@
 	
 	$(function(){
 		//$("input.openSwitch").bootstrapSwitch();
+		var uid = "${auth.uid}";
+		var dUid = "${diary.uid}";
+		if(uid == "" || dUid != uid){
+			$("p.switch").css("display", "none");
+		}
 		
 		$(".showImage").click(function(){
 			var path = $(this).find("img").attr("alt");

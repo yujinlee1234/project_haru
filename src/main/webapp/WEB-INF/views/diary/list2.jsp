@@ -20,43 +20,43 @@
             <hr class="star-primary">
         </div>
         <div class="row">
-        <c:if test="${!empty dList }">
-			<c:forEach items="${dList }" var="diary">
-				<div class="col-sm-4 portfolio-item pItem">
-                    <a href="${pageContext.request.contextPath }/board/list/${diary.dno }" class="portfolio-link">
-                        <c:if test="${!empty diary.dpic }">
-							<img alt="${diary.originalname }" src="${pageContext.request.contextPath }/display?filename=${diary.dpic }" class="img-responsive">
-						</c:if>
-						<c:if test="${empty diary.dpic }">
-							<img alt="" src="${pageContext.request.contextPath }/resources/img/empty-folder.png" class="img-responsive">
-						</c:if>                        
-                    </a>
-                    <div class="portfolio-caption">
-                        <h4>${diary.dtitle }</h4>
-                        <p class="text-muted"></p>
-                    </div>
-                </div>
-			</c:forEach>
-		</c:if>
-		<c:if test="${empty dList }">			
-			<div class="col-sm-4 portfolio-item">
-                   <a href="#">
-                       <div class="caption">
-                           <div class="caption-content">
-                               <i class="fa fa-search-plus fa-3x"></i>
-                           </div>
-                       </div>
-                       <img alt="" src="${pageContext.request.contextPath }/resources/dist/img/empty-folder.png" class="img-circle img-responsive">
-                   </a>
-                   <div class="portfolio-caption">
-                       <h4></h4>
-                       <p class="text-muted"> 등록된 다이어리가 없습니다. </p>
-                   </div>
-               </div>		
-		</c:if>
-       
-        </div>
-
+	        <div class="col-lg-8 col-lg-offset-2">
+		        <c:if test="${!empty dList }">
+					<c:forEach items="${dList }" var="diary">
+						<div class="col-sm-4 portfolio-item pItem">
+		                    <a href="${pageContext.request.contextPath }/board/list/${diary.dno }" class="portfolio-link">
+		                        <c:if test="${!empty diary.dpic }">
+									<img alt="${diary.originalname }" src="${pageContext.request.contextPath }/display?filename=${diary.dpic }" class="img-responsive">
+								</c:if>
+								<c:if test="${empty diary.dpic }">
+									<img alt="" src="${pageContext.request.contextPath }/resources/img/empty-folder.png" class="img-responsive">
+								</c:if>                        
+		                    </a>
+		                    <div class="portfolio-caption">
+		                        <h4>${diary.dtitle }</h4>
+		                        <p class="text-muted"></p>
+		                    </div>
+		                </div>
+					</c:forEach>
+				</c:if>
+				<c:if test="${empty dList }">			
+					<div class="col-sm-4 portfolio-item">
+		                   <a href="#">
+		                       <div class="caption">
+		                           <div class="caption-content">
+		                               <i class="fa fa-search-plus fa-3x"></i>
+		                           </div>
+		                       </div>
+		                       <img alt="" src="${pageContext.request.contextPath }/resources/dist/img/empty-folder.png" class="img-circle img-responsive">
+		                   </a>
+		                   <div class="portfolio-caption">
+		                       <h4></h4>
+		                       <p class="text-muted"> 등록된 다이어리가 없습니다. </p>
+		                   </div>
+		               </div>		
+				</c:if>
+	       </div>
+       </div>
 	</div>
 </section>
 

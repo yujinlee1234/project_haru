@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../include/header.jsp" %>
+<%@ include file="../include/header2.jsp" %>
 <style>
 	input[type='checkbox']{display: block;}
 </style>
 <section class="content">
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-6 col-md-offset-3">
 			<div class="box">
 				<div class="box-header with-border">
 					<h3 class="box-title">다이어리 등록</h3>
@@ -54,5 +54,5 @@
 		}
 	});
 </script>
-<%@ include file="../include/footer.jsp" %>
+<%@ include file="../include/footer2.jsp" %>
 
