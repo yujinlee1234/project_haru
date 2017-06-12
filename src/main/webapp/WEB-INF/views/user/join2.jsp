@@ -10,44 +10,46 @@
 </style>
 <section class="content haru_section">
 	<div class="row">
-		<div class="col-lg-12 text-center">
-            <h3>회원 가입</h3>
-            <hr class="star-primary">
-        </div>
 		<div class="col-md-8 col-md-offset-2">
 			<div class="box">
-				<form role="form" id="form1" action="${pageContext.request.contextPath }/member/join" method="post">
-					<div class="form-group">
-						<label>아이디</label>
-						<div class="input-group">
-							<input type="text" placeholder="Enter ID" name="uid" class="form-control" required="required">
-							<span class="input-group-btn" style="width:10%;">
-								<button type="button" class="btn btn-primary" id="chkID">중복 확인</button>
-							</span>
+				<div class="box-header with-border">
+					<h1>
+				      	<small>회원 가입</small>
+				    </h1>
+				</div>
+				<div class="box-body">
+					<form role="form" id="form1" action="${pageContext.request.contextPath }/member/join" method="post">
+						<div class="form-group">
+							<label>아이디</label>
+							<div class="input-group">
+								<input type="text" placeholder="Enter ID" name="uid" class="form-control" style="width: 90%;" required="required">
+								<span class="input-group-btn" style="width:10%;">
+									<button type="button" class="btn btn-primary" id="chkID">중복 확인</button>
+								</span>
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label>비밀번호</label>
-						<input type="password" placeholder="Enter Password" name="upass" class="form-control inputPw" required="required">
-					</div>
-					<div class="form-group">
-						<label>비밀번호 확인</label>
-						<input type="password" placeholder="Enter Password" class="form-control inputPw" id="upwChk">
-						<span id="pwCheck"></span>
-					</div>						
-					<div class="form-group">
-						<label>이름</label>
-						<input type="text" placeholder="Enter Name" name="uname" class="form-control" required="required">
-					</div>
-					<div class="form-group">
-						<label>이메일</label>
-						<input type="text" placeholder="Enter Email" name="umail" class="form-control" required="required">
-					</div>
-					<div class="form-group text-center">
-						<button type="submit" class="btn btn-primary">회원가입</button>
-					</div>
-				</form>
-				
+						<div class="form-group">
+							<label>비밀번호</label>
+							<input type="password" placeholder="Enter Password" name="upass" class="form-control inputPw" required="required">
+						</div>
+						<div class="form-group">
+							<label>비밀번호 확인</label>
+							<input type="password" placeholder="Enter Password" class="form-control inputPw" id="upwChk">
+							<span id="pwCheck"></span>
+						</div>						
+						<div class="form-group">
+							<label>이름</label>
+							<input type="text" placeholder="Enter Name" name="uname" class="form-control" required="required">
+						</div>
+						<div class="form-group">
+							<label>이메일</label>
+							<input type="text" placeholder="Enter Email" name="umail" class="form-control" required="required">
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary">회원가입</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -53,6 +53,8 @@
     <script src="${pageContext.request.contextPath }/resources/js/freelancer.min.js"></script>
     <style type="text/css">
     	section.haru_section{height:740px; margin-top:100px; overflow: auto;}   	
+    	.text-left{text-align: left !important;}
+    	.text-right{text-align: right !important;}
     </style>
 </head>
 
@@ -88,7 +90,7 @@
 		                		<c:if test="${!empty auth.upic }">
 		                			<img src="${pageContext.request.contextPath }/display?filename=${auth.upic } class="user-image" alt="User Image"/>
 		                		</c:if>
-		                		<c:if test="${!empty auth.upic }">
+		                		<c:if test="${empty auth.upic }">
 		                			<img src="${pageContext.request.contextPath }/resources/img/user.png" class="user-image" alt="User Image"/>
 		                		</c:if>
 		                  		<span class="hidden-xs">${auth.uid }님</span>

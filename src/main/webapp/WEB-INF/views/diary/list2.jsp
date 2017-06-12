@@ -23,7 +23,7 @@
 	        <div class="col-lg-8 col-lg-offset-2">
 		        <c:if test="${!empty dList }">
 					<c:forEach items="${dList }" var="diary">
-						<div class="col-sm-4 portfolio-item pItem">
+						<div class="col-sm-4 portfolio-item pItem text-center">
 		                    <a href="${pageContext.request.contextPath }/board/list/${diary.dno }" class="portfolio-link">
 		                        <c:if test="${!empty diary.dpic }">
 									<img alt="${diary.originalname }" src="${pageContext.request.contextPath }/display?filename=${diary.dpic }" class="img-responsive">
@@ -40,7 +40,7 @@
 					</c:forEach>
 				</c:if>
 				<c:if test="${empty dList }">			
-					<div class="col-sm-4 portfolio-item">
+					<div class="col-sm-4 portfolio-item text-center">
 		                   <a href="#">
 		                       <div class="caption">
 		                           <div class="caption-content">

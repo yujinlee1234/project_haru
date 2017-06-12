@@ -23,7 +23,7 @@
 								<label>비밀번호</label>
 								<input type="password" placeholder="Enter Password" name="upass" class="form-control inputPw">
 							</div>
-							<div class="form-group">
+							<div class="form-group text-center">
 								<button type="submit" class="btn btn-primary">로그인</button>
 							</div>
 						</form>
