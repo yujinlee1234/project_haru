@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="include/header.jsp" %>
+<%@ include file="include/header2.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script>
@@ -33,4 +33,4 @@
 		</div>
 	</div>
 </section>
-<%@ include file="include/footer.jsp" %>
+<%@ include file="include/footer2.jsp" %>

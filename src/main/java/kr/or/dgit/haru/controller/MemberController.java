@@ -92,11 +92,11 @@ public class MemberController {
 		try{
 			uService.insertUser(uVO);			
 			rttr.addFlashAttribute("result", "회원가입에 성공하였습니다.");
-			rttr.addFlashAttribute("returnTo", "/member/login");
+			rttr.addFlashAttribute("returnTo", "member/login");
 		
 		}catch(Exception e){
 			rttr.addFlashAttribute("result", "[ERROR]회원가입에 실패하였습니다.");
-			rttr.addFlashAttribute("returnTo", "/member/join");
+			rttr.addFlashAttribute("returnTo", "member/join");
 		}
 		return "redirect:/";
 	}
@@ -116,7 +116,7 @@ public class MemberController {
 		session.removeAttribute("auth");
 		session.removeAttribute("diary");
 		rttr.addFlashAttribute("result", "로그아웃되었습니다.");
-		rttr.addFlashAttribute("returnTo", "/member/login");
+		rttr.addFlashAttribute("returnTo", "member/login");
 	
 		return "redirect:/";
 	}

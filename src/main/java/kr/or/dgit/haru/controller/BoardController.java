@@ -3,6 +3,7 @@ package kr.or.dgit.haru.controller;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -19,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -49,6 +51,24 @@ public class BoardController {
 	 * 회원의 아이디를 통해 다이어리 dno 가져옴
 	 * */
 	
+	@RequestMapping(value="/list.do", method=RequestMethod.GET)
+	public String getAllBoardByDno2(HttpSession session, Model model){
+		AuthDTO auth = (AuthDTO) session.getAttribute("auth");
+		
+		List<DiaryVO> dList = dService.selectDiaryByUid(auth.getUid());
+		List<BoardVO> bList = null;
+		if(!dList.isEmpty()){
+			bList = bService.selectAllBoard(dList.get(0).getDno());
+			model.addAttribute("diary", dList.get(0));
+			model.addAttribute("bList", bList);
+		}		
+		return "/board/list2";
+	}
+	
+	/**각 다이어리별 게시글 가져오는 메소드 현재는 회원 당 하나의 다이어리만 가능 하므로 
+	 * 회원의 아이디를 통해 다이어리 dno 가져옴
+	 * */
+	
 	@RequestMapping(value="/list", method=RequestMethod.GET)
 	public String getAllBoardByDno(HttpSession session, Model model){
 		AuthDTO auth = (AuthDTO) session.getAttribute("auth");
@@ -60,6 +80,23 @@ public class BoardController {
 			model.addAttribute("diary", dList.get(0));
 			model.addAttribute("bList", bList);
 		}		
+		return "/board/list";
+	}
+	
+	@RequestMapping(value="/list/{dno}", method=RequestMethod.GET)
+	public String getAllBoardByDno(HttpSession session, Model model, @PathVariable int dno){
+		List<BoardVO> bList = null;
+		DiaryVO diary = dService.selectDiaryByDno(dno);
+		bList = bService.selectAllBoard(dno);
+		List<BoardVO> boardList = new ArrayList<>();
+		for(BoardVO vo:bList){
+			if(vo.isBopen() == true){
+				boardList.add(vo);
+			}
+		}
+		model.addAttribute("diary", diary);
+		model.addAttribute("bList", boardList);
+				
 		return "/board/list";
 	}
 	
@@ -114,4 +151,20 @@ public class BoardController {
 		return filenames;
 	}	
 	
+	@ResponseBody
+	@RequestMapping(value="/modifyOpen/{bno}", method=RequestMethod.POST)
+	public String changeOpen(@PathVariable int bno, HttpSession session, Model model){		
+		String result = "";
+		BoardVO bVO = bService.selectBoardByBno(bno);
+		bVO.setBopen(!bVO.isBopen());
+		
+		try{
+			bService.updateBoard(bVO);
+			result = bVO.isBopen()+"";			
+		}catch(Exception e){
+			e.printStackTrace();
+			result="fail";
+		}
+		return result;
+	}
 }

@@ -110,7 +110,7 @@
 			console.log("File Name : "+filename);
 			console.log("Path : "+path);
 			if(path != ""){
-				$("#modalImg").attr("src","display?filename="+path);
+				$("#modalImg").attr("src","${pageContext.request.contextPath }/display?filename="+path);
 			}else{
 				$("#modalImg").attr("src","${pageContext.request.contextPath }/resources/dist/img/empty-folder.png");
 			}

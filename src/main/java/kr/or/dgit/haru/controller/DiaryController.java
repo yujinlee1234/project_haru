@@ -31,6 +31,20 @@ public class DiaryController {
 	
 	@Resource(name="uploadPath")
 	private String uploadPath;
+	/** 오늘의 일기 탭으로 진입시 보여줄 화면 return 
+	 * */
+	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
+	public String selectDiaryAll(Model model, HttpSession session){
+		try{
+			List<DiaryVO> dList = dService.selectAllDiary();
+			if(dList.size()>0){
+				session.setAttribute("dList", dList);
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}		
+		return "/diary/list2";
+	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String selectDiary(Model model, HttpSession session){
