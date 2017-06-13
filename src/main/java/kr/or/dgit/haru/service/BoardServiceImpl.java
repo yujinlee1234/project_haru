@@ -1,5 +1,6 @@
 package kr.or.dgit.haru.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -30,9 +31,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> selectBoardByBDate(int year, int month) {
+	public List<BoardVO> selectBoardByBDate(int year, int month, int dno) {
 		// TODO Auto-generated method stub
-		return bDao.selectBoardByBDate(year, month);
+		return bDao.selectBoardByBDate(year, month, dno);
 	}
 
 	@Transactional
@@ -90,6 +91,12 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> selectBoardScrap(String uid) {
 		// TODO Auto-generated method stub
 		return bDao.selectBoardScrap(uid);
+	}
+
+	@Override
+	public BoardVO selectBoardByDate(Date date, int dno) {
+		// TODO Auto-generated method stub
+		return bDao.selectBoardByDate(date, dno);
 	}
 
 }

@@ -29,7 +29,7 @@
 									<img alt="${diary.originalname }" src="${pageContext.request.contextPath }/display?filename=${diary.dpic }" class="img-responsive">
 								</c:if>
 								<c:if test="${empty diary.dpic }">
-									<img alt="" src="${pageContext.request.contextPath }/resources/img/empty-folder.png" class="img-responsive">
+									<img alt="" src="${pageContext.request.contextPath }/resources/img/book-with-bookmark.png" class="img-responsive">
 								</c:if>                        
 		                    </a>
 		                    <div class="portfolio-caption">
@@ -47,7 +47,7 @@
 		                               <i class="fa fa-search-plus fa-3x"></i>
 		                           </div>
 		                       </div>
-		                       <img alt="" src="${pageContext.request.contextPath }/resources/dist/img/empty-folder.png" class="img-circle img-responsive">
+		                       <img alt="" src="${pageContext.request.contextPath }/resources/dist/img/book-with-bookmark.png" class="img-circle img-responsive">
 		                   </a>
 		                   <div class="portfolio-caption">
 		                       <h4></h4>

@@ -31,6 +31,8 @@
 		<interceptor>
 			<mapping path="/board/list"/>
 			<mapping path="/board/list.do"/>
+			<mapping path="/board/add.do"/>
+			<mapping path="/board/del.do"/>
 			<mapping path="/board/add"/>
 			<mapping path="/board/del"/>
 			<beans:ref bean="authIntercepter"/>

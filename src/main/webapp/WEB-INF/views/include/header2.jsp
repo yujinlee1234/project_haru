@@ -55,7 +55,10 @@
     	section.haru_section{height:740px; margin-top:100px; overflow: auto;}   	
     	.text-left{text-align: left !important;}
     	.text-right{text-align: right !important;}
+    	#logo{width:30px; margin-left:10px; display: inline-block !important;}
+    	
     </style>
+    
 </head>
 
 <body id="page-top" class="index">
@@ -69,7 +72,7 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="${pageContext.request.contextPath }/">당신의 하루</a>
+                <a class="navbar-brand" href="${pageContext.request.contextPath }/">당신의 하루<img id="logo" src="${pageContext.request.contextPath }/resources/img/cherry-blossom.png"></a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->

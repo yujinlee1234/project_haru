@@ -10,3 +10,7 @@ insert into project_haru.`user` values('admin', 'lyj9513@naver.com', 'admin', nu
 select * from project_haru.diary;
 
 update project_haru.diary set dopen = true where dno = 5;
+
+select * from project_haru.view_board where bdate = 1497279600000 and dno = 1;
+
+select * from project_haru.view_board where dno = 1 and year(bdate) = 2017 and month(bdate) = 4;

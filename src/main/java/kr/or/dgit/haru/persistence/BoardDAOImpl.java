@@ -1,5 +1,7 @@
 package kr.or.dgit.haru.persistence;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,11 +33,12 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 	
 	@Override
-	public List<BoardVO> selectBoardByBDate(int year, int month) {
+	public List<BoardVO> selectBoardByBDate(int year, int month, int dno) {
 		// TODO Auto-generated method stub
 		Map<String, Integer> dMap = new HashMap<>();
 		dMap.put("year", year);
 		dMap.put("month", month);
+		dMap.put("dno", dno);
 		return session.selectList(namespace+".selectBoardByBDate", dMap);
 	}
 	
@@ -93,6 +96,17 @@ public class BoardDAOImpl implements BoardDAO {
 	public int deleteAllBoardToday(int dno) {
 		// TODO Auto-generated method stub
 		return session.delete(namespace+".deleteAllBoardToday", dno);
+	}
+
+	@Override
+	public BoardVO selectBoardByDate(Date date, int dno) {
+		// TODO Auto-generated method stub
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		Map<String, Object> rMap = new HashMap<>();
+		rMap.put("date", date);
+		rMap.put("dno", dno);
+		return session.selectOne(namespace+".selectBoardByDate", rMap);
 	}
 
 }

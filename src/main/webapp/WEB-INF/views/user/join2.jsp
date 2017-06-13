@@ -24,7 +24,7 @@
 							<div class="input-group">
 								<input type="text" placeholder="Enter ID" name="uid" class="form-control" style="width: 90%;" required="required">
 								<span class="input-group-btn" style="width:10%;">
-									<button type="button" class="btn btn-primary" id="chkID">중복 확인</button>
+									<button type="button" class="btn btn-danger" id="chkID">중복 확인</button>
 								</span>
 							</div>
 						</div>

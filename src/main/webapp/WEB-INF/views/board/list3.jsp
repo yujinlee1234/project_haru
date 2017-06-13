@@ -12,238 +12,34 @@
 	div#noItem figure{width: 100%; text-align: center;}
 	#delBtn{display: none;}
 	#cancelBtn{display: none;}
-	table#dTable{width:100%; table-layout: fixed;}
-	table#dTable th, td{border:1px solid black;}
-	table#dTable td img{width:90%;}
-	form#delForm{width:100%;}
-	.tdDate{float: left;margin-left: 10px;}
-	a.showImage{width:100px; height: 100px; display: block; clear: both; }
-	a.showImage img{display:inline !important; line-height: 100px;}
 </style>
 <section class="content haru_section">
 	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
+		<div class="col-md-10 col-md-offset-1">
 			<div class="box">
 				<div class="box-header text-center">
 					<h3>${diary.dtitle }</h3>
 					<hr class="star-primary">
 				</div>
+				<div class="box-body text-center">
+					<button id="addBtn" class="btn btn-success">일기 등록</button>
+					<span class="boardDel">		
+						<button id="allDelBtn" class="btn btn-warning">전체 삭제</button>
+						<button id="selDelBtn" class="btn btn-primary">선택 삭제</button>	
+					</span>
+					<span class="selectDel">
+						<button id="delBtn" class="btn btn-danger">삭제</button>
+						<button id="cancelBtn" class="btn">취소</button>
+					</span>
+							
+				</div>
 			</div>
 			<div class="box">
 				<div class="box-header with-border">
-					<h4 class=" text-center"><a href="#">&lt;</a><span id="dMonth"></span><a href="#">&gt;</a></h4>
 				</div>
 				<div class="box-body">
-				<form id="delForm" method="post">
-					<table id="dTable" >						
-							<tr class="text-center">
-								<th style="color: red">SUN</th>
-								<th>MON</th>
-								<th>TUE</th>
-								<th>WED</th>
-								<th>THR</th>
-								<th>FRI</th>
-								<th style="color: blue">SAT</th>
-							</tr>
-							<tr>
-								<td style="color: red">SUN</td>
-								<td>
-								<div class="text-center">
-								<%-- <p class="text-left">	
-									<input type="checkbox" name="delFiles" class="pCheck" value="${bList.get(0).bno }">									
-									1		
-								</p> --%>	
-								<p class="switch text-right">	
-									<span class="tdDate">1</span>		
-									<a class="openSwitchA">
-									<input type="hidden" value="${bList.get(0).bno }">
-									<c:if test="${bList.get(0).bopen }">
-										<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="mini" class="openSwitch" checked=true data-state=true >
-									</c:if>
-									<c:if test="${!bList.get(0).bopen }">
-										<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="mini" class="openSwitch" checked=false data-state=false >
-									</c:if>
-									</a>
-								</p>						
-								<figure>
-									<a href="#" class="showImage">
-										<c:if test="${!empty bList.get(0).bpic }">
-											<img alt="${bList.get(0).originalname }" src="${pageContext.request.contextPath }/display?filename=${bList.get(0).bpic }">
-										</c:if>
-										<c:if test="${empty bList.get(0).bpic }">
-											<img alt="" src="${pageContext.request.contextPath }/resources/img/empty-folder.png">
-										</c:if>
-									</a>
-									<%-- <figcaption>${bList.get(0).bcontent }(${bList.get(0).bopen})</figcaption> --%>
-								</figure>
-								
-									
-								
-							</div></td>
-								<td>TUE</td>
-								<td>WED</td>
-								<td>THR</td>
-								<td>FRI</td>
-								<td style="color: blue">SAT</td>
-							</tr>
-							<tr>
-								<td style="color: red">SUN</td>
-								<td>
-								<div class="text-center">
-								<span class="text-left">	
-									<input type="checkbox" name="delFiles" class="pCheck" value="${bList.get(0).bno }">									
-									1		
-								</span>							
-								<figure>
-									<a href="#" class="showImage">
-										<c:if test="${!empty bList.get(0).bpic }">
-											<img alt="${bList.get(0).originalname }" src="${pageContext.request.contextPath }/display?filename=${bList.get(0).bpic }">
-										</c:if>
-										<c:if test="${empty bList.get(0).bpic }">
-											<img alt="" src="${pageContext.request.contextPath }/resources/img/empty-folder.png">
-										</c:if>
-									</a>
-									<figcaption>${bList.get(0).bcontent }(${bList.get(0).bopen})</figcaption>
-								</figure>
-								
-									<p class="switch text-right">			
-										<a class="openSwitchA">
-										<input type="hidden" value="${bList.get(0).bno }">
-										<c:if test="${bList.get(0).bopen }">
-											<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="mini" class="openSwitch" checked=true data-state=true >
-										</c:if>
-										<c:if test="${!bList.get(0).bopen }">
-											<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="mini" class="openSwitch" checked=false data-state=false >
-										</c:if>
-										</a>
-									</p>
-								
-							</div></td>
-								<td>TUE</td>
-								<td>WED</td>
-								<td>THR</td>
-								<td>FRI</td>
-								<td style="color: blue">SAT</td>
-							</tr>
-							<tr>
-								<td style="color: red">SUN</td>
-								<td>
-								<div class="text-center">
-								<span class="text-left">	
-									<input type="checkbox" name="delFiles" class="pCheck" value="${bList.get(0).bno }">									
-									1		
-								</span>							
-								<figure>
-									<a href="#" class="showImage">
-										<c:if test="${!empty bList.get(0).bpic }">
-											<img alt="${bList.get(0).originalname }" src="${pageContext.request.contextPath }/display?filename=${bList.get(0).bpic }">
-										</c:if>
-										<c:if test="${empty bList.get(0).bpic }">
-											<img alt="" src="${pageContext.request.contextPath }/resources/img/empty-folder.png">
-										</c:if>
-									</a>
-									<figcaption>${bList.get(0).bcontent }(${bList.get(0).bopen})</figcaption>
-								</figure>
-								
-									<p class="switch text-right">			
-										<a class="openSwitchA">
-										<input type="hidden" value="${bList.get(0).bno }">
-										<c:if test="${bList.get(0).bopen }">
-											<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="mini" class="openSwitch" checked=true data-state=true >
-										</c:if>
-										<c:if test="${!bList.get(0).bopen }">
-											<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="mini" class="openSwitch" checked=false data-state=false >
-										</c:if>
-										</a>
-									</p>
-								
-							</div></td>
-								<td>TUE</td>
-								<td>WED</td>
-								<td>THR</td>
-								<td>FRI</td>
-								<td style="color: blue">SAT</td>
-							</tr>
-							<tr>
-								<td style="color: red">SUN</td>
-								<td>
-								<div class="text-center">
-								<span class="text-left">	
-									<input type="checkbox" name="delFiles" class="pCheck" value="${bList.get(0).bno }">									
-									1		
-								</span>							
-								<figure>
-									<a href="#" class="showImage">
-										<c:if test="${!empty bList.get(0).bpic }">
-											<img alt="${bList.get(0).originalname }" src="${pageContext.request.contextPath }/display?filename=${bList.get(0).bpic }">
-										</c:if>
-										<c:if test="${empty bList.get(0).bpic }">
-											<img alt="" src="${pageContext.request.contextPath }/resources/img/empty-folder.png">
-										</c:if>
-									</a>
-									<figcaption>${bList.get(0).bcontent }(${bList.get(0).bopen})</figcaption>
-								</figure>
-								
-									<p class="switch text-right">			
-										<a class="openSwitchA">
-										<input type="hidden" value="${bList.get(0).bno }">
-										<c:if test="${bList.get(0).bopen }">
-											<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="mini" class="openSwitch" checked=true data-state=true >
-										</c:if>
-										<c:if test="${!bList.get(0).bopen }">
-											<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="mini" class="openSwitch" checked=false data-state=false >
-										</c:if>
-										</a>
-									</p>
-								
-							</div></td>
-								<td>TUE</td>
-								<td>WED</td>
-								<td>THR</td>
-								<td>FRI</td>
-								<td style="color: blue">SAT</td>
-							</tr>
-							<tr>
-								<td style="color: red">SUN</td>
-								<td>
-								<div class="text-center">
-								<span class="text-left">	
-									<input type="checkbox" name="delFiles" class="pCheck" value="${bList.get(0).bno }">									
-									1		
-								</span>							
-								<figure>
-									<a href="#" class="showImage">
-										<c:if test="${!empty bList.get(0).bpic }">
-											<img alt="${bList.get(0).originalname }" src="${pageContext.request.contextPath }/display?filename=${bList.get(0).bpic }">
-										</c:if>
-										<c:if test="${empty bList.get(0).bpic }">
-											<img alt="" src="${pageContext.request.contextPath }/resources/img/empty-folder.png">
-										</c:if>
-									</a>
-									<figcaption>${bList.get(0).bcontent }(${bList.get(0).bopen})</figcaption>
-								</figure>
-								
-									<p class="switch text-right">			
-										<a class="openSwitchA">
-										<input type="hidden" value="${bList.get(0).bno }">
-										<c:if test="${bList.get(0).bopen }">
-											<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="mini" class="openSwitch" checked=true data-state=true >
-										</c:if>
-										<c:if test="${!bList.get(0).bopen }">
-											<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="mini" class="openSwitch" checked=false data-state=false >
-										</c:if>
-										</a>
-									</p>
-								
-							</div></td>
-								<td>TUE</td>
-								<td>WED</td>
-								<td>THR</td>
-								<td>FRI</td>
-								<td style="color: blue">SAT</td>
-							</tr>
-					</table>
-					<%-- <c:if test="${!empty bList }">
+					<form id="delForm" method="post">
+					<c:if test="${!empty bList }">
 						<c:forEach items="${bList }" var="board">
 							<div class="pItem col-sm-1">
 								<p>
@@ -287,22 +83,8 @@
 						</div>						
 					</c:if>
 					</form>
-				</div> --%>
-				<br>
-				<div class="text-center">
-					<button id="addBtn" class="btn btn-success">일기 등록</button>
-					<span class="boardDel">		
-						<button id="allDelBtn" class="btn btn-warning">전체 삭제</button>
-						<button id="selDelBtn" class="btn btn-primary">선택 삭제</button>	
-					</span>
-					<span class="selectDel">
-						<button id="delBtn" class="btn btn-danger">삭제</button>
-						<button id="cancelBtn" class="btn">취소</button>
-					</span>
-							
 				</div>
 			</div>
-			
 		</div>
 	</div>
 </section>
@@ -368,13 +150,11 @@
 	}
 	
 	$(function(){
-		setmonth();
-		
 		//$("input.openSwitch").bootstrapSwitch();
 		var uid = "${auth.uid}";
 		var dUid = "${diary.uid}";
 		if(uid == "" || dUid != uid){
-			$("a.openSwitchA").css("display", "none");
+			$("p.switch").css("display", "none");
 		}
 		
 		$(".showImage").click(function(){
@@ -497,11 +277,6 @@
 			location.href="${pageContext.request.contextPath }/board/add.do";
 		});
 	});//ready
-	
-	function setmonth(){
-		var date = new Date();
-		$("#dMonth").text(date.getFullYear()+"."+((date.getMonth()+1)<10?"0"+(date.getMonth()+1):(date.getMonth()+1)));
-	}
 	
 	function setScreen(){
 		var $delForm = $("#delForm");

@@ -10,7 +10,10 @@
 		select * from project_haru.view_board where bno = #{bno}
 	</select>
 	<select id="selectBoardByBDate" parameterType="int" resultType="BoardVO">
-		select * from project_haru.view_board where year(bdate) = #{year} and month(bdate) = #{month}
+		select * from project_haru.view_board where year(bdate) = #{year} and month(bdate) = #{month} and dno=#{dno} order by bdate
+	</select>
+	<select id="selectBoardByDate" resultType="BoardVO">
+		select * from project_haru.view_board where bdate = #{date} and dno = #{dno}
 	</select>
 
 	<select id="selectBoardScrap" resultType="BoardVO">
@@ -24,8 +27,8 @@
 		<selectKey resultType="int" keyProperty="bno" order="AFTER">
 			select last_insert_id()
 		</selectKey>		
-		insert into project_haru.board(bpic, bcontent, bopen, dno) 
-		values(#{bpic}, #{bcontent}, #{bopen}, #{dno})
+		insert into project_haru.board(bpic, bcontent, bopen, dno, bdate) 
+		values(#{bpic}, #{bcontent}, #{bopen}, #{dno}, #{bdate})
 	</insert>
 	
 	<insert id="insertBoardToday" parameterType="BoardVO">
@@ -52,11 +55,11 @@
 	</delete>
 	
 	<delete id="deleteAllBoard" parameterType="int">
-		delete from project_haru.board where dno=#{dno}
+		delete from project_haru.board where dno = #{dno}
 	</delete>
 	
 	<delete id="deleteAllBoardToday" parameterType="int">
-		delete from project_haru.board_today where dno=#{dno}
+		delete from project_haru.board_today where bno=#{bno}
 	</delete>
 	
 </mapper>
