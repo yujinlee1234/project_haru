@@ -13,16 +13,18 @@
 	#delBtn{display: none;}
 	#cancelBtn{display: none;}
 	table#dTable{width:100%; table-layout: fixed;}
-	table#dTable .tdCheck{float: left;}
-	table#dTable .tdSwitch{float: right;}
+	table#dTable .tdCheck{float: left; margin-left: 10px; margin-top: 10px;}
+	table#dTable .tdSwitch{float: right;margin-top: 10px; margin-right: 5px;}
 	table#dTable figure{clear:both;}
 	table#dTable th, td{border:1px solid black;}
-	table#dTable td{height: 150px; vertical-align: top; padding: 10px 0 0 10px;}
+	table#dTable td{height: 150px; vertical-align: top;}
 	table#dTable td img{width:90%;}
 	form#delForm{width:100%;}
 	.tdDate{float: left;margin-left: 10px;}
 	a.showImage{width:90%; height: 100px; display: inline-block; clear: both; }
 	a.showImage img{display:inline !important; width:100%; height: 90%; line-height: 100px;}
+	img.emptyImg{width:50px !important; height: 50px !important;margin:0 auto; margin-top: 25px;}
+	div#diary-modal{width:80%; margin: 0 auto; }
 </style>
 <section class="content haru_section">
 	<div class="row">
@@ -75,9 +77,11 @@
         <h4 class="modal-title">${diary.dtitle }</h4>
       </div>
       <div class="modal-body">
-      	<span id="bdate"></span>
-        <img alt="" src="" id="modalImg"><br>
-        <span id="fileName"></span>
+      	<div id="diary-modal">
+	      	<p class="text-left" id="bdate"></p>
+	        <img alt="" src="" id="modalImg"><br>
+	        <span id="fileName"></span>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -110,9 +114,9 @@
   </div>
 </div>
 <style>
-	#myModal .modal-dialog{width:70% !important;}
+	#myModal .modal-dialog{width:60% !important;}
 	#myModal .modal-dialog .modal-body{text-align: center;}
-	#myModal .modal-dialog #modalImg{width: 80%;}
+	#myModal .modal-dialog #modalImg{width: 100%;}
 </style>
 <script>
  	//var result = "${result}";
@@ -151,7 +155,7 @@
 				$("#modalImg").attr("src","${pageContext.request.contextPath }/resources/img/empty-folder.png");
 			}
 			$("#bdate").html(bdate);
-			$("#fileName").html('<h3>'+bcontent+'</h3><p class="text-right"><small>오늘 하루는?<span style="color: purple">'+btoday+'</span></samll></p>');
+			$("#fileName").html('<h3>'+bcontent+'</h3><p class="text-right"><small>오늘 하루는?<span id="btodayTag" style="color: purple">'+btoday+'</span></samll></p>');
 			$(this).attr("data-toggle","modal").attr("data-target","#myModal");
 			 //data-toggle="modal" data-target="#myModal"
 		});
@@ -397,7 +401,7 @@
 						tableForm += '<figure>';
 						tableForm += '<a href="#" class="showImage">';
 						if(bList[bIndex].bpic == null || bList[bIndex].bpic == undefined || bList[bIndex].bpic == ""){
-							tableForm += '<img alt="" src="${pageContext.request.contextPath }/resources/img/cherry-blossom_b.png">';
+							tableForm += '<img class="emptyImg" alt="" src="${pageContext.request.contextPath }/resources/img/cherry-blossom_b.png">';
 						}else{
 							tableForm += '<img alt="'+bList[bIndex].originalname +'" src="${pageContext.request.contextPath }/display?filename='+bList[bIndex].bpic+'">';
 						}
