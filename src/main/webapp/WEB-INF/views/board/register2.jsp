@@ -37,7 +37,7 @@
 							<input type="hidden" name="bopen">
 						</div>
 						<div class="form-group text-center">
-							<button type="button" class="btn btn-primary" id="btnAdd">사진 추가</button>
+							<button type="button" class="btn btn-primary" id="btnAdd">일기 쓰기</button>
 							<button type="reset" class="btn btn-warning" id="btnBack">취소</button>
 						</div>
 					</form>

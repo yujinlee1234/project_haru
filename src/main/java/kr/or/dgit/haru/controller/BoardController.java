@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -120,6 +121,77 @@ public class BoardController {
 		}		
 	}
 	
+	@RequestMapping(value="/mod.do/{bno}", method=RequestMethod.GET)
+	public String modifyBoardService(HttpSession session, Model model, RedirectAttributes rttr, @PathVariable int bno){	
+		try{
+			BoardVO board = bService.selectBoardByBno(bno);
+			AuthDTO auth = (AuthDTO) session.getAttribute("auth");
+			
+			List<DiaryVO> dList = dService.selectDiaryByUid(auth.getUid());
+			if(dList.isEmpty()){
+				rttr.addFlashAttribute("result","일기를 수정할 다이어리가 없습니다. 다이어리를 생성해 주세요.");
+				rttr.addFlashAttribute("returnTo", "diary/add.do");
+				return "redirect:/";
+			}else{
+				if(dList.get(0).getDno() == board.getDno()){
+					model.addAttribute("board", board);
+					return "/board/modify";
+				}else{
+					rttr.addFlashAttribute("result","일기를 수정할 권한이 없습니다.");
+					rttr.addFlashAttribute("returnTo", "board/list.do/"+board.getDno());
+					return "redirect:/";
+				}
+				
+				
+			}		
+		}catch(Exception e){
+			e.printStackTrace();
+			rttr.addFlashAttribute("result","[ERROR] 잠시후 다시 시도해 주세요.");
+			rttr.addFlashAttribute("returnTo", "diary/list.do");
+			return "redirect:/";
+		}
+		
+	}
+	
+	@RequestMapping(value="/mod", method=RequestMethod.POST)
+	public String modifyBoardServicePost(HttpSession session, String date, BoardVO bVO, MultipartFile imagefiles, RedirectAttributes rttr){	
+		try{
+			AuthDTO auth = (AuthDTO) session.getAttribute("auth");
+			
+			List<DiaryVO> dList = dService.selectDiaryByUid(auth.getUid());
+			if(dList.isEmpty()){
+				rttr.addFlashAttribute("result","일기를 수정할 다이어리가 없습니다. 다이어리를 생성해 주세요.");
+				rttr.addFlashAttribute("returnTo", "diary/add.do");
+				return "redirect:/";
+			}else{
+				if(dList.get(0).getDno() == bVO.getDno()){
+					String files = setFileList(imagefiles);// 등록된 사진
+					if(files != ""){
+						deleteFile(bVO);
+						bVO.setBpic(files);
+					}
+					
+					bService.updateBoard(bVO);
+					rttr.addFlashAttribute("result","일기를 성공적으로 수정하였습니다.");
+					rttr.addFlashAttribute("returnTo", "board/list.do");
+					return "redirect:/";
+				}else{
+					rttr.addFlashAttribute("result","일기를 수정할 권한이 없습니다.");
+					rttr.addFlashAttribute("returnTo", "board/list.do/");
+					return "redirect:/";
+				}
+				
+				
+			}		
+		}catch(Exception e){
+			e.printStackTrace();
+			rttr.addFlashAttribute("result","[ERROR] 잠시후 다시 시도해 주세요.");
+			rttr.addFlashAttribute("returnTo", "diary/list.do");
+			return "redirect:/";
+		}
+		
+	}
+	
 	@RequestMapping(value="/del.do",method=RequestMethod.GET)
 	public String getAllDel(HttpSession session, RedirectAttributes rttr){//전체 삭제
 		try{
@@ -232,8 +304,13 @@ public class BoardController {
 	public String createBoardService(HttpSession session, String date, BoardVO bVO, MultipartFile imagefiles, RedirectAttributes rttr){
 		
 		try{
-			Date bdate = ProjectHaru.dateFormat.parse(date);
-			bVO.setBdate(bdate);
+			Calendar bdate = Calendar.getInstance();
+			bdate.setTime(ProjectHaru.dateFormat.parse(date));
+			Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.YEAR, bdate.get(Calendar.YEAR));
+			cal.set(Calendar.MONTH, bdate.get(Calendar.MONTH));
+			cal.set(Calendar.DATE, bdate.get(Calendar.DATE));
+			bVO.setBdate(cal.getTime());
 			System.out.println("BoardVO : "+bVO);
 			System.out.println("imagefile : "+imagefiles);
 			String files = setFileList(imagefiles);// 등록된 사진

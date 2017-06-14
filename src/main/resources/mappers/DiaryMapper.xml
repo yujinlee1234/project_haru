@@ -12,7 +12,7 @@
 	</resultMap>
 	
 	<select id="selectAllDiary" resultType="DiaryVO">
-		select d.dno, d.dtitle, d.dpic, d.ddate, d.dopen, max(b.bdate)
+		select d.dno, d.dtitle, d.dpic, d.ddate, d.dopen, max(b.bdate), d.uid
 		from project_haru.diary as d 
 		left join project_haru.board as b on d.dno = b.dno 
 		where d.dopen = true and b.bopen = true 

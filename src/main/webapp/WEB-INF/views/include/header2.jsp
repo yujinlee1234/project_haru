@@ -52,7 +52,7 @@
     <!-- Theme JavaScript -->
     <script src="${pageContext.request.contextPath }/resources/js/freelancer.min.js"></script>
     <style type="text/css">
-    	section.haru_section{height:740px; margin-top:100px; overflow: auto;}   	
+    	section.haru_section{height:810px; margin-top:100px; overflow: auto;}   	
     	.text-left{text-align: left !important;}
     	.text-right{text-align: right !important;}
     	#logo{width:30px; margin-left:10px; display: inline-block !important;}
@@ -129,6 +129,9 @@
 			                    </div>
 		                    </c:if>
 		                    <c:if test="${!empty auth }">
+		                    	<div class="pull-left">
+			                      <a href="${pageContext.request.contextPath }/member/logout" class="btn btn-default btn-flat">회원 정보</a>
+			                    </div>
 			                    <div class="pull-right">
 			                      <a href="${pageContext.request.contextPath }/member/logout" class="btn btn-default btn-flat">로그아웃</a>
 			                    </div>

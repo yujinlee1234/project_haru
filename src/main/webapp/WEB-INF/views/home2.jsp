@@ -16,7 +16,7 @@
 		<div class="col-md-6 col-md-offset-3" >
 			<div class="box">
 				<div class="box-body">
-					<c:if test="${!empty dList }">
+					<%-- <c:if test="${!empty dList }">
 						<c:forEach items="${dList }" var="diary">
 							<div>
 								<p><a href="${pageContext.request.contextPath }/board/list/${diary.dno }" >${diary.dtitle }</a></p>
@@ -27,7 +27,7 @@
 						<c:forEach items="${dList }" var="diary">
 							<p>다이어리가 없습니다.</p>
 						</c:forEach>
-					</c:if>
+					</c:if> --%>
 				</div>
 			</div>
 		</div>

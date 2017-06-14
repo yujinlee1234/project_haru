@@ -45,7 +45,10 @@ public class DiaryController {
 		}		
 		return "/diary/list2";
 	}
-	
+	@RequestMapping(value = "/add.do", method = RequestMethod.GET)
+	public String createDiary2(){		
+		return "/diary/register";
+	}
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String selectDiary(Model model, HttpSession session){
 		try{
@@ -68,7 +71,7 @@ public class DiaryController {
 	public String createDiary(DiaryVO dVO, MultipartFile imagefiles, HttpSession session, RedirectAttributes rttr){
 		
 		try{
-			
+			dVO.isDopen();
 			if(imagefiles != null){
 				String thumb = UploadFileUtils.uploadFile(uploadPath, imagefiles.getOriginalFilename(), imagefiles.getBytes());
 				dVO.setDpic(thumb);
@@ -80,10 +83,10 @@ public class DiaryController {
 			
 			dService.insertDiary(auth.getUid(), dVO);
 			rttr.addFlashAttribute("result", "다이어리를 성공적으로 등록하였습니다.");
-			rttr.addFlashAttribute("returnTo", "diary/list");
+			rttr.addFlashAttribute("returnTo", "board/list.do");
 		}catch (Exception e){
 			rttr.addFlashAttribute("result", "[ERROR]다이어리 등록에 실패하였습니다.");
-			rttr.addFlashAttribute("returnTo", "diary/list");
+			rttr.addFlashAttribute("returnTo", "board/list.do");
 			e.printStackTrace();
 		}		
 		return "redirect:/";

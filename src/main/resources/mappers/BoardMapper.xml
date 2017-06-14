@@ -13,7 +13,7 @@
 		select * from project_haru.view_board where year(bdate) = #{year} and month(bdate) = #{month} and dno=#{dno} order by bdate
 	</select>
 	<select id="selectBoardByDate" resultType="BoardVO">
-		select * from project_haru.view_board where bdate = #{date} and dno = #{dno}
+		select * from project_haru.view_board where dno = #{dno} and date(bdate) = #{date};
 	</select>
 
 	<select id="selectBoardScrap" resultType="BoardVO">

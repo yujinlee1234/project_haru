@@ -33,7 +33,7 @@
 								</c:if>                        
 		                    </a>
 		                    <div class="portfolio-caption">
-		                        <h4>${diary.dtitle }</h4>
+		                        <h4>${diary.dtitle }<br><small>${diary.uid }님</small></h4>
 		                        <p class="text-muted"></p>
 		                    </div>
 		                </div>

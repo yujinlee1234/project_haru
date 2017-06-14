@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.dgit.haru.domain.AuthDTO;
 import kr.or.dgit.haru.domain.BoardVO;
+import kr.or.dgit.haru.util.ProjectHaru;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -104,7 +105,7 @@ public class BoardDAOImpl implements BoardDAO {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		Map<String, Object> rMap = new HashMap<>();
-		rMap.put("date", date);
+		rMap.put("date", ProjectHaru.dateFormat.format(date));
 		rMap.put("dno", dno);
 		return session.selectOne(namespace+".selectBoardByDate", rMap);
 	}

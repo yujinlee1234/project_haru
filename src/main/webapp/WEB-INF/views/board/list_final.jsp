@@ -4,14 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <style>
-	div.pItem{width:200px; float: left; margin: 10px;}
-	.pItem .pCheck{display: none; float: left;}
-	.pItem p{text-align: right;padding-right: 22px;}
-	.pItem img{width: 178px; height: 100px;}
-	.pItem figcaption{text-align: right; padding-right: 22px;}
-	div#noItem figure{width: 100%; text-align: center;}
 	#delBtn{display: none;}
 	#cancelBtn{display: none;}
+	
 	table#dTable{width:100%; table-layout: fixed;}
 	table#dTable .tdCheck{float: left; margin-left: 10px; margin-top: 10px;}
 	table#dTable .tdSwitch{float: right;margin-top: 10px; margin-right: 5px;}
@@ -19,16 +14,22 @@
 	table#dTable th, td{border:1px solid black;}
 	table#dTable td{height: 150px; vertical-align: top;}
 	table#dTable td img{width:90%;}
+	
 	form#delForm{width:100%;}
 	.tdDate{float: left;margin-left: 10px;}
+	
 	a.showImage{width:90%; height: 100px; display: inline-block; clear: both; }
 	a.showImage img{display:inline !important; width:100%; height: 90%; line-height: 100px;}
+	
 	img.emptyImg{width:50px !important; height: 50px !important;margin:0 auto; margin-top: 25px;}
-	div#diary-modal{width:80%; margin: 0 auto; }
+	button.btn_haru{width:85px !important;}
+	div.board-user{position: relative;}
+	div#board-user-btn{width:90px; position: fixed; top:300px; right:50px; }
 </style>
+
 <section class="content haru_section">
 	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
+		<div class="col-md-6 col-md-offset-3">
 			<div class="box">
 				<div class="box-header text-center">
 					<h3>${diary.dtitle }</h3>
@@ -37,7 +38,11 @@
 			</div>
 			<div class="box">
 				<div class="box-header with-border">
-					<h4 class=" text-center"><a href="#" id="goPrev">&lt;</a><span id="dMonth"></span><a href="#" id="goNext">&gt;</a></h4>
+					<h4 class=" text-center">
+						<a href="#" id="goPrev">&lt;&nbsp;&nbsp;&nbsp;</a>
+						<span id="dMonth"></span>
+						<a href="#" id="goNext">&nbsp;&nbsp;&nbsp;&gt;</a>
+					</h4>
 				</div>
 				<div class="box-body">
 				<form id="delForm" method="post">
@@ -48,28 +53,28 @@
 				</div>
 				
 				<br>
-				
 			</div>
 			
 		</div>
 		<div class="text-center col-md-1 board-user">
-			<button id="addBtn" class="btn btn-success">일기 등록</button>
-			<span class="boardDel">				
-				<button id="selDelBtn" class="btn btn-primary">선택 삭제</button>	
-				<button id="allDelBtn" class="btn btn-warning">전체 삭제</button>
-			</span>
-			<span class="selectDel">
-				<button id="delBtn" class="btn btn-danger">삭제</button>
-				<button id="cancelBtn" class="btn">취소</button>
-			</span>
-					
+			<div id="board-user-btn">
+				<button id="addBtn" class="btn btn-success btn_haru">일기 등록</button>
+				<span class="boardDel">				
+					<button id="selDelBtn" class="btn btn-primary btn_haru">선택 삭제</button>	
+					<button id="allDelBtn" class="btn btn-warning btn_haru">전체 삭제</button>
+				</span>
+				<span class="selectDel">
+					<button id="delBtn" class="btn btn-danger btn_haru">삭제</button>
+					<button id="cancelBtn" class="btn btn_haru">취소</button>
+				</span>
+			</div>
 		</div>
 	</div>
 </section>
+
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
@@ -80,44 +85,32 @@
       	<div id="diary-modal">
 	      	<p class="text-left" id="bdate"></p>
 	        <img alt="" src="" id="modalImg"><br>
-	        <span id="fileName"></span>
+	        <div id="fileName">
+	        	<h3 id="bcontent"></h3>
+	        	<p id="btoday"></p>
+	        </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- Modal -->
-<div id="openModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">다이어리 공개</h4>
-      </div>
-      <div class="modal-body">
-        <p id="openText"></p>        
-      </div>
-      <div class="modal-footer">
-      	<input type="hidden" value="" id="openBno">
-      	<button type="button" class="btn btn-success" id="btnBopen">확인</button>
-        <button type="button" class="btn btn-default" id="btnCancel" data-dismiss="modal">취소</button>
+      	<input type="hidden" value="" id="modalBno">
+      	<button type="button" class="btn btn-primary" id="btnMod">수정</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
       </div>
     </div>
 
   </div>
 </div>
 <style>
-	#myModal .modal-dialog{width:60% !important;}
-	#myModal .modal-dialog .modal-body{text-align: center;}
-	#myModal .modal-dialog #modalImg{width: 100%;}
+	#myModal .modal-dialog{width:600px !important;}
+	#myModal .modal-dialog .modal-content{ height:800px !important;}
+	#myModal .modal-dialog .modal-body{ width:600px !important; height:680px !important; text-align: center;}
+	#myModal .modal-dialog .modal-body #diary-modal{margin: 0 auto; position:relative; width:500px; height:660px; padding : 10px 30px; border: 1px solid #ccc; box-shadow:1px 1px 1px #ccc;}
+	#myModal .modal-dialog .modal-body #diary-modal p, #myModal .modal-dialog .modal-body #diary-modal div#fileName{width:400px; margin: 0 auto;margin-bottom:5px; display: block;}
+	#myModal .modal-dialog .modal-footer{height: 60px !important;}
+	#myModal .modal-dialog #modalImg{width: 400px; height:500px;}
+	#myModal #btoday{position: absolute; text-align:right !important; bottom:10px; }
 </style>
+
 <script>
  	//var result = "${result}";
 	if("${result}"=="SUCCESS"){
@@ -134,29 +127,47 @@
 	var dUid = "${diary.uid}";
 	
 	$(function(){
+		
+		<c:if test="${empty diary}">
+			alert("다이어리가 존재하지 않습니다. 다이어리를 먼저 등록해 주세요.");
+			location.href = "${pageContext.request.contextPath }/diary/add.do";
+		</c:if>
+		<c:if test="${!empty diary}">
 		var today = new Date();
 		var date = setmonth(today);
 		setScreen(date);
 		//본인만 일기 등록/삭제 가능하도록
 		if(uid == "" || dUid != uid){
 			$("div.board-user").css("display", "none");
+			$("#btnMod").css("display","none");
 		}
+		</c:if>
 		
 		$(document).on("click",".showImage", function(){
 			var path = $(this).find("img").attr("alt");
 			var bcontent = $(this).find(".bcontent").val();
 			var btoday = $(this).find(".btoday").val();
 			var bdate = $(this).find(".bdate").val();
+			var bno = $(this).find(".bno").val();
 			
 			console.log("Path : "+path);
+			$("#bdate").html(bdate);
+			$("#bcontent").text(bcontent);
+			$("#btoday").html('<small>오늘 하루는?<span id="btodayTag" style="color: purple">'+btoday+'</span></samll>');
+			$("#modalBno").val(bno);
 			if(path != ""){
+				$("#modalImg").css("display","block");
+				$("#fileName").css("margin-top","0px");
+				$("#fileName h3").css("margin-bottom","0px");
 				$("#modalImg").attr("src","${pageContext.request.contextPath }/display?filename="+path);
 			}else{
-				$("#modalImg").attr("src","${pageContext.request.contextPath }/resources/img/empty-folder.png");
+				$("#modalImg").css("display","none");
+				$("#fileName").css("margin-top","200px");
+				$("#fileName h3").css("margin-bottom","400px");
+				//$("#modalImg").attr("src","${pageContext.request.contextPath }/resources/img/empty-folder.png");
 			}
-			$("#bdate").html(bdate);
-			$("#fileName").html('<h3>'+bcontent+'</h3><p class="text-right"><small>오늘 하루는?<span id="btodayTag" style="color: purple">'+btoday+'</span></samll></p>');
-			$(this).attr("data-toggle","modal").attr("data-target","#myModal");
+			
+			//$(this).attr("data-toggle","modal").attr("data-target","#myModal");
 			 //data-toggle="modal" data-target="#myModal"
 		});
 		
@@ -210,59 +221,14 @@
 				$("#delForm").submit();
 				
 			}
-		});//선택 삭제 버튼
-		
-		
-		
-		$("#btnBopen").click(function(){
-			var bno = $("#openBno").val();
-			console.log(bno);
-			$.ajax({
-				url:"${pageContext.request.contextPath }/board/modifyOpen/"+bno,
-				type:"post",
-				async:true,
-				dataType:"text",
-				success:function(result){
-					console.log(result)
-					if(result=='fail'){
-						alert('[ERROR] 일기를 공개/비공개하지 못했습니다.');
-						return false;
-					}else if(result=='true'){
-						alert("일기가 공개 되었습니다.");
-						
-					}else if(result=='false'){
-						alert("일기가 비공개 되었습니다.");
-					}
-					$("#btnCancel").click();
-				}
-			});
-		});
-		
-		$("#btnCancel").click(function(){
-			//bootStrapSwitch 다시 원위치로 되돌릴 필요있음 
-		});
-		
-		$(document).on("click",".openSwitchA",function(){
-			var bno = $(this).find("input[type='hidden']").val();
-			var opened = $(this).find("input.openSwitch").prop("checked");
-			console.log(bno);
-			$("#openBno").val(bno);
-			$("#openText").text(opened==true?"일기를 공개하시겠습니까?":"일기를 비공개 하시겠습니까?");
-			$(this).attr("data-toggle","modal").attr("data-target","#openModal");
-		}); 
-		
-		$(document).on('switchChange.bootstrapSwitch', 'input.openSwitch', function(event, state) {			
-			$(this).parents(".openSwitchA").click();
-			  console.log(this); // DOM element
-			  console.log(event); // jQuery event
-			  console.log(state); // true | false
-		});		
+		});//선택 삭제 버튼	
 		
 		$("#addBtn").click(function(){
 			var addToday = new Date();
 			location.href="${pageContext.request.contextPath }/board/add.do?date="+addToday.getTime();
 		});
 		
+		// 이전 달 달력 보여주기
 		$("#goPrev").click(function(){
 			console.log(date);
 			date.setMonth(date.getMonth()-1);
@@ -271,7 +237,7 @@
 			console.log("GO PREV AFTER: "+date);
 			setScreen(date);
 		});
-		
+		// 다음 달 달력 보여주기
 		$("#goNext").click(function(){
 			console.log(date);
 			date.setMonth(date.getMonth()+1);
@@ -280,10 +246,58 @@
 			console.log("GO NEXT AFTER: "+date);
 			setScreen(date);
 		});
+		// Modal 내 수정하기 버튼 클릭 시
+		$("#btnMod").click(function(){
+			var bno = $("#modalBno").val();
+			location.href="${pageContext.request.contextPath }/board/mod.do/"+bno;
+		});
+		
+		//일기 공개여부 Checkbox 클릭 시 
+		$(document).on("click",'.chkbox img', function () {
+			var bno = $(this).parent().find("input.checkBno").val();
+          //console.log("클릭된요소 : "+this );
+          //console.log($(this))
+          //console.log("클릭된요소의 부모요소 : "+ (this.parentElement));
+          //console.log($(this).parent())
+         
+          //체크 박스의 체크 유무를 확인하기 위해 checked값을 얻어옴.
+          	var $checkbox = $(this).parent().find('input[name="chk"]');
+          	var isChecked = $(this).parent().find('input[name="chk"]').prop("checked"); 
+         	console.log(isChecked); //boolean값으로 true, false    
+		  
+	        if(confirm("다이어리를 "+(isChecked==true?"비공개":"공개")+"하시겠습니까?")==true){
+	        	//현재의 체크 상태의 반대값을 저장( true이면 false로 )
+				isChecked = !isChecked;	            
+		  		console.log(bno);
+	  			$.ajax({
+	  				url:"${pageContext.request.contextPath }/board/modifyOpen/"+bno,
+	  				type:"post",
+	  				async:false,
+	  				dataType:"text",
+	  				success:function(result){
+	  					console.log(result)
+	  					if(result=='fail'){
+	  						alert('[ERROR] 일기를 공개/비공개하지 못했습니다.');
+	  						return false;
+	  					}else if(result=='true'){
+	  						alert("일기가 공개 되었습니다.");
+	  						
+	  					}else if(result=='false'){
+	  						alert("일기가 비공개 되었습니다.");
+	  					}
+	  					
+	  				}
+	 			});
+	  			//체크박스의 체크상태와 체크박스 이미지 변경 
+	    	    $(this).parent().find('input.chk').prop("checked", isChecked);
+	            $(this).attr("src", "${pageContext.request.contextPath }/resources/img/chkbox_" + isChecked + ".png");   
+	       	}          
+        });
+		
 	});//ready
 	
 	
-	
+	// 달력 Table 위 yyyy.MM 형태로 월 보여주기
 	function setmonth(date){
 		var today = new Date();		
 		if(date.getMonth() == today.getMonth() && date.getFullYear() == today.getFullYear()){
@@ -296,8 +310,12 @@
 		return date;
 	}
 	
+	// 달력 Table 구성하기 위한 ajax
 	function setScreen(dateObj){
-		var dno = ${diary.dno};
+		var dno = "";
+		<c:if test="${!empty diary}">
+			dno = ${diary.dno};
+		</c:if>
 		var year = dateObj.getFullYear();
 		var month = dateObj.getMonth()+1;
 		$.ajax({
@@ -310,18 +328,21 @@
 				console.log(data);
 				var bList = data.bList;
 				setTable(bList, dateObj);
-				setSwitch();
 				$(".pCheck").css("display", "none");
 				
-				if(uid == "" || dUid != uid){
-					$("a.openSwitchA").css("display", "none");
-				}
+				$("p.tdCheck a").css("color","black");
+				$("p.sun").css("color","red");
+				$("p.sat").css("color","blue");
+				$("p.sun a").css("color","red");
+				$("p.sat a").css("color","blue");
+				
 			}
 		});	
 	}
 	
 	// section 내 월별 다이어리 목록 보여주는 화면
 	function setTable(bList, dateObj){
+		var today = new Date();
 		console.log(bList);
 		console.log(bList.length);
 		
@@ -369,43 +390,49 @@
 					if(bList.length > 0 ){
 						boardDate = new Date(bList[bIndex].bdate);
 					}
-					if(j==0){
-						tableForm +='<td style="color: red">';
-					}else if(j==6){
-						tableForm +='<td style="color: blue">';
-					}else{
-						tableForm +='<td>';
-					}
+					tableForm +='<td>';
 					
 					if(bList.length>0 && dNum == boardDate.getDate()){
 						//td 시작
 						tableForm += '<div class="text-center">';
 						// 날짜 및 삭제 시 필요한 checkbox
-						tableForm += '<p class="tdCheck"><input type="checkbox" name="delFiles" class="pCheck" value="'+bList[bIndex].bno+'">'+dNum;
-						// 일기의 공개 여부
-												
-						tableForm += '<p class="switch tdSwitch">';
-						tableForm += '<a class="openSwitchA">';	
-						tableForm += '<input type="hidden" value="'+bList[bIndex].bno+'">';
-						
-						if(bList[bIndex].bopen == true){
-							tableForm += '<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="mini" class="openSwitch" checked=true data-state=true>';		
+						if(j==0){
+							tableForm +='<p class="tdCheck sun">';
+						}else if(j==6){
+							tableForm +='<p class="tdCheck sat">';
 						}else{
-							tableForm += '<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="mini" class="openSwitch" checked=false data-state=false>';	
+							tableForm +='<p class="tdCheck">';
 						}
 						
-						tableForm += '</a>';
-						tableForm += '</p>';	
+						tableForm += '<input type="checkbox" name="delFiles" class="pCheck" value="'+bList[bIndex].bno+'">'+dNum;
+						
+						
+						
+						// 일기의 공개 여부
+						if(uid != "" && dUid == uid){
+							tableForm += '<div class="wrap_chkbox">';
+							tableForm += '<div class="chkbox">';
+							if(bList[bIndex].bopen == true){
+								tableForm += '<input type="checkbox" name="chk" class="chk" checked=true/>';	
+							}else{
+								tableForm += '<input type="checkbox" name="chk" class="chk"/>';
+							}						
+							tableForm += '<img src="${pageContext.request.contextPath }/resources/img/chkbox_' + bList[bIndex].bopen + '.png"/>';
+							tableForm += '<input type="hidden" class="checkBno" value="'+bList[bIndex].bno+'"/>';
+							tableForm += '</div>';
+							tableForm += '</div>';
+						}
+						tableForm += '</p>';
 						
 						// 다이어리 사진
 						tableForm += '<figure>';
-						tableForm += '<a href="#" class="showImage">';
+						tableForm += '<a href="#myModal" data-toggle="modal" class="showImage">';
 						if(bList[bIndex].bpic == null || bList[bIndex].bpic == undefined || bList[bIndex].bpic == ""){
 							tableForm += '<img class="emptyImg" alt="" src="${pageContext.request.contextPath }/resources/img/cherry-blossom_b.png">';
 						}else{
 							tableForm += '<img alt="'+bList[bIndex].originalname +'" src="${pageContext.request.contextPath }/display?filename='+bList[bIndex].bpic+'">';
 						}
-						tableForm += '<input type="hidden" value="'+bList[bIndex].bcontent+'" class="bcontent"><input type="hidden" value="'+bList[bIndex].bdateForm+'" class="bdate"><input type="hidden" value="'+bList[bIndex].btoday+'" class="btoday">';
+						tableForm += '<input type="hidden" value="'+bList[bIndex].bno+'" class="bno"><input type="hidden" value="'+bList[bIndex].bcontent+'" class="bcontent"><input type="hidden" value="'+bList[bIndex].bdateForm+'" class="bdate"><input type="hidden" value="'+bList[bIndex].btoday+'" class="btoday">';
 						tableForm += '</a>';
 						tableForm += '</figure>';						
 						tableForm += '</div>';					
@@ -415,8 +442,21 @@
 							bIndex++;
 						}
 					}else{
+						
 						var date = new Date(y,m,dNum);
-						tableForm += '<p class="tdCheck"><a class="dateA" href="${pageContext.request.contextPath }/board/add.do?date='+date.getTime()+'">'+dNum+'</a></p></td>';
+						if(j==0){
+							tableForm +='<p class="tdCheck sun">';
+						}else if(j==6){
+							tableForm +='<p class="tdCheck sat">';
+						}else{
+							tableForm +='<p class="tdCheck">';
+						}
+						
+						if(date.getTime()<today.getTime()){
+							tableForm += '<a class="dateA" href="${pageContext.request.contextPath }/board/add.do?date='+date.getTime()+'">'+dNum+'</a></p></td>';
+						}else{
+							tableForm += dNum+'</p></td>';
+						}
 					}
 					
 					dNum++;
@@ -427,22 +467,33 @@
 		$("#dTable").append(tableForm);		
 	}
 	
-	function setSwitch(){
-		var sList = $("input.openSwitch");
-		if(sList.length > 0){
-			$("input.openSwitch").each(function(i, obj){
-				 console.log(obj);
-				var checked = $(obj).attr("data-state");
-				if(checked == 'false'){
-					$(this).bootstrapSwitch('state',false);
-				}else if(checked=='true'){
-					$(this).bootstrapSwitch('state',true);
-				}				
-			});	
-			
-			
-		}
-		
-	}
 </script>
+<style>
+	.wrap_chkbox {            
+	    text-align: left; 
+	    float: right;
+	    margin-right:5px;
+	    margin-top:5px;
+	    width:30px;
+	}
+	.wrap_chkbox .chkbox {
+	    display: inline-block;
+	    vertical-align: top; 
+	}
+	.wrap_chkbox .chkbox input[type=checkbox] {
+	    display: none; /*체크박스 이미지만 보여지게 하기 위해 none으로 설정*/
+	}
+	.wrap_chkbox .chkbox img {
+	    width: 40px; 
+	}
+	.wrap_chkbox p {
+	    
+	    margin-top:5px;
+	    padding-left: 5px;
+	    text-align: left;
+	    display: inline-block;
+	    vertical-align: middle; 
+	 }    
+
+</style>
 <%@ include file="../include/footer2.jsp" %>
