@@ -75,4 +75,10 @@ public class UserDAOImpl implements UserDAO{
 		return session.selectOne(namespace+".checkUser", uid);
 	}
 
+	@Override
+	public UserVO selectUser(String uid) {
+		// TODO Auto-generated method stub
+		return session.selectOne(namespace+".selectUser", uid);
+	}
+
 }

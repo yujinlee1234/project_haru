@@ -29,6 +29,10 @@
 	<beans:bean id="authIntercepter" class="com.dgit.intercepter.AuthIntercepter"/>
 	<interceptors>
 		<interceptor>
+			<mapping path="/diary/mylist.do"/>
+			<mapping path="/diary/add.do"/>
+			<mapping path="/diary/mod.do"/>
+			<mapping path="/diary/del.do"/>
 			<mapping path="/board/list"/>
 			<mapping path="/board/list.do"/>
 			<mapping path="/board/add.do"/>
@@ -36,6 +40,10 @@
 			<mapping path="/board/mod.do"/>
 			<mapping path="/board/add"/>
 			<mapping path="/board/del"/>
+			<mapping path="/member/info.do"/>
+			<mapping path="/member/check"/>
+			<mapping path="/member/mod"/>
+			<mapping path="/member/exit"/>
 			<beans:ref bean="authIntercepter"/>
 		</interceptor>
 	</interceptors>

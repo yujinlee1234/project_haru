@@ -40,7 +40,7 @@
 		values (#{dtitle}, #{dpic}, #{dopen}, now(), #{uid})
 	</insert>
 	<update id="updateDiary" parameterType="DiaryVO">
-		update project_haru.diary set dtitle = #{dtitle}, dpic = #{dpic}, dopen = #{dopen} where dno = #{dno} 
+		update project_haru.diary set dtitle = #{dtitle}, dopen = #{dopen}, dpic = #{dpic} where dno = #{dno} 
 	</update>
 	<delete id="deleteDiary">
 		delete from project_haru.diary where dno = #{dno}

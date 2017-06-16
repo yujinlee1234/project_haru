@@ -34,5 +34,9 @@
 	<select id="checkUser" resultType="AuthDTO">
 		select uid, uadmin, upic from project_haru.`user` where uid = #{uid} 
 	</select>
+	<select id="selectUser" resultType="UserVO">
+		select * from project_haru.`user` where uid = #{uid} 
+	</select>
+	
 	
 </mapper>

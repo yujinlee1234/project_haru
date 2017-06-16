@@ -129,8 +129,7 @@
 	$(function(){
 		
 		<c:if test="${empty diary}">
-			alert("다이어리가 존재하지 않습니다. 다이어리를 먼저 등록해 주세요.");
-			location.href = "${pageContext.request.contextPath }/diary/add.do";
+			location.href = "${pageContext.request.contextPath }/diary/mylist.do";
 		</c:if>
 		<c:if test="${!empty diary}">
 		var today = new Date();
@@ -301,9 +300,9 @@
 	function setmonth(date){
 		var today = new Date();		
 		if(date.getMonth() == today.getMonth() && date.getFullYear() == today.getFullYear()){
-			$("#goNext").css("display","none");
+			$("#goNext").css("opacity","0");
 		}else{
-			$("#goNext").css("display","inline");
+			$("#goNext").css("opacity","1");
 		}
 		$("#dMonth").text(date.getFullYear()+"."+((date.getMonth()+1)<10?"0"+(date.getMonth()+1):(date.getMonth()+1)));
 		
@@ -453,9 +452,10 @@
 						}
 						
 						if(date.getTime()<today.getTime()){
-							tableForm += '<a class="dateA" href="${pageContext.request.contextPath }/board/add.do?date='+date.getTime()+'">'+dNum+'</a></p></td>';
+							var aTitle = y+'-'+((m+1)<10?"0"+(m+1):(m+1))+'-'+((dNum)<10?"0"+(dNum):(dNum));
+							tableForm += '<a class="dateA" title="'+aTitle+'" href="${pageContext.request.contextPath }/board/add.do?date='+date.getTime()+'">'+dNum+'</a></p></td>';
 						}else{
-							tableForm += dNum+'</p></td>';
+							tableForm += '<a class="dateA" title="일기를 등록할 수 없는 날짜입니다.">'+dNum+'</a></p></td>';
 						}
 					}
 					

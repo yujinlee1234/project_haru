@@ -3,6 +3,8 @@
 <%@ include file="../include/header2.jsp" %>
 <style>
 	input[type='checkbox']{display: block;}
+	input[type='file']{clear: both;}
+	
 </style>
 <section class="content haru_section">
 	<div class="row">
@@ -15,6 +17,7 @@
 				<div class="box-body">
 					<form role="form" id="addForm" method="post" enctype="multipart/form-data">
 						<input type="hidden" name="bno" value=${board.bno }>
+						<input type="hidden" name="dno" value=${board.dno }>
 						<div class="form-group">
 							<label>오늘은?</label>
 							<input type="date" name="date" value=${board.bdateForm } class="form-control" required="required" disabled="disabled">
@@ -22,9 +25,14 @@
 						<div class="form-group">
 							<label>오늘의 이미지</label><br>
 							<c:if test="${!empty board.bpic }">
-								<p>
-									<small>${board.getOriginalFilename() }</small>
-								</p>
+								
+									<p id="ori_pic">
+										<input type="hidden" name="bpic" value="${board.bpic }">
+										<img alt="" src="${pageContext.request.contextPath }/display?filename=${board.bpic}" style="width:80px;">
+										<small>${board.getOriginalFilename() }</small>
+										<button id="btnPicDel" type="button" class="btn btn-flat" title="이미지 삭제">X</button>
+									</p>
+								
 							</c:if>
 							<c:if test="${empty board.bpic }">
 								<p><small>등록된 이미지가 없습니다.</small></p>
@@ -45,7 +53,7 @@
 							<input type="hidden" name="bopen">
 						</div>
 						<div class="form-group text-center">
-							<button type="button" class="btn btn-primary" id="btnAdd">일기 쓰기</button>
+							<button type="button" class="btn btn-primary" id="btnAdd">일기 수정</button>
 							<button type="reset" class="btn btn-warning" id="btnBack">취소</button>
 						</div>
 					</form>
@@ -55,11 +63,13 @@
 	</div>
 </section>
 <script>
+
+
 	$(function(){		
 		$(".openSwitch").bootstrapSwitch("state",${board.bopen});
 		
 		$("#btnBack").click(function(){
-			location.href="list.do";
+			location.href="${pageContext.request.contextPath }/board/list.do";
 		});
 		
 		$("#btnAdd").click(function(){
@@ -77,7 +87,13 @@
 			$("#addForm").attr("action", "${pageContext.request.contextPath }/board/mod");
 			$("#addForm").submit();
 		});
-
+		
+		$("#btnPicDel").click(function(){
+			if(confirm("기존의 이미지를 삭제하시겠습니까?")==true){
+				$("#ori_pic").css("display","none");
+				$("input[name='bpic']").val("");
+			}
+		});
 	});//ready
 
 </script>

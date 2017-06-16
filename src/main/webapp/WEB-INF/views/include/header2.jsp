@@ -56,7 +56,7 @@
     	.text-left{text-align: left !important;}
     	.text-right{text-align: right !important;}
     	#logo{width:30px; margin-left:10px; display: inline-block !important;}
-    	
+    	li.user-header img{margin-top: 20px;}
     </style>
     
 </head>
@@ -91,7 +91,7 @@
 		                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 		                	<c:if test="${!empty auth }">
 		                		<c:if test="${!empty auth.upic }">
-		                			<img src="${pageContext.request.contextPath }/display?filename=${auth.upic } class="user-image" alt="User Image"/>
+		                			<img src="${pageContext.request.contextPath }/display?filename=${auth.upic }" class="user-image" alt="User Image"/>
 		                		</c:if>
 		                		<c:if test="${empty auth.upic }">
 		                			<img src="${pageContext.request.contextPath }/resources/img/user.png" class="user-image" alt="User Image"/>
@@ -106,13 +106,20 @@
 		                <ul class="dropdown-menu">
 		                  <!-- User image -->
 		                  <li class="user-header">
-		                    <img src="${pageContext.request.contextPath }/resources/img/user2.png" class="img-circle" alt="User Image" />
-		                    <c:if test="${!empty auth }">
+		                    <c:if test="${!empty auth }">		                    	
+		                    	<c:if test="${empty auth.upic }">
+		                    		<img src="${pageContext.request.contextPath }/resources/img/user2.png" class="img-circle" alt="User Image" />
+		                    	</c:if>
+		                    	<c:if test="${!empty auth.upic }">
+		                    		<img src="${pageContext.request.contextPath }/display?filename=${auth.upic }" class="img-circle" alt="User Image"/>
+		                    	</c:if>
+		                    	
 		                    	<p>
 			                      ${auth.uid }
 			                    </p>
 		                    </c:if>
 		                    <c:if test="${empty auth }">
+		                    	<img src="${pageContext.request.contextPath }/resources/img/user2.png" class="img-circle" alt="User Image" />
 		                    	<p>
 			                      	로그인이 필요합니다
 			                    </p>
@@ -129,12 +136,18 @@
 			                    </div>
 		                    </c:if>
 		                    <c:if test="${!empty auth }">
-		                    	<div class="pull-left">
-			                      <a href="${pageContext.request.contextPath }/member/logout" class="btn btn-default btn-flat">회원 정보</a>
-			                    </div>
-			                    <div class="pull-right">
-			                      <a href="${pageContext.request.contextPath }/member/logout" class="btn btn-default btn-flat">로그아웃</a>
-			                    </div>
+		                    	<div class="pull-left input-group-btn">		           
+			                    	<c:if test="${!user.uadmin }">			                    	
+				                      	<a href="${pageContext.request.contextPath }/member/info.do" class="btn btn-default btn-flat">회원 정보</a>
+				                    	<a href="${pageContext.request.contextPath }/diary/mylist.do" class="btn btn-default btn-flat">다이어리</a>
+				                    	<a href="${pageContext.request.contextPath }/member/logout" class="btn btn-default btn-flat">로그아웃</a>
+				                    </c:if>
+				                    <c:if test="${user.uadmin }">
+			                    		<a href="${pageContext.request.contextPath }/member/info.do" class="btn btn-default btn-flat">회원 관리</a>
+				                    	<a href="${pageContext.request.contextPath }/diary/mylist.do" class="btn btn-default btn-flat">일기 관리</a>
+				                    	<a href="${pageContext.request.contextPath }/member/logout" class="btn btn-default btn-flat">로그아웃</a>
+				                    </c:if>
+			                    </div>			   
 		                    </c:if>
 		                  </li>
 		                </ul>

@@ -18,6 +18,11 @@ public interface UserDAO {
 	 * */
 	public List<UserVO> selectAllUser();
 	
+	/**
+	 * 회원 정보 페이지
+	 * */
+	public UserVO selectUser(String uid);
+	
 	/** 로그인 시 사용할 함수
 	 * 	사용자가 입력한 ID와 PASSWORD 값을 바탕으로 AuthDTO를 반환하게 하여 null이 아닐 경우 login
 	 * */

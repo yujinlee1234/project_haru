@@ -45,8 +45,7 @@
 		update project_haru.board_today  
 		set btoday = #{btoday}  
 		where bno = #{bno}
-	</update>
-	
+	</update>	
 	<delete id="deleteBoard" parameterType="int">
 		delete from project_haru.board where bno = #{bno}
 	</delete>

@@ -42,4 +42,6 @@ public interface UserService {
 	/**아이디 중복 체크를 위한 함수
 	 * */
 	public AuthDTO checkUser(String uid);
+	
+	public UserVO selectUser(String uid);
 }

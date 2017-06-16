@@ -72,4 +72,10 @@ public class UserServiceImpl implements UserService {
 		return uDao.checkUser(uid);
 	}
 
+	@Override
+	public UserVO selectUser(String uid) {
+		// TODO Auto-generated method stub
+		return uDao.selectUser(uid);
+	}
+
 }

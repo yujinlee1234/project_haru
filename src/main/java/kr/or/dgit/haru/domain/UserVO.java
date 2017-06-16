@@ -125,5 +125,22 @@ public class UserVO {
 		return result;
 	}
 	
-	
+	public String getOriginalname() {
+		if(upic != null){
+			String path = upic.substring(0, upic.lastIndexOf("/")+1);
+			String originalFileName = upic.substring(upic.lastIndexOf("/")+3);
+			return path+originalFileName;
+		}else{
+			return null;
+		}
+	}	
+	public String getOriginalFilename() {
+		//start index = 38
+		if(upic != null){
+			String originalPath = getOriginalname();		
+			return originalPath.substring(originalPath.lastIndexOf("/")+38);
+		}else{
+			return null;
+		}
+	}
 }

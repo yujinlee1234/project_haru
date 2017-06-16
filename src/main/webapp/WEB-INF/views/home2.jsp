@@ -11,11 +11,17 @@
 		</c:if>
 	</c:if>
 </script>
+<style>
+	#btnMain{margin-top: 500px;}
+	/* .haru_home_section div.box{width:100%; height:900px; margin-top: 100px;background: url('${pageContext.request.contextPath }/resources/img/home_main.png') no-repeat;size:  landscape;} */
+</style>
 <section class="content haru_section">
 	<div class="row">
-		<div class="col-md-6 col-md-offset-3" >
+		<div class="col-md-12 text-center" >
 			<div class="box">
 				<div class="box-body">
+					<a id="btnMain" class="btn btn-lg btn-info" href="${pageContext.request.contextPath }/diary/list.do">당신의 하루</a>
+					<%-- <img alt="" src="${pageContext.request.contextPath }/resources/img/home_main.png" id="home_img"> --%>
 					<%-- <c:if test="${!empty dList }">
 						<c:forEach items="${dList }" var="diary">
 							<div>

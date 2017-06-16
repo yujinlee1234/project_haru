@@ -61,7 +61,7 @@ public class BoardVO {
 		this.dno = dno;
 	}
 	public String getBtoday() {
-		return btoday;
+		return btoday==null?"":btoday;
 	}
 	public void setBtoday(String btoday) {
 		this.btoday = btoday;
