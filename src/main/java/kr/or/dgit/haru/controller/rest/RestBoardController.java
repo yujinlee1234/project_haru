@@ -74,7 +74,7 @@ public class RestBoardController {
 			List<DiaryVO> dList = dService.selectDiaryByUid(auth.getUid());
 			if(dList.size()>0){
 				DiaryVO diary = dList.get(0);
-				bVO.setDno(diary.getDno());
+				bVO.setDno(diary);
 				String thumb = UploadFileUtils.uploadFile(uploadPath, bVO.getBpic(), imagefiles.getBytes());
 				bVO.setBpic(thumb);
 				

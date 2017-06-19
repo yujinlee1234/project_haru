@@ -2,13 +2,14 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.or.dgit.haru.mapper.DiaryMapper">
+<mapper namespace="kr.or.dgit.haru.mappers.DiaryMapper">
 	<resultMap type="DiaryVO" id="resultDiary">
 		<id property="dno" column="dno"/>
 		<result property="dtitle" column="dtitle"/>
 		<result property="dpic" column="dpic"/>
 		<result property="ddate" column="ddate"/>
 		<result property="dopen" column="dopen"/>
+		<result property="uid" column="uid"/>
 	</resultMap>
 	
 	<select id="selectAllDiary" resultType="DiaryVO">

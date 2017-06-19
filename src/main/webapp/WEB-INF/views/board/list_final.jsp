@@ -25,6 +25,8 @@
 	button.btn_haru{width:85px !important;}
 	div.board-user{position: relative;}
 	div#board-user-btn{width:90px; position: fixed; top:300px; right:50px; }
+	div#diaryOpen{display:inline; float: none;width: 24px; height:24px;margin-left: 10px;}
+	div#diaryOpen img{width: 24px; height:24px;}
 </style>
 
 <section class="content haru_section">
@@ -32,7 +34,21 @@
 		<div class="col-md-6 col-md-offset-3">
 			<div class="box">
 				<div class="box-header text-center">
-					<h3>${diary.dtitle }</h3>
+					<h3>
+						${diary.dtitle }
+						<div class="wrap_chkbox" id="diaryOpen">
+							<div class="chkbox">
+								<c:if test="${diary.dopen }">
+									<input type="checkbox" name="chk" class="chk" checked="checked"/>
+								</c:if>
+								<c:if test="${!diary.dopen }">
+									<input type="checkbox" name="chk" class="chk"/>
+								</c:if>
+								<img src="${pageContext.request.contextPath }/resources/img/chkbox_${diary.dopen }.png"/>
+								<input type="hidden" class="checkDno" value="${diary.dno }"/>
+							</div>
+						</div>						
+					</h3>
 					<hr class="star-primary">
 				</div>
 			</div>
@@ -139,6 +155,7 @@
 		if(uid == "" || dUid != uid){
 			$("div.board-user").css("display", "none");
 			$("#btnMod").css("display","none");
+			$("#diaryOpen").css("display","none");
 		}
 		</c:if>
 		
@@ -174,7 +191,14 @@
 			/* #delBtn{display: none;}
 			#cancelBtn{display: none;} */
 			<c:if test="${empty bList}">
-				alert("삭제할 항목이 없습니다.");
+				swal({
+					  title: "삭제할 항목이 없습니다.",
+					  text: "당신의 하루",
+					  type: "warning",
+					  showCancelButton: false,
+					  confirmButtonColor: "#DD6B55",
+					  confirmButtonText: "확인"
+					});
 			</c:if>
 			<c:if test="${!empty bList}">
 				if($("#delBtn").css("display") == "none"){
@@ -204,21 +228,62 @@
 		
 		$("#allDelBtn").click(function(){
 			<c:if test="${empty bList}">
-				alert("삭제할 항목이 없습니다.");
+				swal({
+					  title: "삭제할 항목이 없습니다.",
+					  text: "당신의 하루",
+					  type: "warning",
+					  showCancelButton: false,
+					  confirmButtonColor: "#DD6B55",
+					  confirmButtonText: "확인"
+					});
 			</c:if>
 			<c:if test="${!empty bList}">
-				if(confirm("삭제하시겠습니까?")){
-					location.href="${pageContext.request.contextPath }/board/del.do";
-				}
+				swal({
+					  title: "삭제하시겠습니까?",
+					  text: "당신의 하루",
+					  type: "info",
+					  showCancelButton: true,
+					  confirmButtonColor: "#DD6B55",
+					  cancelButtonText:"취소",
+					  confirmButtonText: "확인"
+					},function(){
+						location.href="${pageContext.request.contextPath }/board/del.do";
+					});
 			</c:if>
 			
 		});//전체 삭제 버튼
 		
 		$("#delBtn").click(function(){
-			if(confirm("선택한 항목을 삭제하시겠습니까?")){
-				$("#delForm").attr("action", "del.do");
-				$("#delForm").submit();
-				
+			var cList = new Array();
+			$("input[name='delFiles']").each(function(i, obj) {
+				if($(obj).prop("checked")==true){
+					cList.push($(obj).val());
+					console.log($(obj).val());
+				}	
+			});
+
+			if(cList.length>0){
+				swal({
+					  title: "선택된 항목을 삭제하시겠습니까?",
+					  text: "당신의 하루",
+					  type: "info",
+					  showCancelButton: true,
+					  confirmButtonColor: "#DD6B55",
+					  cancelButtonText:"취소",
+					  confirmButtonText: "확인"
+					},function(){
+						$("#delForm").attr("action", "${pageContext.request.contextPath }/board/del.do");
+						$("#delForm").submit();
+					});
+			}else{
+				swal({
+					  title: "선택된 항목이 없습니다.",
+					  text: "당신의 하루",
+					  type: "warning",
+					  showCancelButton: false,
+					  confirmButtonColor: "#DD6B55",
+					  confirmButtonText: "확인"
+					});
 			}
 		});//선택 삭제 버튼	
 		
@@ -260,11 +325,79 @@
           //console.log($(this).parent())
          
           //체크 박스의 체크 유무를 확인하기 위해 checked값을 얻어옴.
+          	var $chkImg = $(this);
           	var $checkbox = $(this).parent().find('input[name="chk"]');
           	var isChecked = $(this).parent().find('input[name="chk"]').prop("checked"); 
          	console.log(isChecked); //boolean값으로 true, false    
-		  
-	        if(confirm("다이어리를 "+(isChecked==true?"비공개":"공개")+"하시겠습니까?")==true){
+         	swal({
+				  title: "일기를 "+(isChecked==true?"비공개":"공개")+"하시겠습니까?",
+				  text: "당신의 하루",
+				  type: "info",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  cancelButtonText:"취소",
+				  confirmButtonText: "확인",
+				  closeOnConfirm:false,
+				},function(){
+					isChecked = !isChecked;	            
+			  		console.log(bno);
+		  			$.ajax({
+		  				url:"${pageContext.request.contextPath }/board/modifyOpen/"+bno,
+		  				type:"post",
+		  				async:false,
+		  				dataType:"text",
+		  				success:function(result){
+		  					console.log(result)
+		  					if(result=='fail'){
+		  						//alert('[ERROR] 일기를 공개/비공개하지 못했습니다.');
+		  						swal({
+			  						  title: "일기를 공개/비공개 하지 못했습니다.",
+			  						  text: "당신의 하루",
+			  						  type:"error",
+			  						  showCancelButton: false,
+			  						  confirmButtonColor: "#DD6B55",
+			  						  cancelButtonText:"취소",
+			  						  confirmButtonText: "확인"
+			  						});
+		  						return false;
+		  					}else if(result=='true'){
+		  						swal({
+		  						  title: "일기가 공개 되었습니다.",
+		  						  text: "당신의 하루",
+		  						  imageURL:"${pageContext.request.contextPath}/resources/img/chkbox_false",
+		  						  showCancelButton: false,
+		  						  confirmButtonColor: "#DD6B55",
+		  						  cancelButtonText:"취소",
+		  						  confirmButtonText: "확인"
+		  						},function(){
+		  							$checkbox.prop("checked",isChecked);
+		  							$chkImg.attr("src", "${pageContext.request.contextPath }/resources/img/chkbox_" + isChecked + ".png");
+		  						});
+		  						//alert("일기가 공개 되었습니다.");
+		  						
+		  					}else if(result=='false'){
+		  						swal({
+			  						  title: "일기가 비공개 되었습니다.",
+			  						  text: "당신의 하루",
+			  						  imageURL:"${pageContext.request.contextPath}/resources/img/chkbox_true",
+			  						  showCancelButton: false,
+			  						  confirmButtonColor: "#DD6B55",
+			  						  cancelButtonText:"취소",
+			  						  confirmButtonText: "확인"
+			  						},function(){
+			  							$checkbox.prop("checked",isChecked);
+			  							$chkImg.attr("src", "${pageContext.request.contextPath }/resources/img/chkbox_" + isChecked + ".png");
+			  						});
+		  						//alert("일기가 비공개 되었습니다.");
+		  					}
+		  					
+		  				}
+		 			});		    
+				});	
+ 				//체크박스의 체크상태와 체크박스 이미지 변경
+	         	/* $(this).parent().find('input.chk').prop("checked", isChecked);
+	            $(this).attr("src", "${pageContext.request.contextPath }/resources/img/chkbox_" + isChecked + ".png"); */
+	        /* if(confirm("다이어리를 "+(isChecked==true?"비공개":"공개")+"하시겠습니까?")==true){
 	        	//현재의 체크 상태의 반대값을 저장( true이면 false로 )
 				isChecked = !isChecked;	            
 		  		console.log(bno);
@@ -290,9 +423,84 @@
 	  			//체크박스의 체크상태와 체크박스 이미지 변경 
 	    	    $(this).parent().find('input.chk').prop("checked", isChecked);
 	            $(this).attr("src", "${pageContext.request.contextPath }/resources/img/chkbox_" + isChecked + ".png");   
-	       	}          
+	       	}  */         
         });
 		
+		//일기 공개여부 Checkbox 클릭 시 
+		$(document).on("click",'#diaryOpen img', function () {
+			var bno = $(this).parent().find("input.checkDno").val();         
+          //체크 박스의 체크 유무를 확인하기 위해 checked값을 얻어옴.
+          	var $chkImg = $(this);
+          	var $checkbox = $(this).parent().find('input[name="chk"]');
+          	var isChecked = $(this).parent().find('input[name="chk"]').prop("checked"); 
+         	console.log(isChecked); //boolean값으로 true, false    
+         	swal({
+				  title: "다이어리를 "+(isChecked==true?"비공개":"공개")+"하시겠습니까?",
+				  text: "당신의 하루",
+				  type: "info",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  cancelButtonText:"취소",
+				  confirmButtonText: "확인",
+				  closeOnConfirm:false,
+				},function(){
+					isChecked = !isChecked;	            
+			  		console.log(bno);
+		  			$.ajax({
+		  				url:"${pageContext.request.contextPath }/diary/modifyOpen/"+bno,
+		  				type:"post",
+		  				async:false,
+		  				dataType:"text",
+		  				success:function(result){
+		  					console.log(result)
+		  					if(result=='fail'){
+		  						//alert('[ERROR] 일기를 공개/비공개하지 못했습니다.');
+		  						swal({
+			  						  title: "다이어리를 공개/비공개 하지 못했습니다.",
+			  						  text: "당신의 하루",
+			  						  type:"error",
+			  						  showCancelButton: false,
+			  						  confirmButtonColor: "#DD6B55",
+			  						  cancelButtonText:"취소",
+			  						  confirmButtonText: "확인"
+			  						});
+		  						return false;
+		  					}else if(result=='true'){
+		  						swal({
+		  						  title: "다이어리가 공개 되었습니다.",
+		  						  text: "당신의 하루",
+		  						  imageURL:"${pageContext.request.contextPath}/resources/img/chkbox_false.png",
+		  						  showCancelButton: false,
+		  						  confirmButtonColor: "#DD6B55",
+		  						  cancelButtonText:"취소",
+		  						  confirmButtonText: "확인"
+		  						},function(){
+		  							$checkbox.prop("checked",isChecked);
+		  							$chkImg.attr("src", "${pageContext.request.contextPath }/resources/img/chkbox_" + isChecked + ".png");
+		  						});
+		  						//alert("일기가 공개 되었습니다.");
+		  						
+		  					}else if(result=='false'){
+		  						swal({
+			  						  title: "다이어리가 비공개 되었습니다.",
+			  						  text: "당신의 하루",
+			  						  imageURL:"${pageContext.request.contextPath}/resources/img/chkbox_true.png",
+			  						  showCancelButton: false,
+			  						  confirmButtonColor: "#DD6B55",
+			  						  cancelButtonText:"취소",
+			  						  confirmButtonText: "확인"
+			  						},function(){
+			  							$checkbox.prop("checked",isChecked);
+			  							$chkImg.attr("src", "${pageContext.request.contextPath }/resources/img/chkbox_" + isChecked + ".png");
+			  						});
+		  						
+		  					}
+		  					
+		  				}
+		 			});		    
+				});	
+ 				        
+        });
 	});//ready
 	
 	
@@ -300,9 +508,9 @@
 	function setmonth(date){
 		var today = new Date();		
 		if(date.getMonth() == today.getMonth() && date.getFullYear() == today.getFullYear()){
-			$("#goNext").css("opacity","0");
+			$("#goNext").css("display","none");
 		}else{
-			$("#goNext").css("opacity","1");
+			$("#goNext").css("display","inline");
 		}
 		$("#dMonth").text(date.getFullYear()+"."+((date.getMonth()+1)<10?"0"+(date.getMonth()+1):(date.getMonth()+1)));
 		

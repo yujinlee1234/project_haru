@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -58,22 +61,25 @@ public class MemberController {
 				session.setAttribute("auth", auth);
 				
 				rttr.addFlashAttribute("result", auth.getUid()+"님 반갑습니다.");
+				rttr.addFlashAttribute("type", "success");
 				if(!diary.isEmpty()){
 					rttr.addFlashAttribute("returnTo", "board/list.do");
 				}else{
 					rttr.addFlashAttribute("returnTo", "diary/list.do");
 				}
 				
-				
+				return "redirect:/";
 			}else{
-				rttr.addFlashAttribute("result", "[ERROR] 로그인에 실패하였습니다.");
+				rttr.addFlashAttribute("result", "로그인에 실패하였습니다.");
 				rttr.addFlashAttribute("returnTo", "member/login.do");
+				rttr.addFlashAttribute("type", "error");
 			}	
 		}catch(Exception e){
-			rttr.addFlashAttribute("result", "[ERROR] 로그인에 실패하였습니다.");
+			rttr.addFlashAttribute("result", "로그인에 실패하였습니다.");
 			rttr.addFlashAttribute("returnTo", "member/login.do");
+			rttr.addFlashAttribute("type", "error");
 		}
-		return "redirect:/";
+		return "redirect:/empty";
 	}
 	/** login test를 위함 임시 페이지와 임시 method(login page 제공)
 	 * */
@@ -129,10 +135,12 @@ public class MemberController {
 			uService.insertUser(uVO);			
 			rttr.addFlashAttribute("result", "회원가입에 성공하였습니다.");
 			rttr.addFlashAttribute("returnTo", "member/login.do");
-		
+			rttr.addFlashAttribute("type", "success");
+			
 		}catch(Exception e){
-			rttr.addFlashAttribute("result", "[ERROR]회원가입에 실패하였습니다.");
+			rttr.addFlashAttribute("result", "회원가입에 실패하였습니다.");
 			rttr.addFlashAttribute("returnTo", "member/join");
+			rttr.addFlashAttribute("type", "error");
 		}
 		return "redirect:/";
 	}
@@ -152,6 +160,7 @@ public class MemberController {
 		session.removeAttribute("auth");
 		session.removeAttribute("diary");
 		rttr.addFlashAttribute("result", "로그아웃되었습니다.");	
+		rttr.addFlashAttribute("type", "success");
 		return "redirect:/";
 	}
 	
@@ -165,6 +174,34 @@ public class MemberController {
 		session.removeAttribute("auth");
 		session.removeAttribute("diary");
 		rttr.addFlashAttribute("result", "정상적으로 탈퇴되었습니다.\n 그동안 사용해 주셔서 감사합니다.");	
+		rttr.addFlashAttribute("type", "success");
+		return "redirect:/";
+	}
+	
+	/**
+	 * 회원탈퇴 시 사용할 함수
+	 * */	
+	@RequestMapping(value="/exit", method = RequestMethod.POST)
+	public String exitServiceForAdmin(HttpSession session, RedirectAttributes rttr){
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		
+		try{
+			String[] uList = request.getParameterValues("delFiles");
+			for(String user: uList){
+				System.out.println(user);
+				UserVO userVO = uService.selectUser(user);				
+				deleteFile(userVO);
+				uService.deleteUser(user);
+			}
+			
+			rttr.addFlashAttribute("result", "회원을 탈퇴 시켰습니다.");
+			rttr.addFlashAttribute("type", "success");
+		}catch(Exception e){
+			e.printStackTrace();
+			rttr.addFlashAttribute("result", "회원을 탈퇴시키지 못했습니다. 잠시 후 다시 시도해 주세요.");
+			rttr.addFlashAttribute("type", "error");
+		}
+		rttr.addFlashAttribute("returnTo", "admin/member");
 		return "redirect:/";
 	}
 	
@@ -311,4 +348,6 @@ public class MemberController {
 			tFile.delete();
 		}
 	}
+	
+	
 }

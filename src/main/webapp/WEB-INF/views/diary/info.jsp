@@ -14,18 +14,19 @@
 	
 	table.user_table td.btns span{display: none;}
 	
-	.empty-diary{margin-top: 150px;}
+	.empty-diary{margin-bottom: 150px;}
 	.empty-diary img{margin-bottom: 30px;}
 	
 </style>
 <section class="content haru_section">
 	<div class="row">
-		<div class="col-lg-12 text-center">
-            <h3>다이어리 정보</h3>
-            <hr class="star-primary">
-            
-        </div>
 		<div class="col-md-6 col-md-offset-3" >
+			<div class="box">
+				<div class="box-header text-center">
+					<h3>다이어리 정보</h3>
+					<hr class="star-primary">
+				</div>
+			</div>
 			<div class="box">
 				<div class="box-body">		
 					<c:if test="${!empty diary }">			

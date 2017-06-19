@@ -21,11 +21,13 @@
 </style>
 <section class="content haru_section">
 	<div class="row">
-		<div class="col-lg-12 text-center">
-            <h3>회원 정보</h3>
-            <hr class="star-primary">            
-        </div>
 		<div class="col-md-6 col-md-offset-3" >
+			<div class="box">
+				<div class="box-header text-center">
+					<h3>회원 정보</h3>
+					<hr class="star-primary">
+				</div>
+			</div>
 			<div class="box">
 				<div class="box-body">					
 					<table style="width:100%;" class="user_table table">
@@ -177,10 +179,27 @@
 						
 						
 						if(data == "SUCCESS"){
-							alert("비밀번호가 변경되었습니다.");		
-							location.href="${pageContext.request.contextPath}/member/logout.do";
+							swal({
+								  title: "비밀번호가 변경되었습니다.",
+								  text: "당신의 하루",
+								  type: "success",
+								  showCancelButton: false,
+								  confirmButtonColor: "#DD6B55",
+								  confirmButtonText: "확인"
+								},
+								function(){	
+									location.href="${pageContext.request.contextPath}/member/logout.do";
+								});
 						}else{
-							alert("[ERROR] 비밀번호가 변경되지 못했습니다.");
+							swal({
+								  title: "비밀번호가 변경되지 못했습니다.",
+								  text: "당신의 하루",
+								  type: "error",
+								  showCancelButton: false,
+								  confirmButtonColor: "#DD6B55",
+								  confirmButtonText: "확인"
+								});
+							
 						}										
 					}
 				});
@@ -197,9 +216,18 @@
 		});
 		
 		$("#btnExit").click(function(){
-			if(confirm("회원탈퇴 시 저장된 일기와 정보가 모두 삭제 됩니다.\n 계속 진행하시겠습니까?")==true){
+			swal({
+			  title: "회원탈퇴 시 저장된 일기와 정보가 모두 삭제 됩니다.",
+			  text: "계속 진행하시겠습니까?",
+			  type: "success",
+			  showCancelButton: true,
+			  confirmButtonColor: "#DD6B55",
+			  confirmButtonText: "확인",
+			  cancelButtonText:"취소"
+			},
+			function(){	
 				location.href="${pageContext.request.contextPath}/member/exit";
-			}
+			});
 		});
 		
 		$("#btnNChange").click(function(){
@@ -218,10 +246,30 @@
 						data:{"uname":uname},
 						success:function(data){												
 							if(data == "SUCCESS"){
-								alert("이름이 변경되었습니다.");		
-								location.href="${pageContext.request.contextPath}/member/info.do";
+								swal({
+									  title: "이름이 변경되었습니다.",
+									  text: "당신의 하루",
+									  type: "success",
+									  showCancelButton: false,
+									  confirmButtonColor: "#DD6B55",
+									  confirmButtonText: "확인",
+									  cancelButtonText:"취소"
+									},
+									function(){	
+										location.href="${pageContext.request.contextPath}/member/info.do";
+									});
+								
 							}else{
-								alert("[ERROR] 이름이 변경되지 못했습니다.");
+								swal({
+									  title: "이름이 변경되지 못했습니다.",
+									  text: "당신의 하루",
+									  type: "error",
+									  showCancelButton: false,
+									  confirmButtonColor: "#DD6B55",
+									  confirmButtonText: "확인",
+									  cancelButtonText:"취소"
+									});
+								
 							}										
 						}
 					});
@@ -245,10 +293,27 @@
 						data:{"umail":umail},
 						success:function(data){												
 							if(data == "SUCCESS"){
-								alert("메일이 변경되었습니다.");		
-								location.href="${pageContext.request.contextPath}/member/info.do";
+								swal({
+									  title: "메일이 변경되었습니다.",
+									  text: "당신의 하루",
+									  type: "success",
+									  showCancelButton: false,
+									  confirmButtonColor: "#DD6B55",
+									  confirmButtonText: "확인",
+									  cancelButtonText:"취소"
+									},function(){
+										location.href="${pageContext.request.contextPath}/member/info.do";		
+									});								
 							}else{
-								alert("[ERROR] 메일이 변경되지 못했습니다.");
+								swal({
+									  title: "메일이 변경되지 못했습니다.",
+									  text: "당신의 하루",
+									  type: "error",
+									  showCancelButton: false,
+									  confirmButtonColor: "#DD6B55",
+									  confirmButtonText: "확인",
+									  cancelButtonText:"취소"
+									});							
 							}										
 						}
 					});

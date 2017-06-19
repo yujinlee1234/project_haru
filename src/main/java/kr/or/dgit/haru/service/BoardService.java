@@ -34,4 +34,6 @@ public interface BoardService {
 	public List<BoardVO> selectBoardScrap(String uid);//스크랩한 게시글을 가져오기 위해 사용
 
 	public BoardVO selectBoardByDate(Date date, int dno);
+	
+	public List<BoardVO> selectBoardForAdmin(Date date);
 }

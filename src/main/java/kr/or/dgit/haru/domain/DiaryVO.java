@@ -82,13 +82,22 @@ public class DiaryVO {
 	 * 다이어리 생성 날짜 String으로 Format(yyyy-MM-dd)
 	 * */
 	public String getdDateForm() {
-		return ProjectHaru.dateFormat.format(ddate);
+		if(ddate != null){
+			return ProjectHaru.dateFormat.format(ddate);
+		}else{
+			return "";
+		}
 	}
 	/**
 	 * 다이어리 생성 날짜 String으로 Format(yyyy-MM-dd a HH:mm)
 	 * */
 	public String getdDateTimeForm() {
-		return ProjectHaru.dateTimeFormat.format(ddate);
+		if(ddate != null){
+			return ProjectHaru.dateTimeFormat.format(ddate);
+		}else{
+			return "";
+		}
+		
 	}
 	
 	public String getOriginalname() {

@@ -1,43 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <%@ include file="include/header2.jsp" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script>
 	<c:if test="${!empty result }">
-		alert("${result }");
-		<c:if test="${!empty returnTo }">
-			location.href = '${pageContext.request.contextPath }/${returnTo }';
-		</c:if>
+		swal({
+			  title: "${result}",
+			  text: "당신의 하루",
+			  type: "${type}",
+			  showCancelButton: false,
+			  confirmButtonColor: "#DD6B55",
+			  confirmButtonText: "확인"
+			},
+			function(){
+				<c:if test="${!empty returnTo }">
+					location.href = '${pageContext.request.contextPath }/${returnTo }';
+				</c:if>
+			});
+		//swal("${result }", "", "${type}");
+		//alert("${result }");		
 	</c:if>
 </script>
-<style>
-	#btnMain{margin-top: 500px;}
-	/* .haru_home_section div.box{width:100%; height:900px; margin-top: 100px;background: url('${pageContext.request.contextPath }/resources/img/home_main.png') no-repeat;size:  landscape;} */
-</style>
-<section class="content haru_section">
-	<div class="row">
-		<div class="col-md-12 text-center" >
-			<div class="box">
-				<div class="box-body">
-					<a id="btnMain" class="btn btn-lg btn-info" href="${pageContext.request.contextPath }/diary/list.do">당신의 하루</a>
-					<%-- <img alt="" src="${pageContext.request.contextPath }/resources/img/home_main.png" id="home_img"> --%>
-					<%-- <c:if test="${!empty dList }">
-						<c:forEach items="${dList }" var="diary">
-							<div>
-								<p><a href="${pageContext.request.contextPath }/board/list/${diary.dno }" >${diary.dtitle }</a></p>
-							</div>
-						</c:forEach>
-					</c:if>
-					<c:if test="${empty dList }">
-						<c:forEach items="${dList }" var="diary">
-							<p>다이어리가 없습니다.</p>
-						</c:forEach>
-					</c:if> --%>
-				</div>
-			</div>
-		</div>
+<div style="background-image: url('img/video-bg.jpg')"
+	class="haru_main">
+	<!-- video background-->
+	<!-- replace URLs with your video content URL-->
+	<video id="video-background" preload="auto" autoplay="true"
+		loop="loop" muted="muted" volume="0">
+		<!-- <source src="http://ondrejsvestka.cz/video/silver-lining-video.webm"
+			type="video/webm"> -->
+		<source src="${pageContext.request.contextPath }/resources/video/2017-06-19_Untitled.mp4"
+			type="video/mp4">
+	</video>
+	<div class="overlay"></div>
+	<div class="haru_container">
 	</div>
-</section>
+</div>
 </body>
 </html>

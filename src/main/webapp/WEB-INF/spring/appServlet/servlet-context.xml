@@ -27,6 +27,7 @@
 	</beans:bean>
 	
 	<beans:bean id="authIntercepter" class="com.dgit.intercepter.AuthIntercepter"/>
+	<beans:bean id="adminIntercepter" class="com.dgit.intercepter.AdminIntercepter"/>
 	<interceptors>
 		<interceptor>
 			<mapping path="/diary/mylist.do"/>
@@ -46,7 +47,14 @@
 			<mapping path="/member/exit"/>
 			<beans:ref bean="authIntercepter"/>
 		</interceptor>
+		<interceptor>
+			<mapping path="/admin/*"/>
+			<beans:ref bean="adminIntercepter"/>
+		</interceptor>
 	</interceptors>
+	
+
+
 	
 	<context:component-scan base-package="kr.or.dgit.haru.controller" />
 	

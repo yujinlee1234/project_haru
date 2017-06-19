@@ -516,7 +516,47 @@
         </div>
     </div>
 
-    <!-- jQuery -->
+	<div style="background-image: url('img/video-bg.jpg')"
+		class="haru_main">
+		<!-- video background-->
+		<!-- replace URLs with your video content URL-->
+		<video id="video-background" preload="auto" autoplay="true"
+			loop="loop" muted="muted" volume="0">
+			<source src="http://ondrejsvestka.cz/video/silver-lining-video.webm"
+				type="video/webm">
+			<source src="http://ondrejsvestka.cz/video/silver-lining-video.mp4"
+				type="video/mp4">
+		</video>
+		<div class="overlay"></div>
+		<div class="haru_container">
+			<h1 class="cursive">당신의 하루</h1>
+			<h2 class="sub">당신의 하루 입니다.</h2>
+			<div class="mailing-list">
+
+				<a class="btn btn-danger btn-lg"
+					href="${pageContext.request.contextPath }/diary/list.do">당신의 하루</a>
+
+			</div>
+		</div>
+	</div>
+	<button type="button" data-toggle="collapse"
+		data-target="#style-switch" id="style-switch-button"
+		class="btn btn-template-primary btn-sm">
+		<i class="fa fa-cog fa-2x"></i>
+	</button>
+	<div id="style-switch" class="collapse">
+		<h4 class="text-uppercase">Select theme variant</h4>
+		<form class="mb-small">
+			<select name="page" id="page" class="form-control">
+				<option value="">select variant</option>
+				<option value="index.html">image background</option>
+				<option value="video.html">video background</option>
+			</select>
+		</form>
+	</div>
+
+
+	<!-- jQuery -->
     <script src="${pageContext.request.contextPath }/resources/vendor/jquery/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->

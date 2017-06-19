@@ -69,6 +69,31 @@ public class HomeController {
 		return "home2";
 	}
 	
+	/**
+	 * Simply selects the home view to render by returning its name.
+	 */
+	@RequestMapping(value = "/empty", method = RequestMethod.GET)
+	public String home1(Locale locale, Model model, HttpSession session) {
+		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		
+		model.addAttribute("serverTime", formattedDate );
+		
+		AuthDTO auth = (AuthDTO) session.getAttribute("auth");
+		
+		List<DiaryVO> dList = dService.selectAllDiary();
+		if(dList.size()>0){
+			model.addAttribute("dList", dList);
+		}
+		
+		
+		return "empty";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value="/display")
 	public ResponseEntity<byte[]> displayFile(String filename) throws IOException {

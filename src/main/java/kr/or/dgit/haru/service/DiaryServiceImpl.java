@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.dgit.haru.domain.DiaryVO;
-import kr.or.dgit.haru.persistence.DiaryDAO;
+import kr.or.dgit.haru.mappers.DiaryMapper;
 
 @Service
 public class DiaryServiceImpl implements DiaryService {
 	private final Logger logger = LoggerFactory.getLogger(DiaryServiceImpl.class);
 	@Autowired
-	private DiaryDAO dDao;
+	private DiaryMapper dDao;
 
 	@Override
 	public List<DiaryVO> selectAllDiary() {

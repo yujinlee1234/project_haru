@@ -13,14 +13,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import kr.or.dgit.haru.domain.BoardVO;
 import kr.or.dgit.haru.domain.DiaryVO;
-import kr.or.dgit.haru.persistence.BoardDAOImpl;
-import kr.or.dgit.haru.persistence.DiaryDAOImpl;
+import kr.or.dgit.haru.mappers.BoardMapperImpl;
+import kr.or.dgit.haru.mappers.DiaryMapperImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
 public class DiaryServiceTest {
 	@Autowired 
-	private DiaryDAOImpl dDao;
+	private DiaryMapperImpl dDao;
 	
 	@Test
 	public void selectListTest(){

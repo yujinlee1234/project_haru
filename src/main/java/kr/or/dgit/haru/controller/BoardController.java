@@ -113,7 +113,8 @@ public class BoardController {
 		if(dList.isEmpty()){
 			rttr.addFlashAttribute("result","일기를 작성할 다이어리가 없습니다. 다이어리를 생성해 주세요.");
 			rttr.addFlashAttribute("returnTo", "diary/add.do");
-			return "redirect:/";
+			rttr.addFlashAttribute("type", "warning");
+			return "redirect:/empty";
 		}else{
 			model.addAttribute("date", ProjectHaru.dateFormat.format(today));
 			model.addAttribute("diary", dList.get(0));
@@ -131,24 +132,27 @@ public class BoardController {
 			if(dList.isEmpty()){
 				rttr.addFlashAttribute("result","일기를 수정할 다이어리가 없습니다. 다이어리를 생성해 주세요.");
 				rttr.addFlashAttribute("returnTo", "diary/add.do");
-				return "redirect:/";
+				rttr.addFlashAttribute("type", "warning");
+				return "redirect:/empty";
 			}else{
-				if(dList.get(0).getDno() == board.getDno()){
+				if(dList.get(0).getDno() == board.getDno().getDno()){
 					model.addAttribute("board", board);
 					return "/board/modify";
 				}else{
 					rttr.addFlashAttribute("result","일기를 수정할 권한이 없습니다.");
 					rttr.addFlashAttribute("returnTo", "board/list.do/"+board.getDno());
-					return "redirect:/";
+					rttr.addFlashAttribute("type", "warning");
+					return "redirect:/empty";
 				}
 				
 				
 			}		
 		}catch(Exception e){
 			e.printStackTrace();
-			rttr.addFlashAttribute("result","[ERROR] 잠시후 다시 시도해 주세요.");
+			rttr.addFlashAttribute("result","잠시후 다시 시도해 주세요.");
 			rttr.addFlashAttribute("returnTo", "diary/list.do");
-			return "redirect:/";
+			rttr.addFlashAttribute("type", "error");
+			return "redirect:/empty";
 		}
 		
 	}
@@ -162,9 +166,10 @@ public class BoardController {
 			if(dList.isEmpty()){
 				rttr.addFlashAttribute("result","일기를 수정할 다이어리가 없습니다. 다이어리를 생성해 주세요.");
 				rttr.addFlashAttribute("returnTo", "diary/add.do");
+				rttr.addFlashAttribute("type", "warning");
 				return "redirect:/";
 			}else{
-				if(dList.get(0).getDno() == bVO.getDno()){
+				if(dList.get(0).getDno() == bVO.getDno().getDno()){
 					String files = setFileList(imagefiles);// 등록된 사진
 					if(files != ""){
 						deleteFile(bVO);
@@ -174,20 +179,23 @@ public class BoardController {
 					bService.updateBoard(bVO);
 					rttr.addFlashAttribute("result","일기를 성공적으로 수정하였습니다.");
 					rttr.addFlashAttribute("returnTo", "board/list.do");
-					return "redirect:/";
+					rttr.addFlashAttribute("type", "success");
+					return "redirect:/empty";
 				}else{
 					rttr.addFlashAttribute("result","일기를 수정할 권한이 없습니다.");
 					rttr.addFlashAttribute("returnTo", "board/list.do/");
-					return "redirect:/";
+					rttr.addFlashAttribute("type", "warning");
+					return "redirect:/empty";
 				}
 				
 				
 			}		
 		}catch(Exception e){
 			e.printStackTrace();
-			rttr.addFlashAttribute("result","[ERROR] 잠시후 다시 시도해 주세요.");
+			rttr.addFlashAttribute("result","잠시후 다시 시도해 주세요.");
 			rttr.addFlashAttribute("returnTo", "diary/list.do");
-			return "redirect:/";
+			rttr.addFlashAttribute("type", "error");
+			return "redirect:/empty";
 		}
 		
 	}
@@ -201,7 +209,8 @@ public class BoardController {
 			if(dList.isEmpty()){
 				rttr.addFlashAttribute("result","일기를 삭제할 다이어리가 없습니다. 다이어리를 생성해 주세요.");
 				rttr.addFlashAttribute("returnTo", "diary/add.do");
-				return "redirect:/";
+				rttr.addFlashAttribute("type", "warning");
+				return "redirect:/empty";
 			}else{
 				List<BoardVO> bList = bService.selectAllBoard(dList.get(0).getDno());
 				for(BoardVO board : bList){
@@ -209,14 +218,16 @@ public class BoardController {
 					bService.deleteBoard(board.getBno());
 				}
 				rttr.addFlashAttribute("result", "일기를 모두 삭제되었습니다.");
+				rttr.addFlashAttribute("type", "success");
 			}			
 		}catch(Exception e){
 			e.printStackTrace();
-			rttr.addFlashAttribute("result", "[ERROR] 일기가 삭제되지 못했습니다.");
+			rttr.addFlashAttribute("result", "일기가 삭제되지 못했습니다.");
+			rttr.addFlashAttribute("type", "error");
 		}
 		rttr.addFlashAttribute("returnTo", "board/list.do");
 		
-		return "redirect:/";		
+		return "redirect:/empty";		
 	}
 	
 	private void deleteFile(BoardVO board) {
@@ -251,12 +262,14 @@ public class BoardController {
 				bService.deleteBoard(board.getBno());
 			}
 			rttr.addFlashAttribute("result", "선택한 일기를 삭제하였습니다.");
+			rttr.addFlashAttribute("type", "success");
 		}catch(Exception e){
-			rttr.addFlashAttribute("result", "[ERROR] 선택된 일기가 삭제되지 못했습니다.");
+			rttr.addFlashAttribute("result", "선택된 일기가 삭제되지 못했습니다.");
+			rttr.addFlashAttribute("type", "error");
 		}
 		rttr.addFlashAttribute("returnTo", "board/list.do");
 		
-		return "redirect:/";		
+		return "redirect:/empty";		
 	}
 	
 	
@@ -321,20 +334,22 @@ public class BoardController {
 			List<DiaryVO> dList = dService.selectDiaryByUid(auth.getUid());
 			if(dList.size()>0){
 				DiaryVO diary = dList.get(0);
-				bVO.setDno(diary.getDno());
+				bVO.setDno(diary);
 				bService.insertBoard(bVO);
-				rttr.addFlashAttribute("result", "SUCCESS");
+				rttr.addFlashAttribute("result", "일기를 성공적으로 등록하였습니다.");
+				rttr.addFlashAttribute("type", "success");
 			}else{
 				rttr.addFlashAttribute("result", "[ERROR] 일기를 작성할 다이어리가 존재하지 않습니다.");
 			}
 			
 		}catch(Exception e){
-			rttr.addFlashAttribute("result", e.getMessage());
+			rttr.addFlashAttribute("result", "일기를 등록하지 못하였습니다.");
+			rttr.addFlashAttribute("type", "error");
 			e.printStackTrace();
 			logger.info(e.getMessage());
 		}		
-
-		return "redirect:/board/list.do";
+		rttr.addFlashAttribute("returnTo", "board/list.do");
+		return "redirect:/empty";
 	}
 	
 	

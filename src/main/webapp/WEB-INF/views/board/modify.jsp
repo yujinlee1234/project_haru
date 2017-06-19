@@ -4,6 +4,7 @@
 <style>
 	input[type='checkbox']{display: block;}
 	input[type='file']{clear: both;}
+	button#btnPicDel{font-weight: bold; }
 	
 </style>
 <section class="content haru_section">
@@ -24,8 +25,7 @@
 						</div>
 						<div class="form-group">
 							<label>오늘의 이미지</label><br>
-							<c:if test="${!empty board.bpic }">
-								
+							<c:if test="${!empty board.bpic }">								
 									<p id="ori_pic">
 										<input type="hidden" name="bpic" value="${board.bpic }">
 										<img alt="" src="${pageContext.request.contextPath }/display?filename=${board.bpic}" style="width:80px;">
@@ -37,7 +37,7 @@
 							<c:if test="${empty board.bpic }">
 								<p><small>등록된 이미지가 없습니다.</small></p>
 							</c:if>
-							<input type="file" name="imagefiles" class="form-control" value="${board.bpic }">
+							<input type="file" name="imagefiles" class="form-control">
 						</div>
 						<div class="form-group">
 							<label>오늘의 한 줄</label>
@@ -89,11 +89,33 @@
 		});
 		
 		$("#btnPicDel").click(function(){
-			if(confirm("기존의 이미지를 삭제하시겠습니까?")==true){
-				$("#ori_pic").css("display","none");
-				$("input[name='bpic']").val("");
-			}
+			swal({
+				  title: "기존의 이미지를 삭제하시겠습니까?",
+				  text: "당신의 하루",
+				  type: "info",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "확인",
+				  cancelButtonText:"취소",
+				  closeOnConfirm:false
+				},
+				function(){
+					swal({
+						  title: "이미지를 삭제하였습니다.",
+						  text: "당신의 하루",
+						  type: "success",
+						  showCancelButton: false,
+						  confirmButtonColor: "#DD6B55",
+						  confirmButtonText: "확인",
+						  cancelButtonText:"취소"
+						},
+						function(){
+							$("#ori_pic").css("display","none");
+							$("input[name='bpic']").val("");
+						});
+				});
 		});
+		
 	});//ready
 
 </script>

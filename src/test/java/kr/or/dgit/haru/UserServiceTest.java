@@ -9,13 +9,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import kr.or.dgit.haru.domain.AuthDTO;
-import kr.or.dgit.haru.persistence.UserDAOImpl;
+import kr.or.dgit.haru.mappers.UserMapperImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
 public class UserServiceTest {
 	@Autowired
-	private UserDAOImpl uDao;
+	private UserMapperImpl uDao;
 	
 	@Test
 	public void loginTest(){

@@ -39,6 +39,6 @@
 		<constructor-arg value="C:/project_haru/upload"/>
 	</bean>
 	
-	<context:component-scan base-package="kr.or.dgit.haru.persistence"/>
+	<context:component-scan base-package="kr.or.dgit.haru.mappers"/>
 	<context:component-scan base-package="kr.or.dgit.haru.service"/>
 </beans>

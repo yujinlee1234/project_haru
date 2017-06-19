@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 
 import kr.or.dgit.haru.domain.AuthDTO;
 import kr.or.dgit.haru.domain.UserVO;
-import kr.or.dgit.haru.persistence.UserDAO;
+import kr.or.dgit.haru.mappers.UserMapper;
 
 @Service
 public class UserServiceImpl implements UserService {
 	private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 	
 	@Autowired
-	private UserDAO uDao;
+	private UserMapper uDao;
 	
 	@Override
 	public List<AuthDTO> selectBoardLikeUser(int bno) {

@@ -16,6 +16,7 @@
     <link href="${pageContext.request.contextPath }/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Theme CSS -->
+    <link href="${pageContext.request.contextPath }/resources/css/creative.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath }/resources/css/freelancer.min.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath }/resources/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
 
@@ -51,8 +52,12 @@
 
     <!-- Theme JavaScript -->
     <script src="${pageContext.request.contextPath }/resources/js/freelancer.min.js"></script>
+    
+    <script src="${pageContext.request.contextPath }/resources/js/sweetalert.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/sweetalert.css">
+    
     <style type="text/css">
-    	section.haru_section{height:810px; margin-top:100px; overflow: auto;}   	
+    	section.haru_section{height:750px; margin-top:100px; overflow: auto;}   	
     	.text-left{text-align: left !important;}
     	.text-right{text-align: right !important;}
     	#logo{width:30px; margin-left:10px; display: inline-block !important;}
@@ -84,9 +89,21 @@
                     <li class="page-scroll">
                         <a href="${pageContext.request.contextPath }/diary/list.do">오늘의 일기</a>
                     </li>
-                    <li class="page-scroll">
-                        <a href="${pageContext.request.contextPath }/board/list.do">당신의 하루</a>
-                    </li>
+                    
+                    <c:if test="${!empty auth }"> 	
+                   		<!-- 일반 회원 -->
+	                    <li class="page-scroll">
+	                        <a href="${pageContext.request.contextPath }/board/list.do">당신의 하루</a>
+	                    </li>          	            
+                    	 <c:if test="${auth.uadmin }">
+                    	 	 <li class="page-scroll">
+		                        <a href="${pageContext.request.contextPath }/admin/list.do">회원의 하루</a>
+		                    </li>
+		                    <li class="page-scroll">
+		                        <a href="${pageContext.request.contextPath }/admin/member">회원 관리</a>
+		                    </li>
+	                    </c:if>
+                    </c:if>
                     <li class="dropdown user user-menu">
 		                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 		                	<c:if test="${!empty auth }">
@@ -136,17 +153,10 @@
 			                    </div>
 		                    </c:if>
 		                    <c:if test="${!empty auth }">
-		                    	<div class="pull-left input-group-btn">		           
-			                    	<c:if test="${!user.uadmin }">			                    	
-				                      	<a href="${pageContext.request.contextPath }/member/info.do" class="btn btn-default btn-flat">회원 정보</a>
-				                    	<a href="${pageContext.request.contextPath }/diary/mylist.do" class="btn btn-default btn-flat">다이어리</a>
-				                    	<a href="${pageContext.request.contextPath }/member/logout" class="btn btn-default btn-flat">로그아웃</a>
-				                    </c:if>
-				                    <c:if test="${user.uadmin }">
-			                    		<a href="${pageContext.request.contextPath }/member/info.do" class="btn btn-default btn-flat">회원 관리</a>
-				                    	<a href="${pageContext.request.contextPath }/diary/mylist.do" class="btn btn-default btn-flat">일기 관리</a>
-				                    	<a href="${pageContext.request.contextPath }/member/logout" class="btn btn-default btn-flat">로그아웃</a>
-				                    </c:if>
+		                    	<div class="pull-left input-group-btn">		           			                    	
+			                      	<a href="${pageContext.request.contextPath }/member/info.do" class="btn btn-default btn-flat">회원 정보</a>
+			                    	<a href="${pageContext.request.contextPath }/diary/mylist.do" class="btn btn-default btn-flat">다이어리</a>
+			                    	<a href="${pageContext.request.contextPath }/member/logout" class="btn btn-default btn-flat">로그아웃</a>
 			                    </div>			   
 		                    </c:if>
 		                  </li>

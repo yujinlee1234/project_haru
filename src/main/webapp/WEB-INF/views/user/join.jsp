@@ -10,17 +10,19 @@
 </style>
 <section class="content haru_section">
 	<div class="row">
-		<div class="col-lg-12 text-center">
-            <h3>회원 가입</h3>
-            <hr class="star-primary">
-        </div>
-		<div class="col-md-8 col-md-offset-2">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="box">
+				<div class="box-header text-center">
+		            <h3>회원 가입</h3>
+		            <hr class="star-primary">
+		        </div>			
+			</div>
 			<div class="box">
 				<form role="form" id="form1" action="${pageContext.request.contextPath }/member/join" method="post" enctype="multipart/form-data">					
 					<div class="form-group">
 						<label>아이디</label>
 						<div class="input-group">
-							<input type="text" placeholder="Enter ID" name="uid" class="form-control" required="required" style="width:90%;">
+							<input type="text" placeholder="Enter ID" name="uid" class="form-control" required="required">
 							<span class="input-group-btn" style="width:10%;">
 								<button type="button" class="btn btn-primary" id="chkID">중복 확인</button>
 							</span>
@@ -62,12 +64,30 @@
 		var result = checkID();
 		if(result != undefined){
 			if(result == true){
-				alert("가입가능한 아이디 입니다.");
-				$("input[name='upass']").focus();
+				swal({
+					  title: "가입 가능한 아이디입니다.",
+					  text: "당신의 하루",
+					  type: "success",
+					  showCancelButton: false,
+					  confirmButtonColor: "#DD6B55",
+					  confirmButtonText: "확인",
+					  cancelButtonText:"취소"
+					},function(){
+						$("input[name='upass']").focus();		
+					});					
 			}else{
-				alert("이미 존재하는 아이디 입니다.");
-				$("input[name='uid']").val("");
-				$("input[name='uid']").focus();
+				swal({
+					  title: "이미 존재하는 아이디입니다.",
+					  text: "당신의 하루",
+					  type: "warning",
+					  showCancelButton: false,
+					  confirmButtonColor: "#DD6B55",
+					  confirmButtonText: "확인",
+					  cancelButtonText:"취소"
+					},function(){
+						$("input[name='uid']").val("");
+						$("input[name='uid']").focus();		
+					});	
 			}
 		}
 	});	
@@ -87,9 +107,18 @@
 			$("#upwChk").focus();
 			return false;
 		}else if(checkID() != undefined && checkID() == false){
-			alert("이미 존재하는 아이디 입니다.");
-			$("input[name='uid']").val("");
-			$("input[name='uid']").focus();
+			swal({
+				  title: "이미 존재하는 아이디입니다.",
+				  text: "당신의 하루",
+				  type: "warning",
+				  showCancelButton: false,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "확인",
+				  cancelButtonText:"취소"
+				},function(){
+					$("input[name='uid']").val("");
+					$("input[name='uid']").focus();		
+				});	
 			return false;
 		}	
 	});
@@ -113,8 +142,17 @@ function checkID(){
 			}
 		});
 	}else{
-		alert("아이디를 입력해 주세요.");
-		$("input[name='uid']").focus();
+		swal({
+			  title: "아이디를 입력해 주세요.",
+			  text: "당신의 하루",
+			  type: "warning",
+			  showCancelButton: false,
+			  confirmButtonColor: "#DD6B55",
+			  confirmButtonText: "확인",
+			  cancelButtonText:"취소"
+			},function(){
+				$("input[name='uid']").focus();		
+			});	
 	}
 	
 	return result;

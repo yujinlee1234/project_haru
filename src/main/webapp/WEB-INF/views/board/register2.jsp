@@ -33,7 +33,7 @@
 						</div>
 						<div class="form-group text-right">
 							<label>공개</label>
-							<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="mini" class="openSwitch">
+							<input type="checkbox" name="openSwitch" data-on-color="success" data-on-text="&nbsp;" data-off-text="&nbsp;" data-size="large" class="openSwitch">
 							<input type="hidden" name="bopen">
 						</div>
 						<div class="form-group text-center">
@@ -56,6 +56,11 @@
 		testDate();	
 		
 		$(".openSwitch").bootstrapSwitch("state",${diary.dopen});
+		
+		if(${diary.dopen}==false){
+			$(".openSwitch").bootstrapSwitch("disabled",true);
+		}
+		
 		
 		$("#btnBack").click(function(){
 			location.href="list.do";

@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.dgit.haru.domain.BoardVO;
-import kr.or.dgit.haru.persistence.BoardDAO;
+import kr.or.dgit.haru.mappers.BoardMapper;
 
 @Service
 public class BoardServiceImpl implements BoardService {
 	private final Logger logger = LoggerFactory.getLogger(BoardServiceImpl.class);
 	@Autowired
-	private BoardDAO bDao;
+	private BoardMapper bDao;
 
 	@Override
 	public List<BoardVO> selectAllBoard(int dno) {
@@ -97,6 +97,12 @@ public class BoardServiceImpl implements BoardService {
 	public BoardVO selectBoardByDate(Date date, int dno) {
 		// TODO Auto-generated method stub
 		return bDao.selectBoardByDate(date, dno);
+	}
+
+	@Override
+	public List<BoardVO> selectBoardForAdmin(Date date) {
+		// TODO Auto-generated method stub
+		return bDao.selectBoardForAdmin(date);
 	}
 
 }

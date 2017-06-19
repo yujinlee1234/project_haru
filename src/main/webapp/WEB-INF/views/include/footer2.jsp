@@ -6,7 +6,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        Copyright &copy; Lee Yu Jin 2017
+                    	문의/신고 : admin@mail.com <br>                 
+                        Copyright &copy; Lee Yu Jin 2017                 
                     </div>
                 </div>
             </div>

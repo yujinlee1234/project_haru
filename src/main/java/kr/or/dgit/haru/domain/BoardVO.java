@@ -14,7 +14,7 @@ public class BoardVO {
 	private  Date bdate;	//게시글 작성 날짜
 	private boolean bopen;	//게시글의 공개 여부를 boolean 형태로 결정 true-공개, false-비공개
 	private boolean bcal;	//캘린더에 다이어리를 노출시킬지 여부를 boolean 형태로 결정 true-노출, false-숨기기
-	private int dno;
+	private DiaryVO dno;
 	private String btoday;	//board_today에 있는 오늘 하루에 대한 태그를 저장할 String
 	
 	/* METHODS */
@@ -54,10 +54,10 @@ public class BoardVO {
 	public void setBcal(boolean bcal) {
 		this.bcal = bcal;
 	}
-	public int getDno() {
+	public DiaryVO getDno() {
 		return dno;
 	}
-	public void setDno(int dno) {
+	public void setDno(DiaryVO dno) {
 		this.dno = dno;
 	}
 	public String getBtoday() {

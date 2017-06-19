@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.or.dgit.haru.mapper.UserMapper">
+<mapper namespace="kr.or.dgit.haru.mappers.UserMapper">
 	
 	<select id="selectBoardLikeUser" resultType="AuthDTO">
 		select uid, uadmin, upic, exitdate from project_haru.view_board_like_user where bno = #{bno};
@@ -14,7 +14,7 @@
 		where s.bno = #{bno} order by s.stime desc
 	</select>
 	<select id="selectAllUser" resultType="UserVO">
-		select * from project_haru.`user`
+		select uid, uadmin, upic, uname, uexitdate, ujoindate from project_haru.`user` where uadmin = false 
 	</select>
 	<select id="login" resultType="AuthDTO">
 		select uid, uadmin, upic from project_haru.`user` where uid = #{uid} and upass = #{upass} and uexitdate is null 

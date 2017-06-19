@@ -2,21 +2,36 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.or.dgit.haru.mapper.BoardMapper">	
-	<select id="selectAllBoard" resultType="BoardVO">
+<mapper namespace="kr.or.dgit.haru.mappers.BoardMapper">
+	<resultMap type="BoardVO" id="ResultBoardVO">
+		<id property="bno" column="bno"/>
+		<result property="bpic" column="bpic"/>
+		<result property="bcontent" column="bcontent"/>
+		<result property="bdate" column="bdate"/>
+		<result property="bopen" column="bopen"/>
+		<result property="bcal" column="bcal"/>
+		<result property="btoday" column="btoday"/>
+		<association property="dno" resultMap="kr.or.dgit.haru.mappers.DiaryMapper.resultDiary"/>
+	</resultMap>	
+	<select id="selectAllBoard" resultMap="ResultBoardVO">
 		select * from project_haru.view_board where dno = #{dno}
 	</select>
-	<select id="selectBoardByBno" resultType="BoardVO">
+	<select id="selectBoardByBno" resultMap="ResultBoardVO">
 		select * from project_haru.view_board where bno = #{bno}
 	</select>
-	<select id="selectBoardByBDate" parameterType="int" resultType="BoardVO">
+	<select id="selectBoardByBDate" parameterType="int" resultMap="ResultBoardVO">
 		select * from project_haru.view_board where year(bdate) = #{year} and month(bdate) = #{month} and dno=#{dno} order by bdate
 	</select>
-	<select id="selectBoardByDate" resultType="BoardVO">
+	<select id="selectBoardByDate" resultMap="ResultBoardVO">
 		select * from project_haru.view_board where dno = #{dno} and date(bdate) = #{date};
 	</select>
-
-	<select id="selectBoardScrap" resultType="BoardVO">
+	<select id="selectBoardForAdmin" resultMap="ResultBoardVO">
+		select * from project_haru.view_board as b 
+		left join project_haru.diary as d 
+		on b.dno = d.dno 
+		where date(bdate) = #{date};
+	</select>
+	<select id="selectBoardScrap" resultMap="ResultBoardVO">
 		select b.*
 		from project_haru.view_board as b 
 		left join project_haru.board_scrap as s on b.bno = s.bno
@@ -28,7 +43,7 @@
 			select last_insert_id()
 		</selectKey>		
 		insert into project_haru.board(bpic, bcontent, bopen, dno, bdate) 
-		values(#{bpic}, #{bcontent}, #{bopen}, #{dno}, #{bdate})
+		values(#{bpic}, #{bcontent}, #{bopen}, #{dno.dno}, #{bdate})
 	</insert>
 	
 	<insert id="insertBoardToday" parameterType="BoardVO">
@@ -37,7 +52,7 @@
 	
 	<update id="updateBoard" parameterType="BoardVO">
 		update project_haru.board 
-		set bpic = #{bpic}, bcontent = #{bcontent}, bopen = #{bopen}, dno = #{dno}, bcal = #{bcal} 
+		set bpic = #{bpic}, bcontent = #{bcontent}, bopen = #{bopen}, dno = #{dno.dno}, bcal = #{bcal} 
 		where bno = #{bno}
 	</update>
 	

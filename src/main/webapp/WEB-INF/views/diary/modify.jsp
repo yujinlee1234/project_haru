@@ -30,7 +30,7 @@
 						<br>
 						<div class="form-group">
 							<label>다이어리 제목</label>
-							<input type="text" placeholder="Enter Content" name="dtitle" class="form-control" value="${diary.dtitle }">
+							<input type="text" placeholder="Enter Content" name="dtitle" class="form-control" value="${diary.dtitle }" required="required">
 						</div>
 						<br>
 						<div class="form-group">
