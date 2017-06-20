@@ -52,6 +52,18 @@ public interface BoardMapper {
 	 * */
 	public List<BoardVO> selectBoardScrap(String uid);//스크랩한 게시글을 가져오기 위해 사용	
 	
+	/**	스크랩 여부 확인
+	 * */
+	public BoardVO selectBoardScrapByBno(String uid, int bno);//스크랩한 게시글을 가져오기 위해 사용	
+	
+	/**	스크랩 
+	 * */
+	public int insertScrap(String uid, int bno);//스크랩한 게시글을 가져오기 위해 사용	
+	
+	/**	비스크랩 
+	 * */
+	public int deleteScrap(String uid, int bno);//스크랩한 게시글을 가져오기 위해 사용
+	
 	/** 게시물 번호로 게시물 return
 	 * */
 	public BoardVO selectBoardByDate(Date date, int dno);

@@ -32,11 +32,24 @@
 		where date(bdate) = #{date};
 	</select>
 	<select id="selectBoardScrap" resultMap="ResultBoardVO">
+		select b.*, d.dtitle, d.uid
+		from project_haru.view_board as b 
+		left join project_haru.board_scrap as s on b.bno = s.bno 
+		left join project_haru.diary as d on b.dno = d.dno 
+		where s.uid = #{uid} order by s.stime desc 
+	</select>
+	<select id="selectBoardScrapByBno" resultMap="ResultBoardVO">
 		select b.*
 		from project_haru.view_board as b 
 		left join project_haru.board_scrap as s on b.bno = s.bno
-		where s.uid = #{uid} order by s.stime desc 
+		where s.uid = #{uid} and s.bno = #{bno} 
 	</select>
+	<insert id="insertScrap">
+		insert into project_haru.board_scrap values(#{uid}, #{bno}, now()) 
+	</insert>
+	<delete id="deleteScrap">
+		delete from project_haru.board_scrap where uid = #{uid} and bno = #{bno} 
+	</delete>
 	
 	<insert id="insertBoard" parameterType="BoardVO">
 		<selectKey resultType="int" keyProperty="bno" order="AFTER">

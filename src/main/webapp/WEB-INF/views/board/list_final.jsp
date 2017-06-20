@@ -27,6 +27,7 @@
 	div#board-user-btn{width:90px; position: fixed; top:300px; right:50px; }
 	div#diaryOpen{display:inline; float: none;width: 24px; height:24px;margin-left: 10px;}
 	div#diaryOpen img{width: 24px; height:24px;}
+	input.scrap{display: none;}
 </style>
 
 <section class="content haru_section">
@@ -75,6 +76,7 @@
 		<div class="text-center col-md-1 board-user">
 			<div id="board-user-btn">
 				<button id="addBtn" class="btn btn-success btn_haru">일기 등록</button>
+				<button id="goScrapBtn" class="btn btn-info btn_haru">스크랩</button>
 				<span class="boardDel">				
 					<button id="selDelBtn" class="btn btn-primary btn_haru">선택 삭제</button>	
 					<button id="allDelBtn" class="btn btn-warning btn_haru">전체 삭제</button>
@@ -83,6 +85,7 @@
 					<button id="delBtn" class="btn btn-danger btn_haru">삭제</button>
 					<button id="cancelBtn" class="btn btn_haru">취소</button>
 				</span>
+				
 			</div>
 		</div>
 	</div>
@@ -99,6 +102,12 @@
       </div>
       <div class="modal-body">
       	<div id="diary-modal">
+      		<div class="wrap_chkbox_scrap">
+				<div class="chkbox">						
+					<input type="checkbox" name="chk" class="chk" id="scrap_chk"/>						
+					<img src="${pageContext.request.contextPath }/resources/img/bookmark_true.png"/>
+				</div>
+			</div>
 	      	<p class="text-left" id="bdate"></p>
 	        <img alt="" src="" id="modalImg"><br>
 	        <div id="fileName">
@@ -123,7 +132,7 @@
 	#myModal .modal-dialog .modal-body #diary-modal{margin: 0 auto; position:relative; width:500px; height:660px; padding : 10px 30px; border: 1px solid #ccc; box-shadow:1px 1px 1px #ccc;}
 	#myModal .modal-dialog .modal-body #diary-modal p, #myModal .modal-dialog .modal-body #diary-modal div#fileName{width:400px; margin: 0 auto;margin-bottom:5px; display: block;}
 	#myModal .modal-dialog .modal-footer{height: 60px !important;}
-	#myModal .modal-dialog #modalImg{width: 400px; height:500px;}
+	#myModal .modal-dialog #modalImg{width: 400px; height:500px; margin: 0 auto;}
 	#myModal #btoday{position: absolute; text-align:right !important; bottom:10px; }
 </style>
 
@@ -142,6 +151,8 @@
 	var uid = "${auth.uid}";
 	var dUid = "${diary.uid}";
 	
+	var scrapedCheck = "";
+	
 	$(function(){
 		
 		<c:if test="${empty diary}">
@@ -157,6 +168,10 @@
 			$("#btnMod").css("display","none");
 			$("#diaryOpen").css("display","none");
 		}
+		
+		if(uid == "" || dUid == uid){
+			$(".wrap_chkbox_scrap").css("display","none");
+		}
 		</c:if>
 		
 		$(document).on("click",".showImage", function(){
@@ -165,6 +180,29 @@
 			var btoday = $(this).find(".btoday").val();
 			var bdate = $(this).find(".bdate").val();
 			var bno = $(this).find(".bno").val();
+			var scrap = $(this).find(".scrap");
+			
+			
+			
+			if(typeof scrap != "undefined"){
+				console.log(scrap);
+				$(".wrap_chkbox_scrap").css("display", "block");
+				if(scrap.prop("checked")==true){
+					$("#scrap_chk").prop("checked","true");
+					$(".wrap_chkbox_scrap img").attr("src","${pageContext.request.contextPath}/resources/img/bookmark_true.png");
+				}else{
+					$("#scrap_chk").prop("checked","false");
+					$(".wrap_chkbox_scrap img").attr("src","${pageContext.request.contextPath}/resources/img/bookmark_false.png");
+				}
+				
+				scrapedCheck = scrap;
+			}else{
+				$(".wrap_chkbox_scrap").css("display", "none");
+			}
+			
+			if(uid == "" || dUid == uid){
+				$(".wrap_chkbox_scrap").css("display","none");
+			}
 			
 			console.log("Path : "+path);
 			$("#bdate").html(bdate);
@@ -239,8 +277,8 @@
 			</c:if>
 			<c:if test="${!empty bList}">
 				swal({
-					  title: "삭제하시겠습니까?",
-					  text: "당신의 하루",
+					  title: "지금까지 작성한 모든 일기가 삭제됩니다.",
+					  text: "계속 진행하시겠습니까?",
 					  type: "info",
 					  showCancelButton: true,
 					  confirmButtonColor: "#DD6B55",
@@ -317,7 +355,7 @@
 		});
 		
 		//일기 공개여부 Checkbox 클릭 시 
-		$(document).on("click",'.chkbox img', function () {
+		$(document).on("click",'.wrap_chkbox img', function () {
 			var bno = $(this).parent().find("input.checkBno").val();
           //console.log("클릭된요소 : "+this );
           //console.log($(this))
@@ -349,7 +387,7 @@
 		  				success:function(result){
 		  					console.log(result)
 		  					if(result=='fail'){
-		  						//alert('[ERROR] 일기를 공개/비공개하지 못했습니다.');
+		  						
 		  						swal({
 			  						  title: "일기를 공개/비공개 하지 못했습니다.",
 			  						  text: "당신의 하루",
@@ -373,7 +411,7 @@
 		  							$checkbox.prop("checked",isChecked);
 		  							$chkImg.attr("src", "${pageContext.request.contextPath }/resources/img/chkbox_" + isChecked + ".png");
 		  						});
-		  						//alert("일기가 공개 되었습니다.");
+		  						
 		  						
 		  					}else if(result=='false'){
 		  						swal({
@@ -388,45 +426,15 @@
 			  							$checkbox.prop("checked",isChecked);
 			  							$chkImg.attr("src", "${pageContext.request.contextPath }/resources/img/chkbox_" + isChecked + ".png");
 			  						});
-		  						//alert("일기가 비공개 되었습니다.");
+		  					
 		  					}
 		  					
 		  				}
 		 			});		    
-				});	
- 				//체크박스의 체크상태와 체크박스 이미지 변경
-	         	/* $(this).parent().find('input.chk').prop("checked", isChecked);
-	            $(this).attr("src", "${pageContext.request.contextPath }/resources/img/chkbox_" + isChecked + ".png"); */
-	        /* if(confirm("다이어리를 "+(isChecked==true?"비공개":"공개")+"하시겠습니까?")==true){
-	        	//현재의 체크 상태의 반대값을 저장( true이면 false로 )
-				isChecked = !isChecked;	            
-		  		console.log(bno);
-	  			$.ajax({
-	  				url:"${pageContext.request.contextPath }/board/modifyOpen/"+bno,
-	  				type:"post",
-	  				async:false,
-	  				dataType:"text",
-	  				success:function(result){
-	  					console.log(result)
-	  					if(result=='fail'){
-	  						alert('[ERROR] 일기를 공개/비공개하지 못했습니다.');
-	  						return false;
-	  					}else if(result=='true'){
-	  						alert("일기가 공개 되었습니다.");
-	  						
-	  					}else if(result=='false'){
-	  						alert("일기가 비공개 되었습니다.");
-	  					}
-	  					
-	  				}
-	 			});
-	  			//체크박스의 체크상태와 체크박스 이미지 변경 
-	    	    $(this).parent().find('input.chk').prop("checked", isChecked);
-	            $(this).attr("src", "${pageContext.request.contextPath }/resources/img/chkbox_" + isChecked + ".png");   
-	       	}  */         
+				});	       
         });
 		
-		//일기 공개여부 Checkbox 클릭 시 
+		//다이어리 공개여부 Checkbox 클릭 시 
 		$(document).on("click",'#diaryOpen img', function () {
 			var bno = $(this).parent().find("input.checkDno").val();         
           //체크 박스의 체크 유무를 확인하기 위해 checked값을 얻어옴.
@@ -498,9 +506,93 @@
 		  					
 		  				}
 		 			});		    
-				});	
- 				        
+				});	 				        
         });
+		
+		//일기 스크랩 Checkbox 클릭 시 
+		$(document).on("click",'.wrap_chkbox_scrap img', function () {
+			var bno = $(this).parents("#myModal").find("#modalBno").val();
+          //console.log("클릭된요소 : "+this );
+          //console.log($(this))
+          //console.log("클릭된요소의 부모요소 : "+ (this.parentElement));
+          //console.log($(this).parent())
+         
+          //체크 박스의 체크 유무를 확인하기 위해 checked값을 얻어옴.
+          	var $chkImg = $(this);
+          	var $checkbox = $("#scrap_chk");
+          	var isChecked = $("#scrap_chk").prop("checked"); 
+         	console.log(isChecked); //boolean값으로 true, false    
+         	swal({
+				  title: "일기를 스크랩/스크랩 해지 하시겠습니까?",
+				  text: "당신의 하루",
+				  type: "info",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  cancelButtonText:"취소",
+				  confirmButtonText: "확인",
+				  closeOnConfirm:false,
+				},function(){
+					isChecked = !isChecked;	            
+			  		console.log(bno);
+		  			$.ajax({
+		  				url:"${pageContext.request.contextPath }/board/scrap/"+bno,
+		  				type:"post",
+		  				async:false,
+		  				dataType:"text",
+		  				success:function(result){
+		  					console.log(result)
+		  					if(result=='fail'){		  						
+		  						swal({
+			  						  title: "일기를 스크랩/스크랩 해지 하지 못했습니다.",
+			  						  text: "당신의 하루",
+			  						  type:"error",
+			  						  showCancelButton: false,
+			  						  confirmButtonColor: "#DD6B55",
+			  						  cancelButtonText:"취소",
+			  						  confirmButtonText: "확인"
+			  						});
+		  						return false;
+		  					}else if(result=='true'){
+		  						swal({
+		  						  title: "일기가 스크랩되었습니다.",
+		  						  text: "당신의 하루",
+		  						  imageURL:"${pageContext.request.contextPath}/resources/img/bookmark_true.png",
+		  						  showCancelButton: false,
+		  						  confirmButtonColor: "#DD6B55",
+		  						  cancelButtonText:"취소",
+		  						  confirmButtonText: "확인"
+		  						},function(){
+		  							$checkbox.prop("checked",true);
+		  							scrapedCheck.prop("checked",true);
+		  							$chkImg.attr("src", "${pageContext.request.contextPath }/resources/img/bookmark_true.png");
+		  						});
+		  						
+		  						
+		  					}else if(result=='false'){
+		  						swal({
+			  						  title: "일기가 스크랩해지 되었습니다.",
+			  						  text: "당신의 하루",
+			  						  imageURL:"${pageContext.request.contextPath}/resources/img/bookmark_true.png",
+			  						  showCancelButton: false,
+			  						  confirmButtonColor: "#DD6B55",
+			  						  cancelButtonText:"취소",
+			  						  confirmButtonText: "확인"
+			  						},function(){
+			  							$checkbox.prop("checked",false);
+			  							scrapedCheck.prop("checked",false);
+			  							$chkImg.attr("src", "${pageContext.request.contextPath }/resources/img/bookmark_false.png");
+			  						});
+		  					
+		  					}
+		  					
+		  				}
+		 			});		    
+				});	       
+        });
+		
+		$("#goScrapBtn").click(function(){
+			location.href="${pageContext.request.contextPath }/board/scrap.do";
+		});
 	});//ready
 	
 	
@@ -534,7 +626,11 @@
 				// data.bList - array(넘어온 dateObj의 정보를 바탕으로 해당 년, 월의 일기 목록 array형태로 반환), data.diary - object
 				console.log(data);
 				var bList = data.bList;
-				setTable(bList, dateObj);
+				var srcList = "";
+				
+				srcList = data.scrList;
+				console.log(srcList);
+				setTable(bList, dateObj, srcList);
 				$(".pCheck").css("display", "none");
 				
 				$("p.tdCheck a").css("color","black");
@@ -548,10 +644,10 @@
 	}
 	
 	// section 내 월별 다이어리 목록 보여주는 화면
-	function setTable(bList, dateObj){
+	function setTable(bList, dateObj, srcList){
 		var today = new Date();
-		console.log(bList);
-		console.log(bList.length);
+		//console.log(bList);
+		//console.log(bList.length);
 		
 		var bIndex = 0;
 		var tempDate = dateObj;//보여줄 년, 월 정보를 담고 있음
@@ -611,9 +707,7 @@
 							tableForm +='<p class="tdCheck">';
 						}
 						
-						tableForm += '<input type="checkbox" name="delFiles" class="pCheck" value="'+bList[bIndex].bno+'">'+dNum;
-						
-						
+						tableForm += '<input type="checkbox" name="delFiles" class="pCheck" value="'+bList[bIndex].bno+'">'+dNum;						
 						
 						// 일기의 공개 여부
 						if(uid != "" && dUid == uid){
@@ -640,6 +734,28 @@
 							tableForm += '<img alt="'+bList[bIndex].originalname +'" src="${pageContext.request.contextPath }/display?filename='+bList[bIndex].bpic+'">';
 						}
 						tableForm += '<input type="hidden" value="'+bList[bIndex].bno+'" class="bno"><input type="hidden" value="'+bList[bIndex].bcontent+'" class="bcontent"><input type="hidden" value="'+bList[bIndex].bdateForm+'" class="bdate"><input type="hidden" value="'+bList[bIndex].btoday+'" class="btoday">';
+						
+						if(uid != "" && dUid != uid){
+							console.log(uid);
+							console.log("srcList: " + srcList);
+							//내가 스크랩 한 게시물인지 체크
+							if(typeof srcList != "undefined"){
+								if(srcList.length > 0){			
+							
+									var scrapForm = '<input type="checkbox" class="scrap" value="'+bList[bIndex].bno+'">';
+									for(var i = 0; i < srcList.length; i++){
+										if(bList[bIndex].bno == srcList[i].bno){
+											scrapForm = '<input type="checkbox" class="scrap" value="'+bList[bIndex].bno+'" checked="checked">';
+											break;
+										}
+									}
+									tableForm += scrapForm;
+								}else{
+									tableForm += '<input type="checkbox" class="scrap" value="'+bList[bIndex].bno+'">';
+								}	
+							}
+						}
+						
 						tableForm += '</a>';
 						tableForm += '</figure>';						
 						tableForm += '</div>';					
@@ -703,5 +819,34 @@
 	    vertical-align: middle; 
 	 }    
 
+	.wrap_chkbox_scrap{    
+		position:absolute;
+		right:20px;
+		top:-16px;        
+	    text-align: left; 
+	    float: right;
+	    margin-right:5px;
+	    margin-top:5px;
+	    width:30px;
+	}
+	
+	.wrap_chkbox_scrap .chkbox {
+	    display: inline-block;
+	    vertical-align: top; 
+	}
+	.wrap_chkbox_scrap .chkbox input[type=checkbox] {
+	    display: none; /*체크박스 이미지만 보여지게 하기 위해 none으로 설정*/
+	}
+	.wrap_chkbox_scrap .chkbox img {
+	    width: 45px; 
+	}
+	.wrap_chkbox_scrap p {
+	    
+	    margin-top:5px;
+	    padding-left: 5px;
+	    text-align: left;
+	    display: inline-block;
+	    vertical-align: middle; 
+	 }
 </style>
 <%@ include file="../include/footer2.jsp" %>

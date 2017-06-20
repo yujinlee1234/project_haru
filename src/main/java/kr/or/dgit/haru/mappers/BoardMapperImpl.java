@@ -116,4 +116,29 @@ public class BoardMapperImpl implements BoardMapper {
 		return session.selectList(namespace+".selectBoardForAdmin", ProjectHaru.dateFormat.format(date));
 	}
 
+	@Override
+	public BoardVO selectBoardScrapByBno(String uid, int bno) {
+		// TODO Auto-generated method stub
+		Map<String, Object> rMap = new HashMap<>();
+		rMap.put("uid", uid);
+		rMap.put("bno", bno);
+		return session.selectOne(namespace+".selectBoardScrapByBno", rMap);
+	}
+
+	@Override
+	public int insertScrap(String uid, int bno) {
+		Map<String, Object> rMap = new HashMap<>();
+		rMap.put("uid", uid);
+		rMap.put("bno", bno);
+		return session.insert(namespace+".insertScrap", rMap);
+	}
+
+	@Override
+	public int deleteScrap(String uid, int bno) {
+		Map<String, Object> rMap = new HashMap<>();
+		rMap.put("uid", uid);
+		rMap.put("bno", bno);
+		return session.delete(namespace+".deleteScrap", rMap);
+	}
+
 }

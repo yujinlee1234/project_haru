@@ -40,7 +40,7 @@
 						</a>
 						<div class="portfolio-caption">
 							<h4>${diary.dtitle }<br>
-								<small>${diary.uid }님</small>
+								<small class="uids">${diary.uid }님</small>
 							</h4>
 							<p class="text-muted"></p>
 						</div>
@@ -85,5 +85,19 @@
 	}else if("${result}"=="rFAIL"){
 		alert("삭제에 실패하였습니다.");
 	}
+	$(function(){
+		var $ids = $(".uids");
+		var myID = "${auth.uid}";
+		if(typeof $ids != "undefined"){
+			for(var i=0;i<$ids.length; i++){
+				var $id = $ids[i];
+				var thatID = $id.innerHTML;
+				console.log(thatID.substring(0, thatID.length-1));
+				if(thatID.substring(0, thatID.length-1)==myID){
+					$id.innerHTML = "(내 다이어리)";
+				}
+			}
+		} 
+	});//ready
 </script>
 <%@ include file="../include/footer2.jsp" %>
