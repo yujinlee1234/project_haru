@@ -45,6 +45,8 @@
 			<mapping path="/member/check"/>
 			<mapping path="/member/mod"/>
 			<mapping path="/member/exit"/>
+			<mapping path="/board/scrap"/>
+			<mapping path="/board/scrap.do"/>
 			<beans:ref bean="authIntercepter"/>
 		</interceptor>
 		<interceptor>

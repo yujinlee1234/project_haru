@@ -70,6 +70,18 @@ public class BoardController {
 		return "/board/list_final";
 	}
 	
+	@RequestMapping(value="/scrap.do", method=RequestMethod.GET)
+	public String getScrapedBoard(HttpSession session, Model model){
+		AuthDTO auth = (AuthDTO) session.getAttribute("auth");
+		
+		List<BoardVO> bList = null;	
+		bList = bService.selectBoardScrap(auth.getUid());
+		System.out.println(bList);
+		model.addAttribute("bList", bList);
+				
+		return "/board/list_scrap";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value="/list.do/{dno}", method=RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getAllBoardByDno3(HttpSession session, @PathVariable int dno, int year, int month){
@@ -78,8 +90,10 @@ public class BoardController {
 			Map<String, Object> rMap = new HashMap<>();
 			
 			List<BoardVO> bList = null;
+			List<BoardVO> scrList = null;
 			DiaryVO diary = dService.selectDiaryByDno(dno);
 			bList = bService.selectBoardByBDate(year, month, dno);
+			
 			if(session.getAttribute("auth") == null){
 				List<BoardVO> boardList = new ArrayList<>();
 				for(BoardVO vo:bList){
@@ -88,8 +102,19 @@ public class BoardController {
 					}
 				}
 				rMap.put("bList", boardList);
-			}else{
+			}else{	
 				rMap.put("bList", bList);
+				
+				if(!diary.getUid().equals(((AuthDTO)session.getAttribute("auth")).getUid())){
+					scrList = bService.selectBoardScrap(((AuthDTO)session.getAttribute("auth")).getUid());
+					List<BoardVO> boardList = new ArrayList<>();
+					for(BoardVO vo:scrList){
+						if(vo.getDno().getDno() == dno){
+							boardList.add(vo);
+						}
+					}
+					rMap.put("scrList", scrList);
+				}
 			}
 			rMap.put("diary", diary);
 			result = new ResponseEntity<Map<String, Object>>(rMap, HttpStatus.OK);
@@ -416,5 +441,84 @@ public class BoardController {
 			}			
 		}
 		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/scrap/{bno}", method=RequestMethod.POST)
+	public String scrapBoard(@PathVariable int bno, HttpSession session, Model model){		
+		String result = "";
+		AuthDTO auth = (AuthDTO) session.getAttribute("auth");
+		if(auth != null){
+			String uid = auth.getUid();
+			List<DiaryVO> dList = dService.selectDiaryByUid(uid);
+			if(!dList.isEmpty()){
+				BoardVO board = bService.selectBoardByBno(bno);
+				if(dList.get(0).getDno() == board.getDno().getDno()){
+					result = "fail";
+				}else{
+					BoardVO bVO = bService.selectBoardScrapByBno(uid, bno);
+					try{
+						if(bVO != null){//이미 스크랩 된 게시물 => 스크랩 해지
+							bService.deleteScrap(uid, bno);
+							result = "false";
+						}else{//아직 스크랩 되지 않은 게시물 => 스크랩
+							bService.insertScrap(uid, bno);
+							result = "true";
+						}
+					}catch(Exception e){
+						result = "fail";
+					}
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping(value="/scrap/del", method=RequestMethod.POST)
+	public String scrapBoardDel(HttpSession session, Model model, RedirectAttributes rttr){		
+		AuthDTO auth = (AuthDTO) session.getAttribute("auth");
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		try{
+			String[] fileList = request.getParameterValues("delFiles");
+			
+			for(String file: fileList){
+				System.out.println(file);
+				BoardVO board = bService.selectBoardByBno(Integer.parseInt(file));				
+				bService.deleteScrap(auth.getUid(), board.getBno());
+			}
+			rttr.addFlashAttribute("result", "선택한 일기를 삭제하였습니다.");
+			rttr.addFlashAttribute("type", "success");
+			rttr.addFlashAttribute("returnTo", "board/scrap.do");
+		}catch(Exception e){
+			rttr.addFlashAttribute("result", "선택한 일기를 삭제하지 못했습니다.");
+			rttr.addFlashAttribute("type", "error");
+			rttr.addFlashAttribute("returnTo", "board/scrap.do");
+		}
+		
+		return "redirect:/empty";
+	}
+	
+	@RequestMapping(value="/scrap/del", method=RequestMethod.GET)
+	public String scrapBoardDelGET(HttpSession session, Model model, RedirectAttributes rttr){		
+		AuthDTO auth = (AuthDTO) session.getAttribute("auth");
+		
+		try{
+			List<BoardVO> sList = bService.selectBoardScrap(auth.getUid());
+			
+			for(BoardVO file: sList){
+				System.out.println(file);				
+				bService.deleteScrap(auth.getUid(), file.getBno());
+			}
+			rttr.addFlashAttribute("result", "스크랩된 일기를 모두 삭제하였습니다.");
+			rttr.addFlashAttribute("type", "success");
+			rttr.addFlashAttribute("returnTo", "board/scrap.do");
+		}catch(Exception e){
+			rttr.addFlashAttribute("result", "스크랩된 일기를 모두 삭제하지 못했습니다.");
+			rttr.addFlashAttribute("type", "error");
+			rttr.addFlashAttribute("returnTo", "board/scrap.do");
+		}
+		
+		return "redirect:/empty";
 	}
 }

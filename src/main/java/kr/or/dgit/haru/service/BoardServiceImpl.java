@@ -105,4 +105,22 @@ public class BoardServiceImpl implements BoardService {
 		return bDao.selectBoardForAdmin(date);
 	}
 
+	@Override
+	public BoardVO selectBoardScrapByBno(String uid, int bno) {
+		// TODO Auto-generated method stub
+		return bDao.selectBoardScrapByBno(uid, bno);
+	}
+
+	@Override
+	public int insertScrap(String uid, int bno) {
+		// TODO Auto-generated method stub
+		return bDao.insertScrap(uid, bno);
+	}
+
+	@Override
+	public int deleteScrap(String uid, int bno) {
+		// TODO Auto-generated method stub
+		return bDao.deleteScrap(uid, bno);
+	}
+
 }

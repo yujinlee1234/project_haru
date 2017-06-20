@@ -4,12 +4,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <style>
-	table.user_table{ width:100%; margin-top: 50px;}
+	table.user_table{ width:100%; margin-top: 50px; font-size: 14px;}
 	table.user_table th { padding:20px;}
 	table.user_table td{padding:20px;}
 	table.user_table td.btns{padding-top:30px !important;width:20%;} 
 	table.user_table th{width:40%; text-align: right;}
-	table.user_table td img{width:100px; height:100px;}
+	table.user_table td img{width:150px; height:150px;}
 	#uPassForm, #pass2{display: none;}
 	
 	table.user_table td.btns span{display: none;}
@@ -33,8 +33,8 @@
 						<table style="width:100%;" class="user_table table">
 							<tr>
 								<td colspan="3" class="text-center">
-									<c:if test="${! empty diary.dpic }">
-										<img alt="" src="${pageContext.request.contextPath }/display?filename=${diary.dpic}">
+									<c:if test="${!empty diary.dpic }">
+										<img alt="" src="${pageContext.request.contextPath }/display?filename=${diary.originalname}">
 									</c:if>
 									<c:if test="${empty diary.dpic }">
 										<img alt="" src="${pageContext.request.contextPath }/resources/img/book-with-bookmark.png">
