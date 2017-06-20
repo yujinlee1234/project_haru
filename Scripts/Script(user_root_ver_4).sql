@@ -6,7 +6,7 @@ CREATE SCHEMA `project_haru`;
 
 -- 일기
 CREATE TABLE `project_haru`.`diary` (
-	`dno`    BIGINT       NOT NULL COMMENT '다이어리 번호', -- 다이어리 번호
+	`dno`    BIGINT       NOT null auto_increment COMMENT '다이어리 번호', -- 다이어리 번호
 	`dtitle` VARCHAR(150) NOT NULL COMMENT '다이어리 타이틀', -- 다이어리 타이틀
 	`dpic`   VARCHAR(255) NULL     COMMENT '다이어리 대표사진', -- 다이어리 대표사진
 	`ddate`  TIMESTAMP    NULL     DEFAULT now() COMMENT '다이어리 시작날짜', -- 다이어리 시작날짜

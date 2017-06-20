@@ -113,10 +113,11 @@ public class RestMemberController {
 			UserVO user = uService.selectUser(auth.getUid());
 			
 			if(auth != null){	
+				System.out.println(auth);
 				rMap.put("user", auth);
 				if(auth.getUpic()!= null){
 					rMap.put("user_img", displayFile(user.getUpic()));
-					System.out.println(displayFile(user.getUpic()).getBody().toString());
+					System.out.println(displayFile(user.getUpic()).toString());
 				}
 				rMap.put("Result", "success");
 				result = new ResponseEntity<Map<String,Object>>(rMap, HttpStatus.OK);
@@ -152,9 +153,9 @@ public class RestMemberController {
 		return result;
 	}	
 	
-	public ResponseEntity<byte[]> displayFile(String filename) throws IOException {
+	public byte[] displayFile(String filename) throws IOException {
 		InputStream in = null;
-		ResponseEntity<byte[]> entity = null;
+		byte[] result = null;
 		
 		logger.info("[displayFile] filename : "+filename);
 		try{
@@ -168,14 +169,13 @@ public class RestMemberController {
 			
 			//IOUtils.toByteArray(in);
 			
-			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
+			result = IOUtils.toByteArray(in);
 		}catch(IOException e){
 			e.printStackTrace();
-			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}finally {
 			in.close();
 		}
 		
-		return entity;	
+		return result;	
 	}
 }
