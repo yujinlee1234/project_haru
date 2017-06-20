@@ -18,7 +18,7 @@
 				<div class="box-body">
 					<form role="form" id="addForm" method="post" enctype="multipart/form-data">
 						<input type="hidden" name="bno" value=${board.bno }>
-						<input type="hidden" name="dno" value=${board.dno }>
+						<input type="hidden" name="diaryNo" value=${board.dno.dno }>
 						<div class="form-group">
 							<label>오늘은?</label>
 							<input type="date" name="date" value=${board.bdateForm } class="form-control" required="required" disabled="disabled">

@@ -57,7 +57,7 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/sweetalert.css">
     
     <style type="text/css">
-    	section.haru_section{height:750px; margin-top:100px; overflow: auto;}   	
+    	section.haru_section{height:770px; margin-top:100px; overflow: auto;}   	
     	.text-left{text-align: left !important;}
     	.text-right{text-align: right !important;}
     	#logo{width:30px; margin-left:10px; display: inline-block !important;}

@@ -63,6 +63,7 @@ public class BoardController {
 		List<BoardVO> bList = null;
 		if(!dList.isEmpty()){
 			bList = bService.selectAllBoard(dList.get(0).getDno());
+			System.out.println(bList);
 			model.addAttribute("diary", dList.get(0));
 			model.addAttribute("bList", bList);
 		}		
@@ -150,7 +151,6 @@ public class BoardController {
 		}catch(Exception e){
 			e.printStackTrace();
 			rttr.addFlashAttribute("result","잠시후 다시 시도해 주세요.");
-			rttr.addFlashAttribute("returnTo", "diary/list.do");
 			rttr.addFlashAttribute("type", "error");
 			return "redirect:/empty";
 		}
@@ -158,7 +158,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/mod", method=RequestMethod.POST)
-	public String modifyBoardServicePost(HttpSession session, String date, BoardVO bVO, MultipartFile imagefiles, RedirectAttributes rttr){	
+	public String modifyBoardServicePost(HttpSession session, String date, BoardVO bVO, int diaryNo ,MultipartFile imagefiles, RedirectAttributes rttr){	
 		try{
 			AuthDTO auth = (AuthDTO) session.getAttribute("auth");
 			
@@ -169,11 +169,18 @@ public class BoardController {
 				rttr.addFlashAttribute("type", "warning");
 				return "redirect:/";
 			}else{
-				if(dList.get(0).getDno() == bVO.getDno().getDno()){
+				if(dList.get(0).getDno() == diaryNo){
+					DiaryVO dVo = new DiaryVO();
+					dVo.setDno(diaryNo);
+					bVO.setDno(dVo);
 					String files = setFileList(imagefiles);// 등록된 사진
 					if(files != ""){
 						deleteFile(bVO);
 						bVO.setBpic(files);
+					}
+					
+					if(bVO.getBpic()==""){
+						bVO.setBpic(null);
 					}
 					
 					bService.updateBoard(bVO);

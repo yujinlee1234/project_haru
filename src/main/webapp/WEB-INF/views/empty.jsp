@@ -16,6 +16,9 @@
 				<c:if test="${!empty returnTo }">
 					location.href = '${pageContext.request.contextPath }/${returnTo }';
 				</c:if>
+				<c:if test="${empty returnTo }">
+					location.href = '${pageContext.request.contextPath }/';
+				</c:if>
 			});
 		//swal("${result }", "", "${type}");
 		//alert("${result }");		

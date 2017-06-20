@@ -18,7 +18,7 @@
 </style>
 <section class="haru_section">
 	<div class="row">
-		<div class="col-lg-12">
+		<div class="col-lg-8 col-lg-offset-2">
 			<div class="box">
 				<div class="box-header text-center">
 					
@@ -83,7 +83,7 @@
 						<button id="delBtn" class="btn btn-danger btn_haru">삭제</button>
 						<button id="cancelBtn" class="btn btn_haru">취소</button>
 					</span>
-					<a href="${pageContext.request.contextPath }/board/list.do" class="btn btn-primary">목록 보기</a>
+					<a href="${pageContext.request.contextPath }/admin/list.do" class="btn btn-primary">목록 보기</a>
 				</div>
 			</div>
 		</div>

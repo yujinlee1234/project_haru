@@ -1,14 +1,21 @@
 package kr.or.dgit.haru.controller.rest;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,14 +28,20 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import kr.or.dgit.haru.controller.HomeController;
 import kr.or.dgit.haru.domain.AuthDTO;
 import kr.or.dgit.haru.domain.UserVO;
 import kr.or.dgit.haru.service.UserService;
+import kr.or.dgit.haru.util.HaruTokenService;
+import kr.or.dgit.haru.util.MediaUtils;
 
 @Controller
 @RequestMapping("/rest/member")
 public class RestMemberController {
 	private final Logger logger = LoggerFactory.getLogger(RestMemberController.class);
+	
+	@Resource(name="uploadPath")
+	private String uploadPath;
 	
 	@Inject
 	private UserService uService;
@@ -81,6 +94,43 @@ public class RestMemberController {
 		}
 		return result;
 	}
+	
+	/**
+	 * 로그인 시 사용할 함수
+	 * 성공 시 Result 값으로 success값, login한 회원의 정보를 담고 있는 auth가 함께 넘어오고
+	 * 실패 시 Result 값으로 fail값이 넘어온다.
+	 * 진행과정에서 Exception 발생 시 BAD_REQUEST 반환
+	 * */
+	@ResponseBody
+	@RequestMapping(value="/info", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> getUserService(String token, HttpSession session){		
+		ResponseEntity<Map<String, Object>> result = null;
+		try{
+			
+			Map<String, Object> rMap = new HashMap<>();
+			AuthDTO auth = HaruTokenService.decodeToAuth(token);
+			System.out.println(auth);
+			UserVO user = uService.selectUser(auth.getUid());
+			
+			if(auth != null){	
+				rMap.put("user", auth);
+				if(auth.getUpic()!= null){
+					rMap.put("user_img", displayFile(user.getUpic()));
+					System.out.println(displayFile(user.getUpic()).getBody().toString());
+				}
+				rMap.put("Result", "success");
+				result = new ResponseEntity<Map<String,Object>>(rMap, HttpStatus.OK);
+				
+				
+			}else{
+				rMap.put("Result", "fail");
+				result = new ResponseEntity<Map<String,Object>>(rMap, HttpStatus.OK);
+			}	
+		}catch(Exception e){
+			result = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return result;
+	}
 
 	/**
 	 * 회원가입 시 사용할 함수
@@ -101,4 +151,31 @@ public class RestMemberController {
 		}
 		return result;
 	}	
+	
+	public ResponseEntity<byte[]> displayFile(String filename) throws IOException {
+		InputStream in = null;
+		ResponseEntity<byte[]> entity = null;
+		
+		logger.info("[displayFile] filename : "+filename);
+		try{
+			String format = filename.substring(filename.lastIndexOf(".")+1);//파일 확장자만 뽑기
+			MediaType mType = MediaUtils.getMediaType(format);
+			
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(mType);
+			
+			in = new FileInputStream(uploadPath+"/"+filename);
+			
+			//IOUtils.toByteArray(in);
+			
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
+		}catch(IOException e){
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}finally {
+			in.close();
+		}
+		
+		return entity;	
+	}
 }

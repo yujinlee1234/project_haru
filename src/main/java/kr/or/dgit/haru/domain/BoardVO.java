@@ -106,7 +106,7 @@ public class BoardVO {
 	}
 	
 	public String getOriginalname() {
-		if(bpic != null){
+		if(bpic != null && bpic != ""){
 			String path = bpic.substring(0, bpic.lastIndexOf("/")+1);
 			String originalFileName = bpic.substring(bpic.lastIndexOf("/")+3);
 			return path+originalFileName;
@@ -116,7 +116,7 @@ public class BoardVO {
 	}	
 	public String getOriginalFilename() {
 		//start index = 38
-		if(bpic != null){
+		if(bpic != null && bpic != ""){
 			String originalPath = getOriginalname();	
 			return originalPath.substring(originalPath.lastIndexOf("/")+38);
 		}else{

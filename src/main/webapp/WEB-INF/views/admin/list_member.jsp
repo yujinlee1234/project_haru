@@ -16,7 +16,7 @@
 </style>
 <section class="haru_section">
 	<div class="row">
-		<div class="col-lg-12">
+		<div class="col-lg-8 col-lg-offset-2" >
 			<div class="box">
 				<div class="box-header text-center">
 					

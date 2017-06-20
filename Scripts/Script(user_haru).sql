@@ -19,3 +19,5 @@ select * from project_haru.view_board where dno = 1 and year(bdate) = 2017 and m
 
 
 select date(bdate) from project_haru.view_board;
+
+update project_haru.board set bpic = null where bno=22;
