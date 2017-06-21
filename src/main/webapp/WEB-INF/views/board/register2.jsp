@@ -25,7 +25,7 @@
 						</div>
 						<div class="form-group">
 							<label>오늘의 한 줄</label>
-							<input type="text" placeholder="Enter Content" name="bcontent" class="form-control" required="required">
+							<textarea name="bcontent" class="form-control" required="required"></textarea>
 						</div>
 						<div class="form-group">
 							<label>당신의 오늘은?</label>
@@ -66,11 +66,6 @@
 			location.href="list.do";
 		});
 		$("#btnAdd").click(function(){
-			var content = $("input[name='bcontent']").val();
-			if(content == "" || content == undefined){
-				alert("오늘의 한 줄을 입력해 주세요.");
-				return false;
-			}
 			
 			if($("input[name='openSwitch']").prop("checked") == true){
 				$("input[name='bopen']").val(true);
@@ -113,6 +108,9 @@
 						$("#dateResult").css("color","red");
 					}else if(result == "fail"){
 						$("#dateResult").text("이미 일기가 작성된 날짜입니다.");
+						$("#dateResult").css("color","red");
+					}else if(result == "dfail"){
+						$("#dateResult").text("일기를 작성할 수 없는 날짜입니다.");
 						$("#dateResult").css("color","red");
 					}
 					$("#btnAdd").attr("disabled","disabled");

@@ -632,6 +632,7 @@
 				srcList = data.scrList;
 				console.log(srcList);
 				setTable(bList, dateObj, srcList);
+				setCheckScrap(srcList);
 				$(".pCheck").css("display", "none");
 				
 				$("p.tdCheck a").css("color","black");
@@ -741,7 +742,7 @@
 							console.log(uid);
 							console.log("srcList: " + srcList);
 							//내가 스크랩 한 게시물인지 체크
-							if(typeof srcList != "undefined"){
+							/* if(typeof srcList != "undefined"){
 								if(srcList.length > 0){			
 							
 									var scrapForm = '<input type="checkbox" class="scrap" value="'+bList[bIndex].bno+'">';
@@ -752,10 +753,10 @@
 										}
 									}
 									tableForm += scrapForm;
-								}else{
+								}else{ */
 									tableForm += '<input type="checkbox" class="scrap" value="'+bList[bIndex].bno+'">';
-								}	
-							}
+								/* } */	
+							/* } */
 						}
 						
 						tableForm += '</a>';
@@ -791,6 +792,22 @@
 			tableForm +='</tr>';
 		}		
 		$("#dTable").append(tableForm);		
+	}
+	
+	function setCheckScrap(srcList){
+		var chkList = $(".scrap");
+		console.log(chkList);
+		if(typeof srcList != "undefined"){
+			for(var i=0;i<srcList.length;i++){
+				for(var j = 0; j < chkList.length; j++){
+					var chkbox = chkList[j];
+					console.log(chkbox);
+					if(chkbox.defaultValue == srcList[i].bno+""){
+						chkbox.checked = true;
+					}
+				}
+			}
+		}
 	}
 	
 </script>

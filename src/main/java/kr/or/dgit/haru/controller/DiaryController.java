@@ -177,7 +177,8 @@ public class DiaryController {
 		
 		try{
 			dVO.isDopen();
-			if(imagefiles != null){
+			
+			if(imagefiles.getSize() > 0){
 				String thumb = UploadFileUtils.uploadFile(uploadPath, imagefiles.getOriginalFilename(), imagefiles.getBytes());
 				dVO.setDpic(thumb);
 			}

@@ -41,7 +41,7 @@
 						</div>
 						<div class="form-group">
 							<label>오늘의 한 줄</label>
-							<input type="text" placeholder="Enter Content" name="bcontent" class="form-control" required="required" value="${board.bcontent }">
+							<textarea name="bcontent" class="form-control" required="required">${board.bcontent }</textarea>
 						</div>
 						<div class="form-group">
 							<label>당신의 오늘은?</label>

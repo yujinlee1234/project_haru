@@ -355,25 +355,29 @@ public class BoardController {
 			cal.set(Calendar.YEAR, bdate.get(Calendar.YEAR));
 			cal.set(Calendar.MONTH, bdate.get(Calendar.MONTH));
 			cal.set(Calendar.DATE, bdate.get(Calendar.DATE));
-			bVO.setBdate(cal.getTime());
-			System.out.println("BoardVO : "+bVO);
-			System.out.println("imagefile : "+imagefiles);
-			String files = setFileList(imagefiles);// 등록된 사진
-			if(files != ""){
-				bVO.setBpic(files);
-			}
-			AuthDTO auth = (AuthDTO) session.getAttribute("auth");
-			List<DiaryVO> dList = dService.selectDiaryByUid(auth.getUid());
-			if(dList.size()>0){
-				DiaryVO diary = dList.get(0);
-				bVO.setDno(diary);
-				bService.insertBoard(bVO);
-				rttr.addFlashAttribute("result", "일기를 성공적으로 등록하였습니다.");
-				rttr.addFlashAttribute("type", "success");
+			if(bdate.getTime().getTime() <= new Date().getTime()){
+				bVO.setBdate(cal.getTime());
+				System.out.println("BoardVO : "+bVO);
+				System.out.println("imagefile : "+imagefiles);
+				String files = setFileList(imagefiles);// 등록된 사진
+				if(files != ""){
+					bVO.setBpic(files);
+				}
+				AuthDTO auth = (AuthDTO) session.getAttribute("auth");
+				List<DiaryVO> dList = dService.selectDiaryByUid(auth.getUid());
+				if(dList.size()>0){
+					DiaryVO diary = dList.get(0);
+					bVO.setDno(diary);
+					bService.insertBoard(bVO);
+					rttr.addFlashAttribute("result", "일기를 성공적으로 등록하였습니다.");
+					rttr.addFlashAttribute("type", "success");
+				}else{
+					rttr.addFlashAttribute("result", "[ERROR] 일기를 작성할 다이어리가 존재하지 않습니다.");
+				}
 			}else{
-				rttr.addFlashAttribute("result", "[ERROR] 일기를 작성할 다이어리가 존재하지 않습니다.");
+				rttr.addFlashAttribute("result", "일기를 등록하지 못하였습니다.");
+				rttr.addFlashAttribute("type", "error");
 			}
-			
 		}catch(Exception e){
 			rttr.addFlashAttribute("result", "일기를 등록하지 못하였습니다.");
 			rttr.addFlashAttribute("type", "error");
@@ -428,11 +432,15 @@ public class BoardController {
 			Date date2;
 			try {
 				date2 = ProjectHaru.dateFormat.parse(date);
-				BoardVO bVO = bService.selectBoardByDate(date2, dno);
-				if(bVO==null){
-					result = "success";
+				if(date2.getTime() <= new Date().getTime()){
+					BoardVO bVO = bService.selectBoardByDate(date2, dno);
+					if(bVO==null){
+						result = "success";
+					}else{
+						result = "fail";
+					}
 				}else{
-					result = "fail";
+					result = "dfail";
 				}
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
