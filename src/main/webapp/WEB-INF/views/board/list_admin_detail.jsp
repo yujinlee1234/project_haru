@@ -77,7 +77,7 @@
 		</div>
 		<div class="col-md-12">
 			<div class="box">
-				<div class="text-center">
+				<div class="text-center" id="btnList">
 					<span class="boardDel">
 						<c:if test="${!empty bList }">
 							<button id="selDelBtn" class="btn btn-warning btn_haru">선택 삭제</button>
@@ -87,7 +87,7 @@
 						<button id="delBtn" class="btn btn-danger btn_haru">삭제</button>
 						<button id="cancelBtn" class="btn btn_haru">취소</button>
 					</span>
-					<a href="${pageContext.request.contextPath }/admin/list.do" class="btn btn-primary" id="btnList">목록 보기</a>
+					<a href="${pageContext.request.contextPath }/admin/list.do" class="btn btn-primary">목록 보기</a>
 				</div>
 			</div>
 		</div>
