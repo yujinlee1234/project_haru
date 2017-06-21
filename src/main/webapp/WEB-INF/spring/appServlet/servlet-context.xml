@@ -38,6 +38,7 @@
 			<mapping path="/board/list.do"/>
 			<mapping path="/board/add.do"/>
 			<mapping path="/board/del.do"/>
+			<mapping path="/admin/del.do"/>
 			<mapping path="/board/mod.do"/>
 			<mapping path="/board/add"/>
 			<mapping path="/board/del"/>
@@ -47,6 +48,7 @@
 			<mapping path="/member/exit"/>
 			<mapping path="/board/scrap"/>
 			<mapping path="/board/scrap.do"/>
+			<mapping path="/admin/list.do"/>
 			<beans:ref bean="authIntercepter"/>
 		</interceptor>
 		<interceptor>

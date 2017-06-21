@@ -11,6 +11,7 @@
 	table#dTable .tdCheck{float: left; margin-left: 10px; margin-top: 10px;}
 	table#dTable .tdSwitch{float: right;margin-top: 10px; margin-right: 5px;}
 	table#dTable figure{clear:both;}
+	table#dTable th{padding:5px;}
 	table#dTable th, td{border:1px solid black;}
 	table#dTable td{height: 100px; vertical-align: top;}
 	table#dTable td img{width:90%;}
@@ -29,7 +30,7 @@
 
 <section class="content haru_section">
 	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
+		<div class="col-md-8 col-md-offset-2">
 			<div class="box">
 				<div class="box-header text-center">
 					<h3>일기 관리</h3>
@@ -46,7 +47,7 @@
 				</div>
 				<div class="box-body">
 				<form id="delForm" method="post">
-					<table id="dTable" >						
+					<table id="dTable" class="table">						
 							
 					</table>
 					</form>	
@@ -109,19 +110,45 @@
 		
 		return date;
 	}
-	
+
 	// 달력 Table 구성하기 위한 ajax
 	function setScreen(dateObj){
-		setTable(dateObj);
-		$("p.tdCheck a").css("color","black");
-		$("p.sun").css("color","red");
-		$("p.sat").css("color","blue");
-		$("p.sun a").css("color","red");
-		$("p.sat a").css("color","blue");
+		var dno = "";
+		<c:if test="${!empty diary}">
+			dno = ${diary.dno};
+		</c:if>
+		var year = dateObj.getFullYear();
+		var month = dateObj.getMonth()+1;
+		$.ajax({
+			url:"${pageContext.request.contextPath }/admin/list.do?date="+dateObj.getTime(),
+			type:"post",
+			dataType:"json",
+			async:true,
+			success:function(data){
+				// data.bList - array(넘어온 dateObj의 정보를 바탕으로 해당 년, 월의 일기 목록 array형태로 반환), data.diary - object
+				console.log(data);
+				var bdList = data.bdList;
+
+				setTable(bdList, dateObj);
+				
+				$("p.tdCheck a").css("color","black");
+				$("p.sun").css("color","red");
+				$("p.sat").css("color","blue");
+				$("p.sun a").css("color","red");
+				$("p.sat a").css("color","blue");
+				$("img.dExist").css("width","80%");
+				$("img.dExist").css("display","block");
+				$("img.dExist").css("margin","0 auto");
+				$("img.dExist").css("padding","15%");
+				
+				
+			}
+		});	
 	}
 	
+	
 	// section 내 월별 다이어리 목록 보여주는 화면
-	function setTable(dateObj){
+	function setTable(bdList, dateObj){
 		var today = new Date();
 		var tempDate = dateObj;//보여줄 년, 월 정보를 담고 있음
 		
@@ -140,6 +167,8 @@
 		}
 		var lastDate = last[m];
 		var row = Math.ceil((theDay+lastDate)/7);
+		
+		var bdIndex = 0;
 		
 		$("#dTable").empty();
 		
@@ -174,7 +203,15 @@
 					
 					if(date.getTime()<today.getTime()){
 						var aTitle = y+'-'+((m+1)<10?"0"+(m+1):(m+1))+'-'+((dNum)<10?"0"+(dNum):(dNum));
-						tableForm += '<a class="dateA" title="'+aTitle+'" href="${pageContext.request.contextPath }/admin/list.do/'+date.getTime()+'">'+dNum+'</a></p></td>';
+						tableForm += '<a class="dateA" title="'+aTitle+'" href="${pageContext.request.contextPath }/admin/list.do/'+date.getTime()+'">'+dNum;
+						
+						if(typeof bdList != "undefined"){
+							if(bdList[bdIndex] == date.getDate()){
+								tableForm += '<br><img class="dExist" src="${pageContext.request.contextPath}/resources/img/cherry-blossom_b.png">';		
+							}
+						}
+						tableForm += '</a></p></td>';
+						
 					}else{
 						tableForm += '<a class="dateA">'+dNum+'</a></p></td>';
 					}

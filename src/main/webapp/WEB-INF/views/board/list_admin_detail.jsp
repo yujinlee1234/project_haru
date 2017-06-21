@@ -13,8 +13,11 @@
 	#delBtn{display: none;}
 	#cancelBtn{display: none;}	
 	section{padding: 15px;}
-	.empty-diary{margin-bottom: 100px;}
-	.empty-diary img{width: 100px; height: 100px; margin-bottom: 10px;}
+	
+	.empty-diary{margin-top: 100px;}
+	.empty-diary img{margin-bottom: 30px; width:80px;}
+	.empty-diary a.btn{margin-top: 25px;}
+	a#btnList{margin-top: 25px;}
 </style>
 <section class="haru_section">
 	<div class="row">
@@ -33,6 +36,7 @@
 			</div>
 			<div class="box">
 				<form id="delForm" method="post">
+				<input type="hidden" name="date" value="${dateToTime }">
 				<c:if test="${!empty bList }">
 					<c:forEach items="${bList }" var="board">
 						<div class="col-sm-3 portfolio-item pItem text-center">
@@ -83,7 +87,7 @@
 						<button id="delBtn" class="btn btn-danger btn_haru">삭제</button>
 						<button id="cancelBtn" class="btn btn_haru">취소</button>
 					</span>
-					<a href="${pageContext.request.contextPath }/admin/list.do" class="btn btn-primary">목록 보기</a>
+					<a href="${pageContext.request.contextPath }/admin/list.do" class="btn btn-primary" id="btnList">목록 보기</a>
 				</div>
 			</div>
 		</div>
@@ -207,7 +211,7 @@
 				  cancelButtonText:"취소"
 				},
 				function(){
-					$("#delForm").attr("action", "${pageContext.request.contextPath}/board/del.do");
+					$("#delForm").attr("action", "${pageContext.request.contextPath}/admin/del.do");
 					$("#delForm").submit();
 				});
 		});//선택 삭제 버튼

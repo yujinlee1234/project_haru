@@ -11,7 +11,8 @@
 	table#dTable .tdCheck{float: left; margin-left: 10px; margin-top: 10px;}
 	table#dTable .tdSwitch{float: right;margin-top: 10px; margin-right: 5px;}
 	table#dTable figure{clear:both;}
-	table#dTable th, td{border:1px solid black;}
+	table#dTable th{padding:5px !important;}
+	table#dTable th, td{border-bottom :1px solid #003344; }
 	table#dTable td{height: 150px; vertical-align: top;}
 	table#dTable td img{width:90%;}
 	
@@ -21,7 +22,7 @@
 	a.showImage{width:90%; height: 100px; display: inline-block; clear: both; }
 	a.showImage img{display:inline !important; width:100%; height: 90%; line-height: 100px;}
 	
-	img.emptyImg{width:50px !important; height: 50px !important;margin:0 auto; margin-top: 25px;}
+	img.emptyImg{width:50px !important; height: 50px !important;margin:0 auto; margin-top: 10px;}
 	button.btn_haru{width:85px !important;}
 	div.board-user{position: relative;}
 	div#board-user-btn{width:90px; position: fixed; top:300px; right:50px; }
@@ -32,7 +33,7 @@
 
 <section class="content haru_section">
 	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
+		<div class="col-md-8 col-md-offset-2">
 			<div class="box">
 				<div class="box-header text-center">
 					<h3>
@@ -63,7 +64,7 @@
 				</div>
 				<div class="box-body">
 				<form id="delForm" method="post">
-					<table id="dTable" >						
+					<table id="dTable" class="table table-responsive">						
 							
 					</table>
 					</form>	
@@ -132,7 +133,7 @@
 	#myModal .modal-dialog .modal-body #diary-modal{margin: 0 auto; position:relative; width:500px; height:660px; padding : 10px 30px; border: 1px solid #ccc; box-shadow:1px 1px 1px #ccc;}
 	#myModal .modal-dialog .modal-body #diary-modal p, #myModal .modal-dialog .modal-body #diary-modal div#fileName{width:400px; margin: 0 auto;margin-bottom:5px; display: block;}
 	#myModal .modal-dialog .modal-footer{height: 60px !important;}
-	#myModal .modal-dialog #modalImg{width: 400px; height:500px; margin: 0 auto;}
+	#myModal .modal-dialog #modalImg{width: 350px; height:450px; margin: 0 auto;}
 	#myModal #btoday{position: absolute; text-align:right !important; bottom:10px; }
 </style>
 
@@ -733,6 +734,7 @@
 						}else{
 							tableForm += '<img alt="'+bList[bIndex].originalname +'" src="${pageContext.request.contextPath }/display?filename='+bList[bIndex].bpic+'">';
 						}
+						tableForm += '<br><p><small>'+bList[bIndex].btoday+'</small></p>';
 						tableForm += '<input type="hidden" value="'+bList[bIndex].bno+'" class="bno"><input type="hidden" value="'+bList[bIndex].bcontent+'" class="bcontent"><input type="hidden" value="'+bList[bIndex].bdateForm+'" class="bdate"><input type="hidden" value="'+bList[bIndex].btoday+'" class="btoday">';
 						
 						if(uid != "" && dUid != uid){
@@ -798,7 +800,7 @@
 	    float: right;
 	    margin-right:5px;
 	    margin-top:5px;
-	    width:30px;
+	    width:22px;
 	}
 	.wrap_chkbox .chkbox {
 	    display: inline-block;
@@ -808,7 +810,7 @@
 	    display: none; /*체크박스 이미지만 보여지게 하기 위해 none으로 설정*/
 	}
 	.wrap_chkbox .chkbox img {
-	    width: 40px; 
+	    width: 20px; 
 	}
 	.wrap_chkbox p {
 	    

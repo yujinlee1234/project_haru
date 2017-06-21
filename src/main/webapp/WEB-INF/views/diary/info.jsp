@@ -14,8 +14,9 @@
 	
 	table.user_table td.btns span{display: none;}
 	
-	.empty-diary{margin-bottom: 150px;}
-	.empty-diary img{margin-bottom: 30px;}
+	.empty-diary{margin-top: 100px;}
+	.empty-diary img{margin-bottom: 30px; width:80px;}
+	.empty-diary a.btn{margin-top: 25px;}
 	
 </style>
 <section class="content haru_section">

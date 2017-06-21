@@ -38,7 +38,7 @@
 								</c:if>
 								<c:if test="${!empty user.upic }">
 									<img alt=""
-										src="${pageContext.request.contextPath }/display?filename=${user.upic }"
+										src="${pageContext.request.contextPath }/display?filename=${user.originalname }"
 										class="img-circle img-responsive">
 								</c:if>
 								<c:if test="${empty user.upic }">

@@ -4,19 +4,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <style>
-	div.pItem{width:230px; padding:10px; display:inline-block; margin: 10px;}
-	div.board{width:210px; padding:10px; border: 1px solid #ccc; box-shadow:1px 1px 1px #ccc;}
+	div.pItem{width:230px; height:390px; padding:10px; display:inline-block; margin: 10px;}
+	div.board{width:210px;height:310px; padding:10px; border: 1px solid #ccc; box-shadow:1px 1px 1px #ccc; position: relative;}
 	.pItem .pCheck{display: none; float: left;}
 	.pItem p{text-align: right;padding-right: 22px;}
 	.pItem img{width: 190px; height: 190px; margin: 0 auto !important; margin-bottom: 10px;}
-	.pItem .btoday{float: right;}
+	.pItem .btoday{position: absolute; right:10px; bottom:10px;}
 	.pItem portfolio-caption{text-align: center;}
 	div#noItem figure{width: 100%; text-align: center;}
 	#delBtn{display: none;}
 	#cancelBtn{display: none;}	
 	section{padding: 15px;}
-	.empty-diary{margin-bottom: 100px;}
-	.empty-diary img{width: 100px; height: 100px; margin-bottom: 10px;}
+	div.emptyImg{width:190px;height:120px; }
+	
+	.empty-diary{margin-top: 100px; margin-bottom: 25px;}
+	.empty-diary img{margin-bottom: 30px; width:80px;}
+	
 </style>
 <section class="haru_section">
 	<div class="row">
@@ -40,9 +43,7 @@
 										class="img-responsive">
 								</c:if>
 								<c:if test="${empty board.bpic }">
-									<img alt=""
-										src="${pageContext.request.contextPath }/resources/img/cherry-blossom_b.png"
-										class="img-responsive">
+									<div class="emptyImg"></div>
 								</c:if>
 
 								<div class="portfolio-caption">
@@ -61,7 +62,7 @@
 				<c:if test="${empty bList }">
 					<div class="text-center empty-diary">
 						<img alt="" src="${pageContext.request.contextPath }/resources/img/cherry-blossom_b.png">
-						<p>등록된 일기가 없습니다.</p>
+						<p>스크랩된 일기가 없습니다.</p>
 					</div>
 				</c:if>
 			</div>						
