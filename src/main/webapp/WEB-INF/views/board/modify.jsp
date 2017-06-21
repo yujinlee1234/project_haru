@@ -12,7 +12,7 @@
 		<div class="col-md-6 col-md-offset-3">
 			<div class="box">
 				<div class="box-header text-center">
-					<h3>일기 등록</h3>
+					<h3>일기 수정</h3>
 					<hr class="star-primary">
 				</div>
 				<div class="box-body">
@@ -72,13 +72,7 @@
 			location.href="${pageContext.request.contextPath }/board/list.do";
 		});
 		
-		$("#btnAdd").click(function(){
-			var content = $("input[name='bcontent']").val();
-			if(content == "" || content == undefined){
-				alert("오늘의 한 줄을 입력해 주세요.");
-				return false;
-			}
-			
+		$("#btnAdd").click(function(){			
 			if($("input[name='openSwitch']").prop("checked") == true){
 				$("input[name='bopen']").val(true);
 			}else{
